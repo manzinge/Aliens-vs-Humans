@@ -1,0 +1,85 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.*;
+import javax.imageio.ImageIO;
+
+public class ButtonMethods extends JFrame {
+	
+	Clicklistenerchoice click = new Clicklistenerchoice();
+	Clicklistenerfinish fini = new Clicklistenerfinish();
+	JButton[][] buttons = new JButton[8][8];
+    Icon human = new ImageIcon("C:/Users/maxan/Desktop/Eclipse Workspace/Human.jpg");
+	
+	public static void main(String[] args) throws IOException {
+		new ButtonMethods();
+	}
+
+	public ButtonMethods () throws IOException {
+		for(int i=0;i<8;i++) {
+			for(int j=0;j<8;j++) {
+				buttons[i][j] = Initialize.retbutton(i,j);
+				buttons[i][j].addActionListener(click);
+				buttons[i][j].setVisible(false);
+			}
+		}
+	    buttons[3][3].setVisible(true);
+		buttons[3][3].setText("Alien");
+		buttons[3][3].setIcon(human);
+		
+	}
+	
+	private class Clicklistenerchoice implements ActionListener {
+		public void actionPerformed(ActionEvent e)
+		{
+			for(int i=0;i<8;i++) {
+				for(int j=0;j<8;j++) {
+					if(e.getSource() == buttons[i][j])
+					{
+						for(int a = i-2;a<=i+2;a++) {
+							if(a>7 || a<0) {}
+							else
+							{
+							for(int b = j-2;b<=j+2;b++) {
+								if(b>7 || b<0) {}
+								else
+								{
+								buttons[a][b].setVisible(true);
+								buttons[a][b].setText("Here?");
+								buttons[a][b].removeActionListener(click);
+								buttons[a][b].addActionListener(fini);
+							}}
+							}
+						}
+						buttons[i][j].setVisible(false);
+						buttons[i][j].setIcon(null);				
+					}
+				}
+			}
+		}
+	}
+	private class Clicklistenerfinish implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			for(int i =0;i<8;i++) {
+				for(int j=0;j<8;j++) {
+					buttons[i][j].addActionListener(click);
+					if(e.getSource() == buttons[i][j]) {
+						buttons[i][j].setVisible(true);
+						buttons[i][j].removeActionListener(fini);
+						buttons[i][j].addActionListener(click);
+						buttons[i][j].setIcon(human);		
+					}
+					else {
+						buttons[i][j].setVisible(false);
+					}
+				}
+			}
+		}
+	}
+}
