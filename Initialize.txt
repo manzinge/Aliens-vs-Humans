@@ -59,4 +59,3 @@ public class Initialize extends JFrame {
 		return buttons[x][y];
 	}
 }
-	
