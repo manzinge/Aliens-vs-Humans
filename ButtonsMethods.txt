@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.*;
 import javax.imageio.ImageIO;
+//Importing the necessary Packages
 
 public class ButtonMethods extends JFrame {
 	
@@ -14,6 +15,7 @@ public class ButtonMethods extends JFrame {
 	Clicklistenerfinish fini = new Clicklistenerfinish();
 	JButton[][] buttons = new JButton[8][8];
     Icon human = new ImageIcon("C:/Users/maxan/Desktop/Eclipse Workspace/Human.jpg");
+	//Initializing the Objects that wil be needed throughout the whole code (ActionsListener, Buttons und Images)
 	
 	public static void main(String[] args) throws IOException {
 		new ButtonMethods();
@@ -27,10 +29,11 @@ public class ButtonMethods extends JFrame {
 				buttons[i][j].setVisible(false);
 			}
 		}
+		//Buttons will be returned from the mainclass and will be equipped with action listener aswell as made invisible
 	    buttons[3][3].setVisible(true);
 		buttons[3][3].setText("Alien");
 		buttons[3][3].setIcon(human);
-		
+		//Testbutton with human-icon
 	}
 	
 	private class Clicklistenerchoice implements ActionListener {
@@ -40,6 +43,7 @@ public class ButtonMethods extends JFrame {
 				for(int j=0;j<8;j++) {
 					if(e.getSource() == buttons[i][j])
 					{
+					//Going trough all Buttons and figuring out which buttons was pressed
 						for(int a = i-2;a<=i+2;a++) {
 							if(a>7 || a<0) {}
 							else
@@ -52,11 +56,13 @@ public class ButtonMethods extends JFrame {
 								buttons[a][b].setText("Here?");
 								buttons[a][b].removeActionListener(click);
 								buttons[a][b].addActionListener(fini);
+								//Making Buttons in a radius of 2 visible to move the human
 							}}
 							}
 						}
 						buttons[i][j].setVisible(false);
-						buttons[i][j].setIcon(null);				
+						buttons[i][j].setIcon(null);
+						//The button that was pressed gets invisilbe(So the player can't move the player to the positio it is already on
 					}
 				}
 			}
@@ -73,10 +79,12 @@ public class ButtonMethods extends JFrame {
 						buttons[i][j].setVisible(true);
 						buttons[i][j].removeActionListener(fini);
 						buttons[i][j].addActionListener(click);
-						buttons[i][j].setIcon(human);		
+						buttons[i][j].setIcon(human);
+						//Removing the actionlistener from all the buttons in the radius of 2 and adding a new one to replace the selected buttonicon with the human -> Completed movement
 					}
 					else {
 						buttons[i][j].setVisible(false);
+						//Setting the rest of the buttons invisibe
 					}
 				}
 			}
