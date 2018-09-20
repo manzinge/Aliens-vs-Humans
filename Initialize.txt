@@ -6,10 +6,11 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.imageio.ImageIO;
 import javafx.scene.shape.Rectangle;
-
+//Importing all the necessary Packages
 public class Initialize extends JFrame {
 	
 	static JButton[][] buttons = new JButton[8][8];
+	//Creating the JButton field
 	
 	public static void main(String[] args) throws IOException {
 		new Initialize();
@@ -21,6 +22,7 @@ public class Initialize extends JFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setResizable(false);
+		//Creating the JFrame the game will take place in
 		
 		frame.setContentPane(new JPanel() {
 			BufferedImage image = ImageIO.read(new File("C:/Users/maxan/Desktop/Eclipse Workspace/Map.jpg"));
@@ -29,6 +31,7 @@ public class Initialize extends JFrame {
 				g.drawImage(image,0,0,695,695,this);
 			}
 		});
+		//Painting the background picture
 		
 		frame.setLayout(null);
 		
@@ -44,18 +47,22 @@ public class Initialize extends JFrame {
 			y = y + 85;
 			x = 10;
 		}
+		//Setting the Location and the Size of the buttons to get the 8x8 checkerboard pattern
 		
 		for(int a=0;a<8;a++) {
 			for(int b=0;b<8;b++) {
 				frame.add(buttons[a][b]);
 			}
 		}
+		//Adding the buttons to the Jframe
 		frame.setSize(710,730);
 		frame.setLocationRelativeTo(null);
 		frame.setLayout(null);
+		//Setting position and size of the Window(JFrame)
 	}
 	
 	public static JButton retbutton(int x, int y) {
 		return buttons[x][y];
 	}
+	//A function to return the button array in order to use the button array in other Classes
 }
