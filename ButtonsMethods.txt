@@ -1,12 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import javax.swing.*;
-import javax.imageio.ImageIO;
 //Importing the necessary Packages
 
 public class ButtonMethods extends JFrame {
@@ -15,7 +10,7 @@ public class ButtonMethods extends JFrame {
 	Clicklistenerfinish fini = new Clicklistenerfinish();
 	JButton[][] buttons = new JButton[8][8];
     Icon human = new ImageIcon("C:/Users/maxan/Desktop/Eclipse Workspace/Human.jpg");
-	//Initializing the Objects that wil be needed throughout the whole code (ActionsListener, Buttons und Images)
+	//Initializing the Objects that will be needed throughout the whole code (ActionsListener, Buttons and Images)
 	
 	public static void main(String[] args) throws IOException {
 		new ButtonMethods();
@@ -29,45 +24,58 @@ public class ButtonMethods extends JFrame {
 				buttons[i][j].setVisible(false);
 			}
 		}
-		//Buttons will be returned from the mainclass and will be equipped with action listener aswell as made invisible
+		//Buttons will be returned from the main class and will be equipped with action listener as well as made invisible
 	    buttons[3][3].setVisible(true);
 		buttons[3][3].setText("Alien");
 		buttons[3][3].setIcon(human);
+		
+		buttons[1][1].setVisible(true);
+		buttons[1][1].setText("Alien");
+		buttons[1][1].setIcon(human);
 		//Testbutton with human-icon
 	}
 	
 	private class Clicklistenerchoice implements ActionListener {
+		int x,y;
 		public void actionPerformed(ActionEvent e)
 		{
 			for(int i=0;i<8;i++) {
 				for(int j=0;j<8;j++) {
 					if(e.getSource() == buttons[i][j])
 					{
+						x = i;
+						y = j;
 					//Going trough all Buttons and figuring out which buttons was pressed
-						for(int a = i-2;a<=i+2;a++) {
-							if(a>7 || a<0) {}
+					}
+				}
+			}
+			
+			for(int a = x-2;a<=x+2;a++) {
+				if(a>7 || a<0) {}
+					else
+					{
+						for(int b = y-2;b<=y+2;b++) {
+						if(b>7 || b<0) {}
+						else {
+							if(buttons[a][b].getIcon() == human){}
 							else
 							{
-							for(int b = j-2;b<=j+2;b++) {
-								if(b>7 || b<0) {}
-								else
-								{
 								buttons[a][b].setVisible(true);
 								buttons[a][b].setText("Here?");
 								buttons[a][b].removeActionListener(click);
 								buttons[a][b].addActionListener(fini);
 								//Making Buttons in a radius of 2 visible to move the human
-							}}
 							}
 						}
-						buttons[i][j].setVisible(false);
-						buttons[i][j].setIcon(null);
-						//The button that was pressed gets invisilbe(So the player can't move the player to the positio it is already on
+						}
 					}
-				}
 			}
+			buttons[x][y].setVisible(false);
+			buttons[x][y].setIcon(null);
+			//The button that was pressed gets invisible(So the player can't move the player to the positio it is already on
 		}
 	}
+	
 	private class Clicklistenerfinish implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -80,11 +88,18 @@ public class ButtonMethods extends JFrame {
 						buttons[i][j].removeActionListener(fini);
 						buttons[i][j].addActionListener(click);
 						buttons[i][j].setIcon(human);
-						//Removing the actionlistener from all the buttons in the radius of 2 and adding a new one to replace the selected buttonicon with the human -> Completed movement
+						//Removing the Action Listener from all the buttons in the radius of 2 and adding a new one to replace the selected buttonicon with the human -> Completed movement
 					}
 					else {
+						if(buttons[i][j].getIcon() == human)
+						{
+							//Checks if there is already a human -> not making it invisible
+						}
+						else
+						{
 						buttons[i][j].setVisible(false);
-						//Setting the rest of the buttons invisibe
+						//Setting the rest of the buttons invisible
+						}
 					}
 				}
 			}
