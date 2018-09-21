@@ -1,0 +1,3 @@
+	Known Bugs:
+1. The more movements the slower the game reacts! (Noticable after around 6-8 movements)
+2. The first time a human is moved it is not possible to place him on another human because the clicklistener is removed, after the first move it is possible however
