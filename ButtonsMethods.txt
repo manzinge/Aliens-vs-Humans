@@ -2,14 +2,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import javax.swing.*;
+import java.util.Random;
 //Importing the necessary Packages
 
 public class ButtonMethods extends JFrame {
 	
-	Clicklistenerchoice click = new Clicklistenerchoice();
-	Clicklistenerfinish fini = new Clicklistenerfinish();
+	Show click = new Show();
+	Travel fini = new Travel();
 	JButton[][] buttons = new JButton[8][8];
     Icon human = new ImageIcon("C:/Users/maxan/Desktop/Eclipse Workspace/Human.jpg");
+    Icon dontmove = new ImageIcon("C:/Users/maxan/Desktop/Eclipse Workspace/dontmove.png");
 	//Initializing the Objects that will be needed throughout the whole code (ActionsListener, Buttons and Images)
 	
 	public static void main(String[] args) throws IOException {
@@ -25,17 +27,20 @@ public class ButtonMethods extends JFrame {
 			}
 		}
 		//Buttons will be returned from the main class and will be equipped with action listener as well as made invisible
-	    buttons[3][3].setVisible(true);
-		buttons[3][3].setText("Alien");
-		buttons[3][3].setIcon(human);
-		
-		buttons[1][1].setVisible(true);
-		buttons[1][1].setText("Alien");
-		buttons[1][1].setIcon(human);
-		//Testbutton with human-icon
+	    
+		int humancount=0;
+		Random rand = new Random();
+		do {
+			int x = rand.nextInt(2) + 6;
+			int y = rand.nextInt(8);
+			buttons[x][y].setVisible(true);
+			buttons[x][y].setIcon(human);
+			humancount++;
+		}while(humancount <3);
+		//Initializing 3 randomly chosen Buttons
 	}
 	
-	private class Clicklistenerchoice implements ActionListener {
+	private class Show implements ActionListener {
 		int x,y;
 		public void actionPerformed(ActionEvent e)
 		{
@@ -57,7 +62,10 @@ public class ButtonMethods extends JFrame {
 						for(int b = y-2;b<=y+2;b++) {
 						if(b>7 || b<0) {}
 						else {
-							if(buttons[a][b].getIcon() == human){}
+							if(buttons[a][b].getIcon() == human){
+								buttons[a][b].setIcon(dontmove);
+								buttons[a][b].removeActionListener(click);
+							}
 							else
 							{
 								buttons[a][b].setVisible(true);
@@ -76,7 +84,7 @@ public class ButtonMethods extends JFrame {
 		}
 	}
 	
-	private class Clicklistenerfinish implements ActionListener
+	private class Travel implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
@@ -91,9 +99,10 @@ public class ButtonMethods extends JFrame {
 						//Removing the Action Listener from all the buttons in the radius of 2 and adding a new one to replace the selected buttonicon with the human -> Completed movement
 					}
 					else {
-						if(buttons[i][j].getIcon() == human)
+						if(buttons[i][j].getIcon() == human || buttons[i][j].getIcon() == dontmove)
 						{
-							//Checks if there is already a human -> not making it invisible
+							buttons[i][j].setVisible(true);
+							buttons[i][j].setIcon(human);
 						}
 						else
 						{
