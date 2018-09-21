@@ -17,7 +17,7 @@ public class ButtonMethods extends JFrame {
 	
 	public static void main(String[] args) throws IOException {
 		new ButtonMethods();
-		new StartGame();
+		//new StartGame();
 	}
 
 	public ButtonMethods () throws IOException {
@@ -30,6 +30,7 @@ public class ButtonMethods extends JFrame {
 		int x,y;
 		public void actionPerformed(ActionEvent e)
 		{
+			long timeStart = System.currentTimeMillis();
 			for(int i=0;i<8;i++) {
 				for(int j=0;j<8;j++) {
 					if(e.getSource() == buttons[i][j])
@@ -49,8 +50,7 @@ public class ButtonMethods extends JFrame {
 						if(b>7 || b<0) {}
 						else {
 							if(buttons[a][b].getIcon() == human){
-								buttons[a][b].setIcon(dontmove);
-								buttons[a][b].removeActionListener(showh);
+								buttons[a][b].setEnabled(false);
 							}
 							else
 							{
@@ -65,8 +65,12 @@ public class ButtonMethods extends JFrame {
 					}
 			}
 			buttons[x][y].setVisible(false);
+			buttons[x][y].setEnabled(true);
 			buttons[x][y].setIcon(null);
 			//The button that was pressed gets invisible(So the player can't move the player to the position it is already on	
+			long timeEnd = System.currentTimeMillis();
+			System.out.println("The call of the Action-Listener(show) took "+ (timeEnd-timeStart) +" milliseconds");
+		
 		}	
 	}	
 	private static class Travelhuman implements ActionListener
@@ -76,18 +80,17 @@ public class ButtonMethods extends JFrame {
 			long timeStart = System.currentTimeMillis();
 			for(int i =0;i<8;i++) {
 				for(int j=0;j<8;j++) {
-					buttons[i][j].addActionListener(showh);
+					buttons[i][j].removeActionListener(travelh);
 					if(e.getSource() == buttons[i][j]) {
 						buttons[i][j].setVisible(true);
-						buttons[i][j].removeActionListener(showh);
 						buttons[i][j].setIcon(human);
-						//Removing the Action Listener from all the buttons in the radius of 2 and adding a new one to replace the selected buttonicon with the human -> Completed movement
+						buttons[i][j].removeActionListener(travelh);
+						buttons[i][j].addActionListener(showh);
 					}
 					else {
-						if(buttons[i][j].getIcon() == human || buttons[i][j].getIcon() == dontmove)
+						if(buttons[i][j].getIcon() == human)
 						{
-							buttons[i][j].setVisible(true);
-							buttons[i][j].setIcon(human);
+							buttons[i][j].setEnabled(true);
 						}
 						else if(buttons[i][j].getIcon() == alien) {
 							buttons[i][j].setVisible(true);
@@ -102,7 +105,7 @@ public class ButtonMethods extends JFrame {
 				}
 			}
 			long timeEnd = System.currentTimeMillis();
-			System.out.println("The call of the Action-Listener(travel) took "+ (timeEnd-timeStart) +"seconds");
+			//System.out.println("The call of the Action-Listener(travel) took "+ (timeEnd-timeStart) +"seconds");
 		
 		}
 		
@@ -131,7 +134,7 @@ public class ButtonMethods extends JFrame {
 			{
 			buttons[x][y].setVisible(true);
 			buttons[x][y].setIcon(human);
-			buttons[x][y].removeActionListener(showh);
+			//buttons[x][y].removeActionListener(showh);
 			humancount++;
 			}
 		}while(humancount < count);
