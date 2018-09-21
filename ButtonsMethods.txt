@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class ButtonMethods extends JFrame {
 	
-	Show click = new Show();
-	Travel fini = new Travel();
+	Show show = new Show();
+	Travel travel = new Travel();
 	JButton[][] buttons = new JButton[8][8];
     Icon human = new ImageIcon("C:/Users/maxan/Desktop/Eclipse Workspace/Human.jpg");
     Icon dontmove = new ImageIcon("C:/Users/maxan/Desktop/Eclipse Workspace/dontmove.png");
@@ -19,25 +19,8 @@ public class ButtonMethods extends JFrame {
 	}
 
 	public ButtonMethods () throws IOException {
-		for(int i=0;i<8;i++) {
-			for(int j=0;j<8;j++) {
-				buttons[i][j] = Initialize.retbutton(i,j);
-				buttons[i][j].addActionListener(click);
-				buttons[i][j].setVisible(false);
-			}
-		}
-		//Buttons will be returned from the main class and will be equipped with action listener as well as made invisible
-	    
-		int humancount=0;
-		Random rand = new Random();
-		do {
-			int x = rand.nextInt(2) + 6;
-			int y = rand.nextInt(8);
-			buttons[x][y].setVisible(true);
-			buttons[x][y].setIcon(human);
-			humancount++;
-		}while(humancount <3);
-		//Initializing 3 randomly chosen Buttons
+		setup();
+		Initializehumans(3);
 	}
 	
 	private class Show implements ActionListener {
@@ -50,11 +33,11 @@ public class ButtonMethods extends JFrame {
 					{
 						x = i;
 						y = j;
+						break;
 					//Going trough all Buttons and figuring out which buttons was pressed
 					}
 				}
 			}
-			
 			for(int a = x-2;a<=x+2;a++) {
 				if(a>7 || a<0) {}
 					else
@@ -64,14 +47,14 @@ public class ButtonMethods extends JFrame {
 						else {
 							if(buttons[a][b].getIcon() == human){
 								buttons[a][b].setIcon(dontmove);
-								buttons[a][b].removeActionListener(click);
+								buttons[a][b].removeActionListener(show);
 							}
 							else
 							{
 								buttons[a][b].setVisible(true);
 								buttons[a][b].setText("Here?");
-								buttons[a][b].removeActionListener(click);
-								buttons[a][b].addActionListener(fini);
+								buttons[a][b].removeActionListener(show);
+								buttons[a][b].addActionListener(travel);
 								//Making Buttons in a radius of 2 visible to move the human
 							}
 						}
@@ -80,21 +63,21 @@ public class ButtonMethods extends JFrame {
 			}
 			buttons[x][y].setVisible(false);
 			buttons[x][y].setIcon(null);
-			//The button that was pressed gets invisible(So the player can't move the player to the positio it is already on
-		}
-	}
-	
+			//The button that was pressed gets invisible(So the player can't move the player to the position it is already on	
+		}	
+	}	
 	private class Travel implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
+			long timeStart = System.currentTimeMillis();
 			for(int i =0;i<8;i++) {
 				for(int j=0;j<8;j++) {
-					buttons[i][j].addActionListener(click);
+					buttons[i][j].addActionListener(show);
 					if(e.getSource() == buttons[i][j]) {
 						buttons[i][j].setVisible(true);
-						buttons[i][j].removeActionListener(fini);
-						buttons[i][j].addActionListener(click);
+						buttons[i][j].removeActionListener(travel);
+						buttons[i][j].addActionListener(show);
 						buttons[i][j].setIcon(human);
 						//Removing the Action Listener from all the buttons in the radius of 2 and adding a new one to replace the selected buttonicon with the human -> Completed movement
 					}
@@ -112,6 +95,36 @@ public class ButtonMethods extends JFrame {
 					}
 				}
 			}
+			long timeEnd = System.currentTimeMillis();
+			System.out.println("The call of the Action-Listener(travel) took "+ (timeEnd-timeStart) +"seconds");
+		
 		}
+		
+	}
+	void setup() {
+		for(int i=0;i<8;i++) {
+			for(int j=0;j<8;j++) {
+				buttons[i][j] = Initialize.retbutton(i,j);
+				buttons[i][j].addActionListener(show);
+				buttons[i][j].setVisible(false);
+			}
+		}
+	}
+	void Initializehumans(int count)
+	{
+		int humancount=0;
+		Random rand = new Random();
+		do {
+			int x = rand.nextInt(2) + 6;
+			int y = rand.nextInt(8);
+			if(buttons[x][y].getIcon() == human) {}
+			else
+			{
+			buttons[x][y].setVisible(true);
+			buttons[x][y].setIcon(human);
+			humancount++;
+			}
+		}while(humancount < count);
+		//Initializing 3 randomly chosen Buttons
 	}
 }
