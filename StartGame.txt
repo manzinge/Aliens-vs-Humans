@@ -1,0 +1,41 @@
+import java.io.IOException;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
+public class StartGame {
+    static JButton[][] buttons = new JButton[8][8];
+	ButtonMethods.Showhuman showh = new ButtonMethods.Showhuman();
+	public static void main(String[] args) throws IOException 
+	{
+		new StartGame();
+	}
+	public StartGame () throws IOException {
+		setup();
+		Playerturn();
+		Computerturn();
+	}
+	void setup() {
+		for(int i=0;i<8;i++) {
+			for(int j=0;j<8;j++) {
+				buttons[i][j] = ButtonMethods.retbutton(i,j);
+			}
+		}
+	}
+	void Playerturn() {
+		int moves = 2;
+		for(int i=0;i<8;i++)
+		{
+			for(int j=0;j<8;j++)
+			{
+				if(buttons[i][j].getIcon() == ButtonMethods.human) {
+					buttons[i][j].addActionListener(showh);
+				}
+			}
+		}
+	}
+	void Computerturn() {
+		
+	}
+}
