@@ -7,23 +7,26 @@ import java.util.Random;
 
 public class ButtonMethods extends JFrame {
 	
-	Show show = new Show();
-	Travel travel = new Travel();
-	JButton[][] buttons = new JButton[8][8];
-    Icon human = new ImageIcon("C:/Users/maxan/Desktop/Eclipse Workspace/Human.jpg");
-    Icon dontmove = new ImageIcon("C:/Users/maxan/Desktop/Eclipse Workspace/dontmove.png");
-	//Initializing the Objects that will be needed throughout the whole code (ActionsListener, Buttons and Images)
+	static Showhuman showh = new Showhuman();
+	static Travelhuman travelh = new Travelhuman();
+	static JButton[][] buttons = new JButton[8][8];
+    static Icon human = new ImageIcon("C:/Users/maxan/Desktop/Eclipse Workspace/Human.jpg");
+    static Icon dontmove = new ImageIcon("C:/Users/maxan/Desktop/Eclipse Workspace/dontmove.png");
+	static Icon alien = new ImageIcon("C:/Users/maxan/Desktop/Eclipse Workspace/Alien.jpg");
+    //Initializing the Objects that will be needed throughout the whole code (ActionsListener, Buttons and Images)
 	
 	public static void main(String[] args) throws IOException {
 		new ButtonMethods();
+		new StartGame();
 	}
 
 	public ButtonMethods () throws IOException {
 		setup();
 		Initializehumans(3);
+		Initializealiens(3);
 	}
 	
-	private class Show implements ActionListener {
+	public static class Showhuman implements ActionListener {
 		int x,y;
 		public void actionPerformed(ActionEvent e)
 		{
@@ -47,14 +50,14 @@ public class ButtonMethods extends JFrame {
 						else {
 							if(buttons[a][b].getIcon() == human){
 								buttons[a][b].setIcon(dontmove);
-								buttons[a][b].removeActionListener(show);
+								buttons[a][b].removeActionListener(showh);
 							}
 							else
 							{
 								buttons[a][b].setVisible(true);
 								buttons[a][b].setText("Here?");
-								buttons[a][b].removeActionListener(show);
-								buttons[a][b].addActionListener(travel);
+								buttons[a][b].removeActionListener(showh);
+								buttons[a][b].addActionListener(travelh);
 								//Making Buttons in a radius of 2 visible to move the human
 							}
 						}
@@ -66,18 +69,17 @@ public class ButtonMethods extends JFrame {
 			//The button that was pressed gets invisible(So the player can't move the player to the position it is already on	
 		}	
 	}	
-	private class Travel implements ActionListener
+	private static class Travelhuman implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
 		{
 			long timeStart = System.currentTimeMillis();
 			for(int i =0;i<8;i++) {
 				for(int j=0;j<8;j++) {
-					buttons[i][j].addActionListener(show);
+					buttons[i][j].addActionListener(showh);
 					if(e.getSource() == buttons[i][j]) {
 						buttons[i][j].setVisible(true);
-						buttons[i][j].removeActionListener(travel);
-						buttons[i][j].addActionListener(show);
+						buttons[i][j].removeActionListener(showh);
 						buttons[i][j].setIcon(human);
 						//Removing the Action Listener from all the buttons in the radius of 2 and adding a new one to replace the selected buttonicon with the human -> Completed movement
 					}
@@ -86,6 +88,10 @@ public class ButtonMethods extends JFrame {
 						{
 							buttons[i][j].setVisible(true);
 							buttons[i][j].setIcon(human);
+						}
+						else if(buttons[i][j].getIcon() == alien) {
+							buttons[i][j].setVisible(true);
+							buttons[i][j].setIcon(alien);
 						}
 						else
 						{
@@ -101,11 +107,14 @@ public class ButtonMethods extends JFrame {
 		}
 		
 	}
+	public static JButton retbutton(int x, int y) {
+		return buttons[x][y];
+	}
 	void setup() {
 		for(int i=0;i<8;i++) {
 			for(int j=0;j<8;j++) {
 				buttons[i][j] = Initialize.retbutton(i,j);
-				buttons[i][j].addActionListener(show);
+				buttons[i][j].addActionListener(showh);
 				buttons[i][j].setVisible(false);
 			}
 		}
@@ -122,9 +131,26 @@ public class ButtonMethods extends JFrame {
 			{
 			buttons[x][y].setVisible(true);
 			buttons[x][y].setIcon(human);
+			buttons[x][y].removeActionListener(showh);
 			humancount++;
 			}
 		}while(humancount < count);
 		//Initializing 3 randomly chosen Buttons
+	}
+	void Initializealiens(int count) {
+		int aliencount=0;
+		Random rand = new Random();
+		do {
+			int x = rand.nextInt(2);
+			int y = rand.nextInt(8);
+			if(buttons[x][y].getIcon() == alien) {}
+			else
+			{
+			buttons[x][y].setVisible(true);
+			buttons[x][y].setIcon(alien);
+			buttons[x][y].removeActionListener(showh);
+			aliencount++;
+			}
+		}while(aliencount < count);
 	}
 }
