@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Random;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -12,9 +13,14 @@ public class StartGame {
 		new StartGame();
 	}
 	public StartGame () throws IOException, InterruptedException {
-		setup(); 		//Seting up the JButton array
-		Playerturn();	//Starting a player turn aswell as the limit of moves
+		setup(); 		//Setting up the JButton array
+		int limit = 10; //Limits the rounds/turns of the player and computer
+		for(int i=1;i<limit;i++)
+		{
+		System.out.println("It is Round Number:" +i);
+		Playerturn();//Starting a player turn as well as the limit of moves
 		Computerturn();	//Starting the computer turn 
+		}
 	}
 	void setup() {
 		for(int i=0;i<8;i++) {
@@ -31,7 +37,8 @@ public class StartGame {
 			for(int j=0;j<8;j++)
 			{
 				if(buttons[i][j].getIcon() == ButtonMethods.human) {
-					buttons[i][j].addActionListener(showh); //Adds Listener to the humans
+					buttons[i][j].addActionListener(showh); //Enables the buttons with the humans
+					buttons[i][j].setEnabled(true);
 				}
 			}
 		}
@@ -44,14 +51,43 @@ public class StartGame {
 			}
 			else
 			{
-				System.out.println("Counter = " + ButtonMethods.counter);
 				Thread.sleep(250);
 			}
 		}
 	}
-	void Computerturn() {
-		
-	}
+	void Computerturn() throws InterruptedException {
+		Random rand = new Random();
+			for(int i = 0;i<8;i++) {
+				for(int j = 0;j<8;j++)
+				{
+					if(buttons[i][j].getIcon() == ButtonMethods.alien) {
+						Thread.sleep(1000);
+						int x = rand.nextInt(5)-2;
+						int y = rand.nextInt(5)-2;
+						if(i+x >7 || i+x <0 || j+y >7 || j+y <0)
+						{
+							break;
+						}
+						else
+						{
+							if(buttons[i+x][j+y].getIcon() == ButtonMethods.alien)
+							{
+								
+							}
+							else
+							{
+							buttons[i+x][j+y].setIcon(ButtonMethods.alien);
+							buttons[i+x][j+y].setVisible(true);
+							buttons[i][j].setIcon(null);
+							buttons[i][j].setVisible(false);
+							break;
+							}
+						}
+					}
+				}
+			}
+		}
+	
 	void endplayerturn() {
 		System.out.println("Playerturn ended");
 		for(int i = 0;i<8;i++) {
