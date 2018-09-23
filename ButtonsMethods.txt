@@ -23,8 +23,8 @@ public class ButtonMethods extends JFrame {
 
 	public ButtonMethods () throws IOException {
 		setup();
-		Initializehumans(3);
-		Initializealiens(3);
+		Initializehumans(3); //Initializes 3 Buttons with human icon
+		Initializealiens(3); //Initializes 3 Buttons with alien icon
 	}
 	
 	public static class Showhuman implements ActionListener {
@@ -104,11 +104,14 @@ public class ButtonMethods extends JFrame {
 				
 			}
 			counter++;
+			//Adds 1 to the counter-value in order to limit the players turn in the Start-Game class
 		}
 	}
 	public static JButton retbutton(int x, int y) {
 		return buttons[x][y];
 	}
+	//A function to return the button array in order to use the button array in other Classes
+
 	void setup() {
 		for(int i=0;i<8;i++) {
 			for(int j=0;j<8;j++) {
@@ -148,5 +151,6 @@ public class ButtonMethods extends JFrame {
 			aliencount++;
 			}
 		}while(aliencount < count);
+		//Initializing 3 randomly chosen Buttons
 	}
 }

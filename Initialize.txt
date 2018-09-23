@@ -10,17 +10,17 @@ public class Initialize extends JFrame {
 	static JButton[][] buttons = new JButton[8][8];
 	//Creating the JButton field
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		new Initialize();
 		ButtonMethods.main(args);
 	}
 	
 	public Initialize() throws IOException {
-		framesetupstart();
-		paintbackground();
-		frame.setLayout(null);
-		buttonssetup();
-		framesetupend();
+		framesetupstart(); 		//Sets up basic configuration for the window(resizable...)
+		paintbackground(); 		//Draws the background to the scene
+		frame.setLayout(null);	//Sets layout to null to add JButtons
+		buttonssetup();			//Sets up the JButtons (position and size)
+		framesetupend();		//Sets up size and Location of the window
 	}
 	
 	public static JButton retbutton(int x, int y) {
