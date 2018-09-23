@@ -7,11 +7,11 @@ import javax.swing.JButton;
 public class StartGame {
     static JButton[][] buttons = new JButton[8][8];
 	ButtonMethods.Showhuman showh = new ButtonMethods.Showhuman();
-	public static void main(String[] args) throws IOException 
+	public static void main(String[] args) throws IOException, InterruptedException 
 	{
 		new StartGame();
 	}
-	public StartGame () throws IOException {
+	public StartGame () throws IOException, InterruptedException {
 		setup();
 		Playerturn();
 		Computerturn();
@@ -23,8 +23,9 @@ public class StartGame {
 			}
 		}
 	}
-	void Playerturn() {
+	void Playerturn() throws InterruptedException {
 		int moves = 2;
+		ButtonMethods.counter = 0;
 		for(int i=0;i<8;i++)
 		{
 			for(int j=0;j<8;j++)
@@ -34,8 +35,31 @@ public class StartGame {
 				}
 			}
 		}
+		for(int i = 0; i<100;i++)
+		{
+			if(ButtonMethods.counter == 3)
+			{
+				endplayerturn();
+				break;
+			}
+			else
+			{
+				System.out.println("Counter = " + ButtonMethods.counter);
+				Thread.sleep(250);
+			}
+		}
 	}
 	void Computerturn() {
 		
+	}
+	void endplayerturn() {
+		System.out.println("Playerturn ended");
+		for(int i = 0;i<8;i++) {
+			for(int j = 0;j<8;j++) {
+				if(buttons[i][j].getIcon() == ButtonMethods.human) {
+				buttons[i][j].setEnabled(false);
+				}
+			}
+		}
 	}
 }

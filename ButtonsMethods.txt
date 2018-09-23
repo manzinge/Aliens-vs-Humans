@@ -10,14 +10,15 @@ public class ButtonMethods extends JFrame {
 	static Showhuman showh = new Showhuman();
 	static Travelhuman travelh = new Travelhuman();
 	static JButton[][] buttons = new JButton[8][8];
+	static int radius = 2;
+	static int counter;
     static Icon human = new ImageIcon("C:/Users/maxan/Desktop/Eclipse Workspace/Human.jpg");
-    static Icon dontmove = new ImageIcon("C:/Users/maxan/Desktop/Eclipse Workspace/dontmove.png");
 	static Icon alien = new ImageIcon("C:/Users/maxan/Desktop/Eclipse Workspace/Alien.jpg");
     //Initializing the Objects that will be needed throughout the whole code (ActionsListener, Buttons and Images)
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		new ButtonMethods();
-		//new StartGame();
+		new StartGame();
 	}
 
 	public ButtonMethods () throws IOException {
@@ -30,7 +31,6 @@ public class ButtonMethods extends JFrame {
 		int x,y;
 		public void actionPerformed(ActionEvent e)
 		{
-			long timeStart = System.currentTimeMillis();
 			for(int i=0;i<8;i++) {
 				for(int j=0;j<8;j++) {
 					if(e.getSource() == buttons[i][j])
@@ -42,11 +42,11 @@ public class ButtonMethods extends JFrame {
 					}
 				}
 			}
-			for(int a = x-2;a<=x+2;a++) {
+			for(int a = x-radius;a<=x+radius;a++) {
 				if(a>7 || a<0) {}
 					else
 					{
-						for(int b = y-2;b<=y+2;b++) {
+						for(int b = y-radius;b<=y+radius;b++) {
 						if(b>7 || b<0) {}
 						else {
 							if(buttons[a][b].getIcon() == human){
@@ -68,8 +68,6 @@ public class ButtonMethods extends JFrame {
 			buttons[x][y].setEnabled(true);
 			buttons[x][y].setIcon(null);
 			//The button that was pressed gets invisible(So the player can't move the player to the position it is already on	
-			long timeEnd = System.currentTimeMillis();
-			System.out.println("The call of the Action-Listener(show) took "+ (timeEnd-timeStart) +" milliseconds");
 		
 		}	
 	}	
@@ -77,7 +75,6 @@ public class ButtonMethods extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			long timeStart = System.currentTimeMillis();
 			for(int i =0;i<8;i++) {
 				for(int j=0;j<8;j++) {
 					buttons[i][j].removeActionListener(travelh);
@@ -99,16 +96,15 @@ public class ButtonMethods extends JFrame {
 						else
 						{
 						buttons[i][j].setVisible(false);
+						
 						//Setting the rest of the buttons invisible
 						}
 					}
 				}
+				
 			}
-			long timeEnd = System.currentTimeMillis();
-			//System.out.println("The call of the Action-Listener(travel) took "+ (timeEnd-timeStart) +"seconds");
-		
+			counter++;
 		}
-		
 	}
 	public static JButton retbutton(int x, int y) {
 		return buttons[x][y];
@@ -117,7 +113,6 @@ public class ButtonMethods extends JFrame {
 		for(int i=0;i<8;i++) {
 			for(int j=0;j<8;j++) {
 				buttons[i][j] = Initialize.retbutton(i,j);
-				buttons[i][j].addActionListener(showh);
 				buttons[i][j].setVisible(false);
 			}
 		}
@@ -134,7 +129,6 @@ public class ButtonMethods extends JFrame {
 			{
 			buttons[x][y].setVisible(true);
 			buttons[x][y].setIcon(human);
-			//buttons[x][y].removeActionListener(showh);
 			humancount++;
 			}
 		}while(humancount < count);
@@ -151,7 +145,6 @@ public class ButtonMethods extends JFrame {
 			{
 			buttons[x][y].setVisible(true);
 			buttons[x][y].setIcon(alien);
-			buttons[x][y].removeActionListener(showh);
 			aliencount++;
 			}
 		}while(aliencount < count);
