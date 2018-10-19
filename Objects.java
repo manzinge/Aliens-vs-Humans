@@ -15,11 +15,11 @@ public class Objects {
 		void heal() {						//Only humans can heal in the zone in the back?
 			health++;
 		}
-		void gatherResource() {
+		void gatherResource() {				//Method to pick up resource, makes unit slower -> less range
 			hasResource = true;
 			radius--;
 		}
-		void dropResource() {
+		void dropResource() {				//Method to drop Resource (secure it)
 			hasResource = false;
 			radius++;
 		}
@@ -27,12 +27,13 @@ public class Objects {
 	class Alien extends Unit {
 		int health = 4;
 		int strenght = 1;
-		void gatherResource() {
+		void gatherResource() {				//Method to pick up resource, makes unit slower -> less range
 			hasResource = true;
 			radius--;
 		}
-		void consumeResource() {
+		void consumeResource() {			//Method to consume the Resource, makes the alien stronger by one point?
 			hasResource = false;
+			strenght++;
 			radius++;
 		}
 	}
