@@ -1,11 +1,15 @@
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import objects.Objects.Human;
+
 public class TestBoard {
 	static JButton[][] buttons = new JButton[10][10];			
 	static JFrame board = new JFrame("Testwindow");
 	static int buttonsx = 8;
 	static int buttonsy = 8;
+	static Human hmn = null;
+	
 	public static void main(String[] args) {
 		setupwindow();
 		createbuttons(buttonsx,buttonsy);
@@ -24,9 +28,10 @@ public class TestBoard {
 		for(int i=0;i<length;i++) {
 			x=0;
 			for(int j=0;j<width;j++) {
-				buttons[i][j] = new JButton("Bnr."+ i + j);
+				buttons[i][j] = hmn;
 				buttons[i][j].setLocation(x, y);
 				buttons[i][j].setSize(100,100);
+				
 				board.add(buttons[i][j]);
 				x = x + 100;
 			}
