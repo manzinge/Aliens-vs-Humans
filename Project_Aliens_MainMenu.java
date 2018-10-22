@@ -50,8 +50,8 @@ public class Project_Aliens_MainMenu extends Application {
         Pane settingsPane = new Pane();
         //back button
         Button back_button = new Button("Back");
-        back_button.setLayoutX(240);
-        back_button.setLayoutY(390);
+        back_button.setLayoutX(120);
+        back_button.setLayoutY(280);
         back_button.setOnAction(e -> window.setScene(mainMenuScene));
         settingsPane.getChildren().add(back_button);
         //end of back button
@@ -120,40 +120,96 @@ public class Project_Aliens_MainMenu extends Application {
         //save settings
         //settings object to save settings
         GameSettings gameSettings = new GameSettings();
+        //save settings button
         Button saveSettingsButton = new Button("Save and Start!");
         saveSettingsButton.setLayoutX(20);
         saveSettingsButton.setLayoutY(280);
+        //error labels for no entry
+        Label gameWaveErrorLabel = new Label("Please enter a game wave amount.");
+        gameWaveErrorLabel.setTextFill(Color.RED);
+        gameWaveErrorLabel.setLayoutX(200);
+        gameWaveErrorLabel.setLayoutY(260);
+        gameWaveErrorLabel.setVisible(false);
+        Label startingHumansErrorLabel = new Label("Please enter a starting amount of humans.");
+        startingHumansErrorLabel.setTextFill(Color.RED);
+        startingHumansErrorLabel.setLayoutX(200);
+        startingHumansErrorLabel.setLayoutY(280);
+        startingHumansErrorLabel.setVisible(false);
+        Label startingAliensErrorLabel = new Label("Please enter a starting amount of aliens.");
+        startingAliensErrorLabel.setTextFill(Color.RED);
+        startingAliensErrorLabel.setLayoutX(200);
+        startingAliensErrorLabel.setLayoutY(300);
+        startingAliensErrorLabel.setVisible(false);
+        //save button action
         saveSettingsButton.setOnAction(e -> {
+            int emptySettings = 0;
             //save map
             if(mapGroup.getSelectedToggle() != null){
                 if(mapGroup.getSelectedToggle() == mapRadio1){
                     //set map to map 1
                     gameSettings.gameMapID = 1;
-                    System.out.println("Game Map Selected: Map 1");
+                    System.out.println("Game Map Selected: " + gameSettings.gameMapID);
                 }else if(mapGroup.getSelectedToggle() == mapRadio2){
                     //set map to map 2
                     gameSettings.gameMapID = 2;
-                    System.out.println("Game Map Selected: Map 2");
+                    System.out.println("Game Map Selected: " + gameSettings.gameMapID);
                 }else if(mapGroup.getSelectedToggle() == mapRadio3){
                     //set map to map 3
                     gameSettings.gameMapID = 3;
-                    System.out.println("Game Map Selected: Map 3");
+                    System.out.println("Game Map Selected: " + gameSettings.gameMapID);
                 }else{
                     //no radio button selected somehow
                     //shouldn't have to worry about this
                     System.out.println("Somehow selected no radio button, error?");
-                    System.exit(1);
+                    emptySettings++;
                 }
             }
-            
             //save number of game waves
             if(gameWaveChoice.getValue() != null){
                 //choice is not null
+                gameWaveErrorLabel.setVisible(false);
                 gameSettings.numGameWaves = Integer.parseInt(gameWaveChoice.getValue().toString());
                 System.out.println("Waves: " + gameSettings.numGameWaves);
+            }else{
+                //no choice was made, ask for user to make choice
+                gameWaveErrorLabel.setVisible(true);
+                emptySettings++;
+            }
+
+            //save starting number of humans
+            if(startingHumansChoice.getValue() != null){
+                //choice is not null
+                startingHumansErrorLabel.setVisible(false);
+                gameSettings.numStartingHumans = Integer.parseInt(startingHumansChoice.getValue().toString());
+                System.out.println("Starting Humans: " + gameSettings.numStartingHumans);
+            }else{
+                //no choice made, ask user to make choice
+                startingHumansErrorLabel.setVisible(true);
+                emptySettings++;
+            }
+
+            //save starting number of aliens
+            if(startingAliensChoice.getValue() != null){
+                //choice is not null
+                startingAliensErrorLabel.setVisible(false);
+                gameSettings.numStartingAliens = Integer.parseInt(startingHumansChoice.getValue().toString());
+                System.out.println("Starting Aliens: " + gameSettings.numStartingAliens);
+            }else{
+                //no choice made, ask user to make choice
+                startingAliensErrorLabel.setVisible(true);
+                emptySettings++;
+            }
+            
+            if(emptySettings > 0){
+                //if there are empty settings, do not allow game to start
+                System.out.println("There are empty settings; game cannot start");
+            }else{
+                //START GAME FROM HERE WITH SETTINGS GIVEN ABOVE
+                System.out.println("All settings are filled; starting game...");
             }
         });
-        settingsPane.getChildren().addAll(saveSettingsButton);
+        //end of save settings button
+        settingsPane.getChildren().addAll(saveSettingsButton, gameWaveErrorLabel, startingHumansErrorLabel, startingAliensErrorLabel);
         //end of save settings
         settingsScene = new Scene(settingsPane, 640, 320); //create scene
         //END OF SETTINGS SCENE
