@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  */
 public class Project_Aliens_MainMenu extends Application {
     Stage window; //primary window
-    Scene mainMenuScene, settingsScene; //scenes
+    Scene mainMenuScene, settingsScene, scoreboardScene; //scenes
     
     @Override
     public void start(Stage primaryStage){
@@ -27,22 +27,30 @@ public class Project_Aliens_MainMenu extends Application {
         
         //MAIN MENU SCENE
         Pane mainMenuPane = new Pane();
+        //game title splash here??
+        
+        //end of game title splash
         //start button
         Button start_btn = new Button();
         start_btn.setText("Start Game");
         start_btn.setLayoutX(280); //hard-coded X-value to change
-        start_btn.setLayoutY(150); //hard-coded Y-value to change
+        start_btn.setLayoutY(250); //hard-coded Y-value to change
         start_btn.setOnAction(e -> window.setScene(settingsScene));
-        mainMenuPane.getChildren().add(start_btn);
         //end of start button
         //exit button
         Button exit_btn = new Button();
         exit_btn.setText("Exit");
         exit_btn.setLayoutX(300); //hard-coded X-value to change
-        exit_btn.setLayoutY(180); //hard-coded Y-value to change
+        exit_btn.setLayoutY(280); //hard-coded Y-value to change
         exit_btn.setOnAction(e -> System.exit(0));
-        mainMenuPane.getChildren().add(exit_btn);
         //end of exit button
+        //scoreboard button
+        Button score_btn = new Button("Scoreboard");
+        score_btn.setLayoutX(280);
+        score_btn.setLayoutY(220);
+        score_btn.setOnAction(e -> window.setScene(scoreboardScene));
+        //end of scoreboard button
+        mainMenuPane.getChildren().addAll(start_btn, exit_btn, score_btn);
         mainMenuScene = new Scene(mainMenuPane, 640, 360); //create scene
         //END OF MAIN MENU SCENE
         
@@ -214,6 +222,18 @@ public class Project_Aliens_MainMenu extends Application {
         settingsScene = new Scene(settingsPane, 640, 320); //create scene
         //END OF SETTINGS SCENE
         
+        //SCOREBOARD SCENE
+        Pane scoreboardPane = new Pane();
+        //back button
+        Button backFromScoresButton = new Button("Back");
+        backFromScoresButton.setLayoutX(5);
+        backFromScoresButton.setLayoutY(290);
+        backFromScoresButton.setOnAction(e -> window.setScene(mainMenuScene));
+        //end of back button
+        //what the fuck do I add here
+        scoreboardPane.getChildren().addAll(backFromScoresButton);
+        scoreboardScene = new Scene(scoreboardPane, 640, 320);
+        //END OF SCOREBOARD SCENE
         
         //display
         window.setTitle("Project: Aliens");
