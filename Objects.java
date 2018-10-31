@@ -8,22 +8,25 @@ import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+public class Objects {
 
+}
 class Unit extends JButton {
 	private boolean hasResource = false;
 	private int radius=1;
 	private int type; //0=Button, 1=Human, 2=Alien, 99=death
 	private int health;
 	private int strength;
+	//Temporary attributes
 	private int temphealth;
 	private int tempstrength;
 	private int tempx;
 	private int tempy;
-
+	//Icons
 	BufferedImage human = ImageIO.read(getClass().getResource("Human.jpg"));
 	BufferedImage alien = ImageIO.read(getClass().getResource("Alien.jpg"));
 	BufferedImage death = ImageIO.read(getClass().getResource("death.png"));
-	
+	//Listeners
 	show sh = new show();
 	move mv = new move();
 	attack att = new attack();
@@ -100,36 +103,39 @@ class Unit extends JButton {
 		strength++;
 		radius++;
 	}
-	
+
 	class show implements ActionListener {											//Action Listener class to show options where the player can go
 		public void actionPerformed(ActionEvent e){
 			for(int i=0;i<TestBoard.buttonsx;i++) {
 				for(int j=0;j<TestBoard.buttonsy;j++) {
 					if(e.getSource() == TestBoard.unit[i][j]) {						//Figuring out which object/Button was pressed
 
-						for(int g = i-1;g<=i+radius;g++){
-							for(int b=j-1;b<=j+radius;b++) {
+						for(int g = i-radius;g<=i+radius;g++){
+							for(int b=j-radius;b<=j+radius;b++) {
+								System.out.println("g = "+g+" b = "+b);
 								if(g<0 || g>7 || b<0 || b>7) {						//Takes action on all Buttons within the radius except if they are out of the border
-									break;
-								}
-								if(TestBoard.unit[g][b].type == 1) {				//Action that will occur if there is another human around (make not clickable)
-									TestBoard.unit[g][b].setEnabled(false);
 
 								}
-								else if(TestBoard.unit[g][b].type == 2) {			//Action that will occur if there is an Alien around (Add attack listener and temporarily store values)
-									TestBoard.unit[g][b].addActionListener(att);
-									TestBoard.unit[g][b].setBackground(Color.RED);	//Setting background color of enemy to red, to signalize a potential danger
-									temphealth = TestBoard.unit[i][j].health;
-									tempstrength = TestBoard.unit[i][j].strength;
-									tempx = i;
-									tempy = j;
-								}
-								else {												//Action that will occur if there is just a button with nothing on it
-									TestBoard.unit[g][b].setVisible(true);			//Actions include: Making it visibile -> clickable, storing temp values, and adding a listener
-									TestBoard.unit[g][b].setText("MOVE");		
-									temphealth = TestBoard.unit[i][j].health;
-									tempstrength = TestBoard.unit[i][j].strength;
-									TestBoard.unit[g][b].addActionListener(mv);
+								else {
+									if(TestBoard.unit[g][b].type == 1) {				//Action that will occur if there is another human around (make not clickable)
+										TestBoard.unit[g][b].setEnabled(false);
+
+									}
+									else if(TestBoard.unit[g][b].type == 2) {			//Action that will occur if there is an Alien around (Add attack listener and temporarily store values)
+										TestBoard.unit[g][b].addActionListener(att);
+										TestBoard.unit[g][b].setBackground(Color.RED);	//Setting background color of enemy to red, to signalize a potential danger
+										temphealth = TestBoard.unit[i][j].health;
+										tempstrength = TestBoard.unit[i][j].strength;
+										tempx = i;
+										tempy = j;
+									}
+									else {												//Action that will occur if there is just a button with nothing on it
+										TestBoard.unit[g][b].setVisible(true);			//Actions include: Making it visibile -> clickable, storing temp values, and adding a listener
+										TestBoard.unit[g][b].setText("MOVE");		
+										temphealth = TestBoard.unit[i][j].health;
+										tempstrength = TestBoard.unit[i][j].strength;
+										TestBoard.unit[g][b].addActionListener(mv);
+									}
 								}
 							}
 						}

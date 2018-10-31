@@ -8,12 +8,14 @@ public class TestBoard {
 	static int buttonsx = 8;
 	static int buttonsy = 8;
 
+	//Calling the methods to paint a new JFrame
 	public static void main(String[] args) throws IOException {
 		setupwindow();
 		setupbuttons(buttonsx,buttonsy);
 		board.revalidate();
 		board.repaint();
 	}
+	//Setting up the play window
 	public static void setupwindow() {
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board.setResizable(false);
@@ -22,7 +24,7 @@ public class TestBoard {
 		board.setLocationRelativeTo(null);
 		board.setLayout(null);
 	}
-	
+	//Setting up the buttons -> this method is necessary until "Further steps"
 	public static void setupbuttons(int buttonsx,int buttonsy) throws IOException {
 		int x = 0,y=0;
 		for(int i=0;i<buttonsx;i++) {
@@ -35,7 +37,8 @@ public class TestBoard {
 			y=y+100;
 			x=0;
 		}
-
+		//Further steps
+		//Spawning humans
 		for(int i=0;i<2;i++) {
 			Random rand = new Random();
 			int xr = rand.nextInt(8);
@@ -45,6 +48,7 @@ public class TestBoard {
 			unit[yr][xr].setLocation(xr*100, yr*100);
 			board.add(unit[yr][xr]);
 		}
+		//Spawning Alien
 		for(int i=0;i<2;i++) {
 			Random rand = new Random();
 			int xr = rand.nextInt(8);
