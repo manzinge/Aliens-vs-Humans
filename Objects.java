@@ -58,7 +58,6 @@ class Unit extends JButton {
 		this.health = -1;
 		this.strength = -1;
 		this.setIcon(new ImageIcon(death));
-		System.out.println("Ja moin oida");
 	}
 	private void createHuman() throws IOException {		//Setting variables for a new Human (this is only called when spawning new Humans)
 		this.type = 1;
@@ -112,7 +111,6 @@ class Unit extends JButton {
 
 						for(int g = i-radius;g<=i+radius;g++){
 							for(int b=j-radius;b<=j+radius;b++) {
-								System.out.println("g = "+g+" b = "+b);
 								if(g<0 || g>7 || b<0 || b>7) {						//Takes action on all Buttons within the radius except if they are out of the border
 
 								}
@@ -140,7 +138,9 @@ class Unit extends JButton {
 							}
 						}
 						TestBoard.unit[i][j].createButton();						//The initiale human button gets transformed into a button
+						break;
 					}
+					
 				}
 			}
 		}
@@ -159,6 +159,7 @@ class Unit extends JButton {
 						} catch(Exception ex) {
 							System.out.println(ex);
 						}
+						break;
 					}
 				}
 			}
@@ -178,6 +179,7 @@ class Unit extends JButton {
 						} catch(Exception ex) {
 							System.out.println(ex);
 						}
+						break;
 					}
 				}
 			}
