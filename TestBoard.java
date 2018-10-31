@@ -1,42 +1,59 @@
-import javax.swing.JButton;
+import java.io.IOException;
+import java.util.Random;
 import javax.swing.JFrame;
 
-import objects.Objects.Human;
-
 public class TestBoard {
-	static JButton[][] buttons = new JButton[10][10];			
-	static JFrame board = new JFrame("Testwindow");
+	public static Unit[][] unit = new Unit[8][8];
+	public static JFrame board = new JFrame("Testwindow");
 	static int buttonsx = 8;
 	static int buttonsy = 8;
-	static Human hmn = null;
-	
-	public static void main(String[] args) {
+
+	public static void main(String[] args) throws IOException {
 		setupwindow();
-		createbuttons(buttonsx,buttonsy);
+		setupbuttons(buttonsx,buttonsy);
+		board.revalidate();
+		board.repaint();
 	}
 	public static void setupwindow() {
-		board.setDefaultCloseOperation(board.EXIT_ON_CLOSE);
+		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board.setResizable(false);
 		board.setVisible(true);
 		board.setSize(buttonsx*100,buttonsy*100 + 29);
 		board.setLocationRelativeTo(null);
-	}
-	public static void createbuttons(int length, int width) {
 		board.setLayout(null);
-		int x = 0;
-		int y = 0;
-		for(int i=0;i<length;i++) {
-			x=0;
-			for(int j=0;j<width;j++) {
-				buttons[i][j] = hmn;
-				buttons[i][j].setLocation(x, y);
-				buttons[i][j].setSize(100,100);
-				
-				board.add(buttons[i][j]);
-				x = x + 100;
+	}
+	
+	public static void setupbuttons(int buttonsx,int buttonsy) throws IOException {
+		int x = 0,y=0;
+		for(int i=0;i<buttonsx;i++) {
+			for(int j=0;j<buttonsy;j++) {
+				unit[i][j] = new Unit(0);
+				unit[i][j].setLocation(x,y);
+				board.add(unit[i][j]);
+				x=x+100;
 			}
 			y=y+100;
+			x=0;
 		}
-		board.repaint();
+
+		for(int i=0;i<2;i++) {
+			Random rand = new Random();
+			int xr = rand.nextInt(8);
+			int yr = rand.nextInt(2)+6;
+			board.remove(unit[yr][xr]);
+			unit[yr][xr] = new Unit(1);
+			unit[yr][xr].setLocation(xr*100, yr*100);
+			board.add(unit[yr][xr]);
+		}
+		for(int i=0;i<2;i++) {
+			Random rand = new Random();
+			int xr = rand.nextInt(8);
+			int yr = rand.nextInt(2);
+			board.remove(unit[yr][xr]);
+			unit[yr][xr] = new Unit(2);
+			unit[yr][xr].setLocation(xr*100, yr*100);
+			board.add(unit[yr][xr]);
+		}
 	}
 }
+

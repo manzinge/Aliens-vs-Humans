@@ -9,3 +9,16 @@
 /Object$Human.class
 /Object$Unit.class
 /Object.class
+/Alien.class
+/Human.class
+/Unit.class
+/hitter.class
+/TestBoard$hitter.class
+/move.class
+/Human$move.class
+/TestBoard$1.class
+/Human$Alien.class
+/Human$show.class
+/Unit$move.class
+/Unit$show.class
+/Unit$attack.class
