@@ -24,10 +24,6 @@ class Unit extends JButton {
 	private int tempstrength;
 	private int tempx;
 	private int tempy;
-	//ScreenSize
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	double height = screenSize.height*0.7;
-	double width = screenSize.width*0.4;
 	//Icons
 	BufferedImage human = ImageIO.read(getClass().getResource("Human.jpg"));
 	BufferedImage alien = ImageIO.read(getClass().getResource("Alien.jpg"));
@@ -46,8 +42,11 @@ class Unit extends JButton {
 		default:System.out.println("There was an error while creating a new Button/Human/Alien! (The parameter is not reachable!)");
 		}	
 	}
+	private void setSizeb() {
+		this.setSize((int)Math.round(TestBoard.width/TestBoard.buttonsx),(int)Math.round(TestBoard.height/TestBoard.buttonsy));
+	}
 	private void createButton() {						//Method used to create a normal Button
-		this.setSize((int)Math.round(width/TestBoard.buttonsx),(int)Math.round(height/TestBoard.buttonsy));
+		this.setSizeb();
 		this.setVisible(false);
 		this.type = 0;
 		this.setIcon(null);
@@ -60,14 +59,14 @@ class Unit extends JButton {
 	private void createdeath() {
 		this.type = 99;
 		this.setVisible(true);
-		this.setSize((int)Math.round(width/TestBoard.buttonsx),(int)Math.round(height/TestBoard.buttonsy));
+		this.setSizeb();
 		this.health = -1;
 		this.strength = -1;
 		this.setIcon(new ImageIcon(death));
 	}
 	private void createHuman() throws IOException {		//Setting variables for a new Human (this is only called when spawning new Humans)
 		this.type = 1;
-		this.setSize((int)Math.round(width/TestBoard.buttonsx),(int)Math.round(height/TestBoard.buttonsy));
+		this.setSizeb();
 		this.setVisible(true);
 		this.health = 3;
 		this.strength=1;
@@ -76,13 +75,15 @@ class Unit extends JButton {
 	}
 
 	private void createAlien() throws IOException{			//Method used to create an Alien (this is only called when spawning new Aliens)
-		this.setSize((int)Math.round(width/TestBoard.buttonsx),(int)Math.round(height/TestBoard.buttonsy));
+		this.setSizeb();
 		this.setVisible(true);
 		this.health=4;
 		this.strength=1;
 		this.setIcon(new ImageIcon(alien));
 	}
-
+	public int gettype() {
+		return this.type;
+	}
 	private void heal() {						//Only humans can heal in the zone in the back?
 		this.health++;
 	}
