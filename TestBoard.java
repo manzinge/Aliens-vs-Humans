@@ -9,6 +9,9 @@ public class TestBoard {
 	public static JFrame board = new JFrame("Testwindow");
 	static int buttonsx = 8;
 	static int buttonsy = 8;
+	public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	public static double height = screenSize.height*0.7;
+	public static double width = screenSize.width*0.4;
 	public TestBoard(int aliencount,int humancount) throws IOException
 	{
 		setupwindow();
@@ -18,9 +21,6 @@ public class TestBoard {
 	}
 	//Setting up the play window
 	public static void setupwindow() {
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		double height = screenSize.height*0.7;
-		double width = screenSize.width*0.4;
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board.setResizable(false);
 		board.setVisible(true);
@@ -31,8 +31,6 @@ public class TestBoard {
 	//Setting up the buttons -> this method is necessary until "Further steps"
 	public static void setupbuttons(int buttonsx,int buttonsy,int humancount, int aliencount) throws IOException {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		double height = screenSize.height*0.7;
-		double width = screenSize.width*0.4;
 		int x = 0,y=0;
 		for(int i=0;i<buttonsx;i++) {
 			for(int j=0;j<buttonsy;j++) {
@@ -50,20 +48,32 @@ public class TestBoard {
 			Random rand = new Random();
 			int xr = rand.nextInt(8);
 			int yr = rand.nextInt(2)+6;
-			board.remove(unit[yr][xr]);
-			unit[yr][xr] = new Unit(1);
-			unit[yr][xr].setLocation((int)Math.round(xr*(width/buttonsx)),(int)Math.round(yr*(height/buttonsy)));
-			board.add(unit[yr][xr]);
+			if(unit[yr][xr].gettype() == 1)
+			{
+				i--;
+			}
+			else
+			{
+				board.remove(unit[yr][xr]);
+				unit[yr][xr] = new Unit(1);
+				unit[yr][xr].setLocation((int)Math.round(xr*(width/buttonsx)),(int)Math.round(yr*(height/buttonsy)));
+				board.add(unit[yr][xr]);
+			}
 		}
 		//Spawning Alien
 		for(int i=0;i<aliencount;i++) {
 			Random rand = new Random();
 			int xr = rand.nextInt(8);
 			int yr = rand.nextInt(2);
-			board.remove(unit[yr][xr]);
-			unit[yr][xr] = new Unit(2);
-			unit[yr][xr].setLocation((int)Math.round(xr*(width/buttonsx)),(int)Math.round(yr*(height/buttonsy)));
-			board.add(unit[yr][xr]);
+			if(unit[yr][xr].gettype()==2) {
+				i--;
+			}
+			else {
+				board.remove(unit[yr][xr]);
+				unit[yr][xr] = new Unit(2);
+				unit[yr][xr].setLocation((int)Math.round(xr*(width/buttonsx)),(int)Math.round(yr*(height/buttonsy)));
+				board.add(unit[yr][xr]);
+			}
 		}
 	}
 }
