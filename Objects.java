@@ -211,6 +211,7 @@ class Unit extends JButton {
 				else if(TestBoard.unit[i][j].type == 1) {			//Things to do if the unit is a human -> enabling it (in case there were humans around)
 					TestBoard.unit[i][j].setEnabled(true);			//Obviously make it visible to make it possible for the user to interact with it
 					TestBoard.unit[i][j].setVisible(true);
+					TestBoard.unit[i][j].setText(null);
 				}
 				else {												//Things to do if the unit is an alien -> removing any listeners and making it visible
 					TestBoard.unit[i][j].setVisible(true);
