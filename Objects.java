@@ -26,8 +26,8 @@ class Unit extends JButton {
 	private int tempy;
 	//ScreenSize
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	double height = screenSize.height*0.66;
-	double width = screenSize.width*0.66;
+	double height = screenSize.height*0.7;
+	double width = screenSize.width*0.4;
 	//Icons
 	BufferedImage human = ImageIO.read(getClass().getResource("Human.jpg"));
 	BufferedImage alien = ImageIO.read(getClass().getResource("Alien.jpg"));
@@ -117,7 +117,7 @@ class Unit extends JButton {
 
 						for(int g = i-radius;g<=i+radius;g++){
 							for(int b=j-radius;b<=j+radius;b++) {
-								if(g<0 || g>7 || b<0 || b>7) {						//Takes action on all Buttons within the radius except if they are out of the border
+								if(g<0 || g>TestBoard.buttonsx-1 || b<0 || b>TestBoard.buttonsx-1) {						//Takes action on all Buttons within the radius except if they are out of the border
 
 								}
 								else {
