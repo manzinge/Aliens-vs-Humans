@@ -1,3 +1,5 @@
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.Random;
 import javax.swing.JFrame;
@@ -23,24 +25,30 @@ public class TestBoard {
 	}*/
 	//Setting up the play window
 	public static void setupwindow() {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		double height = screenSize.height*0.66;
+		double width = screenSize.width*0.66;
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board.setResizable(false);
 		board.setVisible(true);
-		board.setSize(buttonsx*100,buttonsy*100 + 29);
+		board.setSize(new Dimension((int)Math.round(width),(int)Math.round(height)+29));
 		board.setLocationRelativeTo(null);
 		board.setLayout(null);
 	}
 	//Setting up the buttons -> this method is necessary until "Further steps"
 	public static void setupbuttons(int buttonsx,int buttonsy,int humancount, int aliencount) throws IOException {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		double height = screenSize.height*0.66;
+		double width = screenSize.width*0.66;
 		int x = 0,y=0;
 		for(int i=0;i<buttonsx;i++) {
 			for(int j=0;j<buttonsy;j++) {
 				unit[i][j] = new Unit(0);
 				unit[i][j].setLocation(x,y);
 				board.add(unit[i][j]);
-				x=x+100;
+				x=x+(int)Math.round(width/buttonsx);
 			}
-			y=y+100;
+			y=y+(int)Math.round(height/buttonsy);
 			x=0;
 		}
 		//Further steps
@@ -51,7 +59,7 @@ public class TestBoard {
 			int yr = rand.nextInt(2)+6;
 			board.remove(unit[yr][xr]);
 			unit[yr][xr] = new Unit(1);
-			unit[yr][xr].setLocation(xr*100, yr*100);
+			unit[yr][xr].setLocation((int)Math.round(xr*(width/buttonsx)),(int)Math.round(yr*(height/buttonsy)));
 			board.add(unit[yr][xr]);
 		}
 		//Spawning Alien
@@ -61,7 +69,7 @@ public class TestBoard {
 			int yr = rand.nextInt(2);
 			board.remove(unit[yr][xr]);
 			unit[yr][xr] = new Unit(2);
-			unit[yr][xr].setLocation(xr*100, yr*100);
+			unit[yr][xr].setLocation((int)Math.round(xr*(width/buttonsx)),(int)Math.round(yr*(height/buttonsy)));
 			board.add(unit[yr][xr]);
 		}
 	}
