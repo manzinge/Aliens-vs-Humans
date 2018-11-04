@@ -12,7 +12,7 @@ public class TestBoard {
 	public TestBoard(int aliencount,int humancount) throws IOException
 	{
 		setupwindow();
-		setupbuttons(buttonsx,buttonsy,aliencount,humancount);
+		setupbuttons(buttonsx,buttonsy,humancount,aliencount);
 		board.revalidate();
 		board.repaint();
 	}
