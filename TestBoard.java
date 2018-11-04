@@ -7,14 +7,20 @@ public class TestBoard {
 	public static JFrame board = new JFrame("Testwindow");
 	static int buttonsx = 8;
 	static int buttonsy = 8;
-
+	public TestBoard(int aliencount,int humancount) throws IOException
+	{
+		setupwindow();
+		setupbuttons(buttonsx,buttonsy,aliencount,humancount);
+		board.revalidate();
+		board.repaint();
+	}
 	//Calling the methods to paint a new JFrame
-	public static void main(String[] args) throws IOException {
+	/*public static void main(String[] args) throws IOException {
 		setupwindow();
 		setupbuttons(buttonsx,buttonsy);
 		board.revalidate();
 		board.repaint();
-	}
+	}*/
 	//Setting up the play window
 	public static void setupwindow() {
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,7 +31,7 @@ public class TestBoard {
 		board.setLayout(null);
 	}
 	//Setting up the buttons -> this method is necessary until "Further steps"
-	public static void setupbuttons(int buttonsx,int buttonsy) throws IOException {
+	public static void setupbuttons(int buttonsx,int buttonsy,int humancount, int aliencount) throws IOException {
 		int x = 0,y=0;
 		for(int i=0;i<buttonsx;i++) {
 			for(int j=0;j<buttonsy;j++) {
@@ -39,7 +45,7 @@ public class TestBoard {
 		}
 		//Further steps
 		//Spawning humans
-		for(int i=0;i<2;i++) {
+		for(int i=0;i<humancount;i++) {
 			Random rand = new Random();
 			int xr = rand.nextInt(8);
 			int yr = rand.nextInt(2)+6;
@@ -49,7 +55,7 @@ public class TestBoard {
 			board.add(unit[yr][xr]);
 		}
 		//Spawning Alien
-		for(int i=0;i<2;i++) {
+		for(int i=0;i<aliencount;i++) {
 			Random rand = new Random();
 			int xr = rand.nextInt(8);
 			int yr = rand.nextInt(2);

@@ -37,7 +37,7 @@ class Unit extends JButton {
 		case 0:createButton();break;
 		case 1:createHuman();break;
 		case 2:createAlien();break;
-		default:System.out.println("There was an error while creating a new Button/Human/Alien!");
+		default:System.out.println("There was an error while creating a new Button/Human/Alien! (The parameter is not reachable!)");
 		}	
 	}
 	private void createButton() {						//Method used to create a normal Button
@@ -140,7 +140,7 @@ class Unit extends JButton {
 						TestBoard.unit[i][j].createButton();						//The initiale human button gets transformed into a button
 						break;
 					}
-					
+
 				}
 			}
 		}
@@ -169,7 +169,7 @@ class Unit extends JButton {
 		public void actionPerformed(ActionEvent e){
 			for(int i=0;i<TestBoard.buttonsx;i++) {
 				for(int j=0;j<TestBoard.buttonsy;j++) {			
-					if(e.getSource() == TestBoard.unit[i][j]) {						//Figuring out the clicked object/Jbutton
+					if(e.getSource() == TestBoard.unit[i][j]) {						//Figuring out the clicked object/JButton
 						try {
 							TestBoard.unit[i][j].createHuman();						//Creating a new human at that position
 							TestBoard.unit[i][j].health = temphealth;				//Assigning the values of the "old" human to the "new" one
