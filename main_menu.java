@@ -52,7 +52,7 @@ public class main_menu extends Application {
         score_btn.setOnAction(e -> window.setScene(scoreboardScene));
         //end of scoreboard button
         mainMenuPane.getChildren().addAll(start_btn, exit_btn, score_btn);
-        mainMenuScene = new Scene(mainMenuPane, 640, 360); //create scene
+        mainMenuScene = new Scene(mainMenuPane, 600, 600); //create scene
         //END OF MAIN MENU SCENE
         
         //SETTINGS SCENE
@@ -211,7 +211,7 @@ public class main_menu extends Application {
                 System.out.println("All settings are filled; starting game...");
                 
                try{
-                TestBoard game = new TestBoard(gameSettings.numStartingAliens, gameSettings.numStartingHumans);
+                TestBoard game = new TestBoard(gameSettings.numStartingHumans, gameSettings.numStartingAliens);
                }catch(IOException ex) {
             	   ex.printStackTrace();
                }
@@ -220,7 +220,7 @@ public class main_menu extends Application {
         //end of save settings button
         settingsPane.getChildren().addAll(saveSettingsButton, gameWaveErrorLabel, startingHumansErrorLabel, startingAliensErrorLabel);
         //end of save settings
-        settingsScene = new Scene(settingsPane, 640, 320); //create scene
+        settingsScene = new Scene(settingsPane, 600, 600); //create scene
         //END OF SETTINGS SCENE
         
         //SCOREBOARD SCENE
@@ -235,7 +235,7 @@ public class main_menu extends Application {
          * PUT MEKAAL'S CODE HERE
          */
         scoreboardPane.getChildren().addAll(backFromScoresButton);
-        scoreboardScene = new Scene(scoreboardPane, 640, 320);
+        scoreboardScene = new Scene(scoreboardPane, 600, 600);
         //END OF SCOREBOARD SCENE
         
         //display
