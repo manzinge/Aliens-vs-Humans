@@ -27,8 +27,11 @@ public class main_menu extends Application{
         
         //MAIN MENU SCENE
         Pane mainMenuPane = new Pane();
-        //game title splash here??
-        
+        //game title splash here
+        Image gameTitleImage = new Image("file:aliens_title.png");
+        ImagePattern gameTitlePattern = new ImagePattern(gameTitleImage);
+        Rectangle gameTitleSplash = new Rectangle(100,20,400,200);
+        gameTitleSplash.setFill(gameTitlePattern);
         //end of game title splash
         //start button
         Button start_btn = new Button();
@@ -53,7 +56,7 @@ public class main_menu extends Application{
         		//Application.launch(ScoreBoard.class)
         );
         //end of scoreboard button
-        mainMenuPane.getChildren().addAll(start_btn, exit_btn, score_btn);
+        mainMenuPane.getChildren().addAll(start_btn, exit_btn, score_btn, gameTitleSplash);
         mainMenuScene = new Scene(mainMenuPane, 600, 600); //create scene
         //END OF MAIN MENU SCENE
         
