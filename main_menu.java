@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -21,10 +22,15 @@ public class main_menu extends Application{
     Stage window; //primary window
     Scene mainMenuScene, settingsScene, scoreboardScene; //scenes
     
+    //scene sizes
+    int sceneWidth = 600;
+    int sceneHeight = 600;
+    
+    Image backgroundImage = new Image("file:starry_background.png");
+    
     @Override
     public void start(Stage primaryStage){
         window = primaryStage;
-        
         //MAIN MENU SCENE
         Pane mainMenuPane = new Pane();
         //game title splash here
@@ -56,50 +62,57 @@ public class main_menu extends Application{
         		//Application.launch(ScoreBoard.class)
         );
         //end of scoreboard button
-        mainMenuPane.getChildren().addAll(start_btn, exit_btn, score_btn, gameTitleSplash);
-        mainMenuScene = new Scene(mainMenuPane, 600, 600); //create scene
+        //scene background
+        ImageView mainMenuBG = new ImageView(backgroundImage);
+        //end of scene background
+        mainMenuPane.getChildren().addAll(mainMenuBG, start_btn, exit_btn, score_btn, gameTitleSplash);
+        mainMenuScene = new Scene(mainMenuPane, sceneWidth, sceneHeight); //create scene
         //END OF MAIN MENU SCENE
         
         //SETTINGS SCENE
         Pane settingsPane = new Pane();
         //back button
         Button back_button = new Button("Back");
-        back_button.setLayoutX(120);
-        back_button.setLayoutY(280);
+        back_button.setLayoutX(10);
+        back_button.setLayoutY(10);
         back_button.setOnAction(e -> window.setScene(mainMenuScene));
-        settingsPane.getChildren().add(back_button);
         //end of back button
         //game map
         Label mapLabel = new Label("Select Map:");
-        mapLabel.setLayoutX(20);
-        mapLabel.setLayoutY(20);
-        Rectangle gameMapPreview = new Rectangle(260,10,340,210);
+        mapLabel.setLayoutX(10);
+        mapLabel.setLayoutY(50);
+        mapLabel.setTextFill(Color.WHITE);
+        Rectangle gameMapPreview = new Rectangle(250,10,340,210);
         gameMapPreview.setFill(Color.WHITE);
         gameMapPreview.setStroke(Color.BLACK);
         Label gameMapPreviewLabel = new Label("Map Preview");
         gameMapPreviewLabel.setLayoutX(400);
-        gameMapPreviewLabel.setLayoutY(220);
+        gameMapPreviewLabel.setLayoutY(230);
+        gameMapPreviewLabel.setTextFill(Color.WHITE);
         //map radio buttons
         final ToggleGroup mapGroup = new ToggleGroup();
         //map 1 button
         RadioButton mapRadio1 = new RadioButton("Map 1");
         mapRadio1.setToggleGroup(mapGroup);
         mapRadio1.setUserData(1);
-        mapRadio1.setLayoutX(50);
-        mapRadio1.setLayoutY(40);
+        mapRadio1.setLayoutX(20);
+        mapRadio1.setLayoutY(70);
         mapRadio1.setSelected(true);
+        mapRadio1.setTextFill(Color.WHITE);
         //map 2 button
         RadioButton mapRadio2 = new RadioButton("Map 2");
         mapRadio2.setToggleGroup(mapGroup);
         mapRadio2.setUserData(2);
-        mapRadio2.setLayoutX(50);
-        mapRadio2.setLayoutY(60);
+        mapRadio2.setLayoutX(20);
+        mapRadio2.setLayoutY(90);
+        mapRadio2.setTextFill(Color.WHITE);
         //map 3 button
         RadioButton mapRadio3 = new RadioButton("Map 3");
         mapRadio3.setToggleGroup(mapGroup);
         mapRadio3.setUserData(3);
-        mapRadio3.setLayoutX(50);
-        mapRadio3.setLayoutY(80);
+        mapRadio3.setLayoutX(20);
+        mapRadio3.setLayoutY(110);
+        mapRadio3.setTextFill(Color.WHITE);
         //set map preview image with radio buttons
         //map preview images
         Image map1Image = new Image("file:map1.png");
@@ -122,43 +135,42 @@ public class main_menu extends Application{
 		);
         //end of map preview images
         //end of map radio buttons
-        settingsPane.getChildren().addAll(mapRadio1, mapRadio2, mapRadio3, mapLabel, gameMapPreview, gameMapPreviewLabel);
         //end of game map
         //game wave
         Label gameWaveLabel = new Label("Number of Waves:");
-        gameWaveLabel.setLayoutX(20);
-        gameWaveLabel.setLayoutY(120);
+        gameWaveLabel.setLayoutX(10);
+        gameWaveLabel.setLayoutY(160);
+        gameWaveLabel.setTextFill(Color.WHITE);
         ComboBox<String> gameWaveChoice = new ComboBox();
         gameWaveChoice.getItems().addAll("1", "2", "3", "4", "5");
         gameWaveChoice.setPromptText("Default: 2");
         gameWaveChoice.setValue("Default: 2");
-        gameWaveChoice.setLayoutX(50);
-        gameWaveChoice.setLayoutY(140);
-        settingsPane.getChildren().addAll(gameWaveLabel, gameWaveChoice);
+        gameWaveChoice.setLayoutX(20);
+        gameWaveChoice.setLayoutY(180);
         //end of game wave
         //starting humans
         Label startingHumansLabel = new Label("Number of starting Humans:");
-        startingHumansLabel.setLayoutX(20);
-        startingHumansLabel.setLayoutY(170);
+        startingHumansLabel.setLayoutX(10);
+        startingHumansLabel.setLayoutY(230);
+        startingHumansLabel.setTextFill(Color.WHITE);
         ComboBox<String> startingHumansChoice = new ComboBox();
         startingHumansChoice.getItems().addAll("1", "2", "3", "4", "5");
         startingHumansChoice.setPromptText("Default: 4");
         startingHumansChoice.setValue("Default: 4");
-        startingHumansChoice.setLayoutX(50);
-        startingHumansChoice.setLayoutY(190);
-        settingsPane.getChildren().addAll(startingHumansLabel, startingHumansChoice);
+        startingHumansChoice.setLayoutX(20);
+        startingHumansChoice.setLayoutY(250);
         //end of starting humans
         //starting aliens
         Label startingAliensLabel = new Label("Number of starting Aliens:");
-        startingAliensLabel.setLayoutX(20);
-        startingAliensLabel.setLayoutY(220);
+        startingAliensLabel.setLayoutX(10);
+        startingAliensLabel.setLayoutY(300);
+        startingAliensLabel.setTextFill(Color.WHITE);
         ComboBox<String> startingAliensChoice = new ComboBox();
         startingAliensChoice.getItems().addAll("1", "2", "3", "4", "5");
         startingAliensChoice.setPromptText("Default: 3");
         startingAliensChoice.setValue("Default: 3");
-        startingAliensChoice.setLayoutX(50);
-        startingAliensChoice.setLayoutY(240);
-        settingsPane.getChildren().addAll(startingAliensLabel, startingAliensChoice);
+        startingAliensChoice.setLayoutX(20);
+        startingAliensChoice.setLayoutY(320);
         //end of starting aliens
         //save settings
         //settings object to save settings
@@ -166,23 +178,7 @@ public class main_menu extends Application{
         //save settings button
         Button saveSettingsButton = new Button("Save and Start!");
         saveSettingsButton.setLayoutX(20);
-        saveSettingsButton.setLayoutY(280);
-        //error labels for no entry
-        Label gameWaveErrorLabel = new Label("Please enter a game wave amount.");
-        gameWaveErrorLabel.setTextFill(Color.RED);
-        gameWaveErrorLabel.setLayoutX(200);
-        gameWaveErrorLabel.setLayoutY(260);
-        gameWaveErrorLabel.setVisible(false);
-        Label startingHumansErrorLabel = new Label("Please enter a starting amount of humans.");
-        startingHumansErrorLabel.setTextFill(Color.RED);
-        startingHumansErrorLabel.setLayoutX(200);
-        startingHumansErrorLabel.setLayoutY(280);
-        startingHumansErrorLabel.setVisible(false);
-        Label startingAliensErrorLabel = new Label("Please enter a starting amount of aliens.");
-        startingAliensErrorLabel.setTextFill(Color.RED);
-        startingAliensErrorLabel.setLayoutX(200);
-        startingAliensErrorLabel.setLayoutY(300);
-        startingAliensErrorLabel.setVisible(false);
+        saveSettingsButton.setLayoutY(470);
         //save button action
         saveSettingsButton.setOnAction(e -> {
             int emptySettings = 0;
@@ -249,9 +245,16 @@ public class main_menu extends Application{
             }
         });
         //end of save settings button
-        settingsPane.getChildren().addAll(saveSettingsButton, gameWaveErrorLabel, startingHumansErrorLabel, startingAliensErrorLabel);
+        //scene background
+        ImageView settingsBG = new ImageView(backgroundImage);
+        //end of scene background
+        settingsPane.getChildren().addAll(settingsBG, startingHumansLabel, startingHumansChoice,
+        		mapRadio1, mapRadio2, mapRadio3,
+        		mapLabel, gameMapPreview, gameMapPreviewLabel,
+        		startingAliensLabel, startingAliensChoice, saveSettingsButton,
+        		gameWaveLabel, gameWaveChoice, back_button);
         //end of save settings
-        settingsScene = new Scene(settingsPane, 600, 600); //create scene
+        settingsScene = new Scene(settingsPane, sceneWidth, sceneHeight); //create scene
         //END OF SETTINGS SCENE
         
         //SCOREBOARD SCENE
@@ -262,9 +265,11 @@ public class main_menu extends Application{
         backFromScoresButton.setLayoutY(290);
         backFromScoresButton.setOnAction(e -> window.setScene(mainMenuScene));
         //end of back button
-        
-        scoreboardPane.getChildren().addAll(backFromScoresButton);
-        scoreboardScene = new Scene(scoreboardPane, 600, 600);
+        //scene background
+        ImageView scoreboardBG = new ImageView(backgroundImage);
+        //end of scene background
+        scoreboardPane.getChildren().addAll(scoreboardBG, backFromScoresButton);
+        scoreboardScene = new Scene(scoreboardPane, sceneWidth, sceneHeight);
         //END OF SCOREBOARD SCENE
         
         //display
