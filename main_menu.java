@@ -1,7 +1,3 @@
-
-
-import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,16 +5,19 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import java.io.IOException;
 
 /**
  *
  * @author Ryan
  */
-public class main_menu extends Application {
+public class main_menu extends Application{
     Stage window; //primary window
     Scene mainMenuScene, settingsScene, scoreboardScene; //scenes
     
@@ -71,29 +70,55 @@ public class main_menu extends Application {
         Label mapLabel = new Label("Select Map:");
         mapLabel.setLayoutX(20);
         mapLabel.setLayoutY(20);
-        final ToggleGroup mapGroup = new ToggleGroup();
-        RadioButton mapRadio1 = new RadioButton("Map 1");
-        mapRadio1.setToggleGroup(mapGroup);
-        mapRadio1.setUserData(1);
-        mapRadio1.setLayoutX(50);
-        mapRadio1.setLayoutY(40);
-        mapRadio1.setSelected(true);
-        RadioButton mapRadio2 = new RadioButton("Map 2");
-        mapRadio2.setToggleGroup(mapGroup);
-        mapRadio2.setUserData(2);
-        mapRadio2.setLayoutX(50);
-        mapRadio2.setLayoutY(60);
-        RadioButton mapRadio3 = new RadioButton("Map 3");
-        mapRadio3.setToggleGroup(mapGroup);
-        mapRadio3.setUserData(3);
-        mapRadio3.setLayoutX(50);
-        mapRadio3.setLayoutY(80);
         Rectangle gameMapPreview = new Rectangle(260,10,340,210);
         gameMapPreview.setFill(Color.WHITE);
         gameMapPreview.setStroke(Color.BLACK);
         Label gameMapPreviewLabel = new Label("Map Preview");
         gameMapPreviewLabel.setLayoutX(400);
         gameMapPreviewLabel.setLayoutY(220);
+        //map radio buttons
+        final ToggleGroup mapGroup = new ToggleGroup();
+        //map 1 button
+        RadioButton mapRadio1 = new RadioButton("Map 1");
+        mapRadio1.setToggleGroup(mapGroup);
+        mapRadio1.setUserData(1);
+        mapRadio1.setLayoutX(50);
+        mapRadio1.setLayoutY(40);
+        mapRadio1.setSelected(true);
+        //map 2 button
+        RadioButton mapRadio2 = new RadioButton("Map 2");
+        mapRadio2.setToggleGroup(mapGroup);
+        mapRadio2.setUserData(2);
+        mapRadio2.setLayoutX(50);
+        mapRadio2.setLayoutY(60);
+        //map 3 button
+        RadioButton mapRadio3 = new RadioButton("Map 3");
+        mapRadio3.setToggleGroup(mapGroup);
+        mapRadio3.setUserData(3);
+        mapRadio3.setLayoutX(50);
+        mapRadio3.setLayoutY(80);
+        //set map preview image with radio buttons
+        //map preview images
+        Image map1Image = new Image("file:map1.png");
+        Image map2Image = new Image("file:map2.jpg");
+        Image map3Image = new Image("file:map3.jpg");
+        //image patterns to fill rectangle with
+        ImagePattern map1Pattern = new ImagePattern(map1Image);
+        ImagePattern map2Pattern = new ImagePattern(map2Image);
+        ImagePattern map3Pattern = new ImagePattern(map3Image);
+        //set preview with radio buttons
+        gameMapPreview.setFill(map1Pattern);
+        mapRadio1.setOnAction(e ->
+        	gameMapPreview.setFill(map1Pattern)
+        );
+        mapRadio2.setOnAction(e ->
+        	gameMapPreview.setFill(map2Pattern)
+		);
+        mapRadio3.setOnAction(e ->
+    		gameMapPreview.setFill(map3Pattern)
+		);
+        //end of map preview images
+        //end of map radio buttons
         settingsPane.getChildren().addAll(mapRadio1, mapRadio2, mapRadio3, mapLabel, gameMapPreview, gameMapPreviewLabel);
         //end of game map
         //game wave
@@ -257,4 +282,5 @@ public class main_menu extends Application {
     	Application.launch(ScoreBoard.class);
     }
     
+   
 }
