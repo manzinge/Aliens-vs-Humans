@@ -214,7 +214,7 @@ public class main_menu extends Application {
                 System.out.println("All settings are filled; starting game...");
                 
                try{
-                TestBoard game = new TestBoard(gameSettings.numStartingAliens, gameSettings.numStartingHumans);
+                TestBoard game = new TestBoard(gameSettings.numStartingAliens, gameSettings.numStartingHumans, gameSettings.gameMapID);
                }catch(IOException ex) {
             	   ex.printStackTrace();
                }
