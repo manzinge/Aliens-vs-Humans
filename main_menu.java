@@ -101,7 +101,7 @@ public class main_menu extends Application{
         //game map
         Label mapLabel = new Label("Select Map:");
         mapLabel.setLayoutX(width/60);
-        mapLabel.setLayoutY(height/14);
+        mapLabel.setLayoutY(height/11.5);
         mapLabel.setTextFill(Color.WHITE);
         Rectangle gameMapPreview = new Rectangle(width/3,150,width/2,height/3);
         gameMapPreview.setFill(Color.WHITE);
@@ -117,7 +117,7 @@ public class main_menu extends Application{
         mapRadio1.setToggleGroup(mapGroup);
         mapRadio1.setUserData(1);
         mapRadio1.setLayoutX(width/30);
-        mapRadio1.setLayoutY(height/10);
+        mapRadio1.setLayoutY(height/8);
         mapRadio1.setSelected(true);
         mapRadio1.setTextFill(Color.WHITE);
         //map 2 button
@@ -125,14 +125,14 @@ public class main_menu extends Application{
         mapRadio2.setToggleGroup(mapGroup);
         mapRadio2.setUserData(2);
         mapRadio2.setLayoutX(width/30);
-        mapRadio2.setLayoutY(height/7);
+        mapRadio2.setLayoutY(height/6);
         mapRadio2.setTextFill(Color.WHITE);
         //map 3 button
         RadioButton mapRadio3 = new RadioButton("Map 3");
         mapRadio3.setToggleGroup(mapGroup);
         mapRadio3.setUserData(3);
         mapRadio3.setLayoutX(width/30);
-        mapRadio3.setLayoutY(height/5.4);
+        mapRadio3.setLayoutY(height/4.75);
         mapRadio3.setTextFill(Color.WHITE);
         //set map preview image with radio buttons
         //map preview images
