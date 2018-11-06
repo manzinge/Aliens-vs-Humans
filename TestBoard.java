@@ -34,8 +34,8 @@ public class TestBoard extends JComponent{
 	//Setting up the play window
 	public static void setupwindow(int map) throws IOException {
 		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		board.setResizable(false);
-		board.setVisible(true);
+		board.setResizable(true);
+		board.setVisible(false);
 		board.setSize(new Dimension((int)Math.round(width),(int)Math.round(height)+29));
 		board.setLocationRelativeTo(null);		
 		board.setContentPane(new JPanel(new BorderLayout()) {
