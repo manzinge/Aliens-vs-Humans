@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -34,6 +35,10 @@ public class main_menu extends Application{
 	public static double width = screenSize.width*0.4;
     
     Image backgroundImage = new Image("file:starry_background.png");
+    Image startButtonImage = new Image("file:startButtonImage.png");
+    Image scoreButtonImage = new Image("file:scoreButtonImage.png");
+    Image exitButtonImage = new Image("file:exitButtonImage.png");
+    Image backButtonImage = new Image("file:backButtonImage.png");
     
     @Override
     public void start(Stage primaryStage){
@@ -49,24 +54,28 @@ public class main_menu extends Application{
         //start button
         Button start_btn = new Button();
         start_btn.setPrefSize(width/6, height/14);
-        start_btn.setText("Start Game");
-        start_btn.setLayoutX(width/2.3); //hard-coded X-value to change
-        start_btn.setLayoutY(height/2.5); //hard-coded Y-value to change
+        start_btn.setLayoutX(width/2.3); 
+        start_btn.setLayoutY(height/2.5);
+        start_btn.setGraphic(new ImageView(startButtonImage));
+        start_btn.setPadding(Insets.EMPTY);
         start_btn.setOnAction(e -> window.setScene(settingsScene));
         //end of start button
         //exit button
         Button exit_btn = new Button();
         exit_btn.setPrefSize(width/6, height/14);
-        exit_btn.setText("Exit");
-        exit_btn.setLayoutX(width/2.3); //hard-coded X-value to change
-        exit_btn.setLayoutY(height/1.8); //hard-coded Y-value to change
+        exit_btn.setLayoutX(width/2.3); 
+        exit_btn.setLayoutY(height/1.8);
+        exit_btn.setGraphic(new ImageView(exitButtonImage));
+        exit_btn.setPadding(Insets.EMPTY);
         exit_btn.setOnAction(e -> System.exit(0));
         //end of exit button
         //scoreboard button
-        Button score_btn = new Button("Scoreboard");
+        Button score_btn = new Button();
         score_btn.setPrefSize(width/6, height/14);
         score_btn.setLayoutX(width/2.3);
         score_btn.setLayoutY(height/2.1);
+        score_btn.setGraphic(new ImageView(scoreButtonImage));
+        score_btn.setPadding(Insets.EMPTY);
         score_btn.setOnAction(e -> 
         		window.setScene(scoreboardScene)
         		//Application.launch(ScoreBoard.class)
@@ -82,9 +91,11 @@ public class main_menu extends Application{
         //SETTINGS SCENE
         Pane settingsPane = new Pane();
         //back button
-        Button back_button = new Button("Back");
+        Button back_button = new Button();
         back_button.setLayoutX(width/60);
         back_button.setLayoutY(height/60);
+        back_button.setGraphic(new ImageView(backButtonImage));
+        back_button.setPadding(Insets.EMPTY);
         back_button.setOnAction(e -> window.setScene(mainMenuScene));
         //end of back button
         //game map
@@ -92,7 +103,7 @@ public class main_menu extends Application{
         mapLabel.setLayoutX(width/60);
         mapLabel.setLayoutY(height/14);
         mapLabel.setTextFill(Color.WHITE);
-        Rectangle gameMapPreview = new Rectangle(width/3,10,width/2,height/3);
+        Rectangle gameMapPreview = new Rectangle(width/3,150,width/2,height/3);
         gameMapPreview.setFill(Color.WHITE);
         gameMapPreview.setStroke(Color.BLACK);
         Label gameMapPreviewLabel = new Label("Map Preview");
@@ -186,12 +197,13 @@ public class main_menu extends Application{
         //settings object to save settings
         GameSettings gameSettings = new GameSettings();
         //save settings button
-        Button saveSettingsButton = new Button("Save and Start!");
+        Button saveSettingsButton = new Button();
         saveSettingsButton.setLayoutX(width/45);
         saveSettingsButton.setLayoutY(height/1.7);
+        saveSettingsButton.setGraphic(new ImageView(startButtonImage));
+        saveSettingsButton.setPadding(Insets.EMPTY);
         //save button action
         saveSettingsButton.setOnAction(e -> {
-            int emptySettings = 0;
             //save map
             if(mapGroup.getSelectedToggle() != null){
                 if(mapGroup.getSelectedToggle() == mapRadio1){
@@ -206,11 +218,6 @@ public class main_menu extends Application{
                     //set map to map 3
                     gameSettings.gameMapID = 3;
                     System.out.println("Game Map Selected: " + gameSettings.gameMapID);
-                }else{
-                    //no radio button selected somehow
-                    //shouldn't have to worry about this
-                    System.out.println("Somehow selected no radio button, error?");
-                    emptySettings++;
                 }
             }
             
@@ -240,20 +247,16 @@ public class main_menu extends Application{
             }
             System.out.println("Starting Aliens: " + gameSettings.numStartingAliens);
             
-            if(emptySettings > 0){
-                //if there are empty settings, do not allow game to start
-                System.out.println("There are empty settings; game cannot start");
-            }else{
-                //START GAME FROM HERE WITH SETTINGS GIVEN ABOVE
-                System.out.println("All settings are filled; starting game...");
-                
-               try{
+            //START GAME FROM HERE WITH SETTINGS GIVEN ABOVE
+            System.out.println("All settings are filled; starting game...");
+            
+            try{
             	window.close();
-                TestBoard game = new TestBoard(gameSettings.numStartingAliens, gameSettings.numStartingHumans, gameSettings.gameMapID);
-               }catch(IOException ex) {
-            	   ex.printStackTrace();
-               }
+            	TestBoard game = new TestBoard(gameSettings.numStartingAliens, gameSettings.numStartingHumans, gameSettings.gameMapID);
+            }catch(IOException ex) {
+            	ex.printStackTrace();
             }
+            
         });
         //end of save settings button
         //scene background
@@ -271,10 +274,12 @@ public class main_menu extends Application{
         //SCOREBOARD SCENE
         Pane scoreboardPane = new Pane();
         //back button
-        Button backFromScoresButton = new Button("Back");
+        Button backFromScoresButton = new Button();
         backFromScoresButton.setLayoutX(width/60);
         backFromScoresButton.setLayoutY(height/1.1);
         backFromScoresButton.setPrefSize(width/10, height/20);
+        backFromScoresButton.setGraphic(new ImageView(backButtonImage));
+        backFromScoresButton.setPadding(Insets.EMPTY);
         backFromScoresButton.setOnAction(e -> window.setScene(mainMenuScene));
         //end of back button
         //scene background
