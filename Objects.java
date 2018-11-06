@@ -182,7 +182,6 @@ class Unit extends JButton {
 							TestBoard.unit[i][j].health = temphealth;				//Assigning the values of the "old" human to the "new" one
 							TestBoard.unit[i][j].strength = tempstrength;
 							clearBoard();											//Board gets cleared to fix any issues with wrong variable assignings
-							System.out.println("Postion is : "+i +" and "+j + " Health = " +TestBoard.unit[i][j].gethealth() +" Strenght is : " +TestBoard.unit[i][j].getstrength());
 						} catch(Exception ex) {
 							System.out.println(ex);
 						}
@@ -194,6 +193,14 @@ class Unit extends JButton {
 	}
 
 	private void clearBoard() throws InterruptedException {										//Method to clear the board and remove existing action listeners
+		int aliencounter = 0;
+		int[] alienpositionx = new int[10];
+		int[] alienpositiony = new int[10];
+		int[] alienhealth = new int[10];
+		int humancounter = 0;
+		int[] humanpositionx = new int[10];
+		int[] humanpositiony = new int[10];
+		int[] humanhealth = new int[10];
 		for(int i=0;i<TestBoard.buttonsx;i++) {
 			for(int j=0;j<TestBoard.buttonsy;j++) {
 				TestBoard.unit[i][j].setBackground(null);			//To reset the red color of enemies
@@ -213,14 +220,31 @@ class Unit extends JButton {
 					TestBoard.unit[i][j].setEnabled(true);			//Obviously make it visible to make it possible for the user to interact with it
 					TestBoard.unit[i][j].setVisible(true);
 					TestBoard.unit[i][j].setText(null);
+					humancounter++;
+					humanpositionx[humancounter] = i+1;
+					humanpositiony[humancounter] = j+1;
+					humanhealth[humancounter] = TestBoard.unit[i][j].gethealth();
 				}
 				else {												//Things to do if the unit is an alien -> removing any listeners and making it visible
 					TestBoard.unit[i][j].setVisible(true);
 					TestBoard.unit[i][j].removeActionListener(sh);
 					TestBoard.unit[i][j].removeActionListener(att);
+					aliencounter++;
+					alienpositionx[aliencounter] = i+1;
+					alienpositiony[aliencounter] = j+1;
+					alienhealth[aliencounter] = TestBoard.unit[i][j].gethealth();
 				}
 			}
 		}
-		System.out.println("Board was cleared!");
+		System.out.println("Aliens left: "+aliencounter);
+		for(int i=1;i<aliencounter+1;i++) {
+			System.out.println("Alien Nr. "+i+"\nX="+alienpositionx[i]+" Y="+alienpositiony[i]+" Health="+alienhealth[i]);
+		}
+		System.out.println("\nHumans left: "+humancounter);
+		for(int j=1;j<humancounter+1;j++) {
+			System.out.println("Human Nr. "+j+"\nX="+humanpositionx[j]+" Y="+humanpositiony[j]+" Health="+humanhealth[j]);
+		}
+		System.out.println("\n");
 	}
 }
+

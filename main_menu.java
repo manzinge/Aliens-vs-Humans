@@ -34,7 +34,7 @@ public class main_menu extends Application{
 	public static double height = screenSize.height*0.7;
 	public static double width = screenSize.width*0.4;
     
-    Image backgroundImage = new Image("file:starry_background.png");
+    Image backgroundImage = new Image("starry_background.png");
     Image startButtonImage = new Image("file:startButtonImage.png");
     Image scoreButtonImage = new Image("file:scoreButtonImage.png");
     Image exitButtonImage = new Image("file:exitButtonImage.png");
@@ -248,7 +248,7 @@ public class main_menu extends Application{
             System.out.println("Starting Aliens: " + gameSettings.numStartingAliens);
             
             //START GAME FROM HERE WITH SETTINGS GIVEN ABOVE
-            System.out.println("All settings are filled; starting game...");
+            System.out.println("All settings are filled; starting game...\n");
             
             try{
             	window.close();
