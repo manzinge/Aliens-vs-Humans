@@ -66,6 +66,7 @@ public class TestBoard extends JComponent{
 			}
 		});
 		board.setLayout(null);
+		board.show();
 	}
 	//Setting up the buttons -> this method is necessary until "Further steps"
 	public static void setupbuttons(int buttonsx,int buttonsy,int humancount, int aliencount) throws IOException {
