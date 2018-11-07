@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -17,6 +18,9 @@ import javax.swing.JPanel;
 
 public class TestBoard extends JComponent{
 	public static Image backgroundImage;
+        ImageIcon  sleep_human = new ImageIcon(getClass().getResource("sleep_human.jpg")); //Probably want to change this to something that looks better
+        ImageIcon  human = new ImageIcon(getClass().getResource("human.jpg"));
+        
 	public static Unit[][] unit = new Unit[8][8];
 	public static JFrame board = new JFrame("Testwindow");
 	static int buttonsx = 8;
@@ -24,12 +28,14 @@ public class TestBoard extends JComponent{
 	public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	public static double height = screenSize.height*0.7;
 	public static double width = screenSize.width*0.4;
+        private boolean game_on = true;
 	public TestBoard(int aliencount,int humancount,int map) throws IOException
 	{
 		setupwindow(map);
 		setupbuttons(buttonsx,buttonsy,humancount,aliencount);
 		board.revalidate();
 		board.repaint();
+                gametime(humancount, aliencount);
 	}
 	//Setting up the play window
 	public static void setupwindow(int map) throws IOException {
@@ -116,5 +122,45 @@ public class TestBoard extends JComponent{
 			}
 		}
 	}
+        
+        public void gametime(int humans, int aliens){
+            int human_team_moves = humans * 2;
+            int humans_left=0;
+            boolean human_turn =true;
+            
+            unit[0][0].set_Human_moves(human_team_moves);
+            while(game_on = true){//Game loop
+                for(int i=0;i<buttonsx;i++) {//Go through the board checking if buttons have remaining moves
+			for(int j=0;j<buttonsy;j++) {
+				if(unit[i][j].getMoves() == 0){
+                                    unit[i][j].set_usable(false); //Unit can no longer perform actions
+                                    unit[i][j].setIcon(sleep_human); //Show that the human is "sleeping"
+                                }
+                                if(unit[i][j].gettype()==1){
+                                    human_team_moves += unit[i][j].getMoves();
+                                    
+                                }
+                             
+			}
+		}
+                if(unit[0][0].get_Human_moves() == 0 && human_turn == true){//If humans all out of moves
+                    for(int i=0;i<buttonsx;i++) {//Go through the board 
+			for(int j=0;j<buttonsy;j++) {
+				if(unit[i][j].gettype()==1){ //Reenable and add moves to each human once their moves are over
+                                    unit[i][j].set_Moves(2); 
+                                    unit[i][j].set_usable(true); //Reenable the unit
+                                    humans_left++;
+                                    unit[i][j].setIcon(human);//Show that all humans are "awake" again
+                                }
+                                
+                             
+			}
+                    }   
+                   unit[0][0].set_Human_moves(humans_left * 2);  //Set team moves to amount of humans * movement points
+                   humans_left = 0;//Reset humans left
+                }
+            
+            }
+        }
 }
 
