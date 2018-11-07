@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
+import javafx.application.Application;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -18,8 +19,8 @@ import javax.swing.JPanel;
 
 public class TestBoard extends JComponent{
 	public static Image backgroundImage;
-        ImageIcon  sleep_human = new ImageIcon(getClass().getResource("sleep_human.jpg")); //Probably want to change this to something that looks better
-        ImageIcon  human = new ImageIcon(getClass().getResource("human.jpg"));
+        ImageIcon  sleep_human = new ImageIcon(getClass().getResource("sleep_human.png")); //Probably want to change this to something that looks better
+        ImageIcon  human = new ImageIcon(getClass().getResource("human.png"));
         
 	public static Unit[][] unit = new Unit[8][8];
 	public static JFrame board = new JFrame("Testwindow");
@@ -124,43 +125,112 @@ public class TestBoard extends JComponent{
 	}
         
         public void gametime(int humans, int aliens){
-            int human_team_moves = humans * 2;
-            int humans_left=0;
+            int human_team_moves = humans * 2; //Human moves remaining (per turn)
+            int alien_team_moves = aliens;  //Alien moves remaining (per turn)
+            int humans_left=0; //Humans left at turn end
+            int aliens_left=0; //Aliens left at turn end
+            int human_count = humans; //Humans on board
+            int alien_count = aliens; //Aliens on board
             boolean human_turn =true;
             
+            //Initial team moves
             unit[0][0].set_Human_moves(human_team_moves);
+            unit[0][0].set_Alien_moves(alien_team_moves);
+            
             while(game_on = true){//Game loop
+                /*
+                //Update team moves
+                for(int i=0;i<buttonsx;i++) {//Go through the board checking if buttons have remaining moves
+                    for(int j=0;j<buttonsy;j++) {
+                        if(unit[i][j].gettype()==2){
+                            aliens_left++;  
+                        }
+                        if(unit[i][j].gettype()==1){
+                            humans_left++;  
+                        }                        
+                    }
+                }*///bugged
+  
+                
+                
+                
+                //Check for unit actions left
                 for(int i=0;i<buttonsx;i++) {//Go through the board checking if buttons have remaining moves
 			for(int j=0;j<buttonsy;j++) {
 				if(unit[i][j].getMoves() == 0){
                                     unit[i][j].set_usable(false); //Unit can no longer perform actions
-                                    unit[i][j].setIcon(sleep_human); //Show that the human is "sleeping"
-                                }
-                                if(unit[i][j].gettype()==1){
-                                    human_team_moves += unit[i][j].getMoves();
-                                    
-                                }
-                             
+                                    if(unit[i][j].gettype()==1){
+                                        unit[i][j].setIcon(sleep_human); //Show that the human is "sleeping"
+                                    }
+                                }     
 			}
 		}
-                if(unit[0][0].get_Human_moves() == 0 && human_turn == true){//If humans all out of moves
+                
+                //Aliens turn
+                if(unit[0][0].get_Human_moves() == 0 && unit[0][0].get_Alien_moves() != 0){
+                    human_turn = false;
+                    //System.out.println("The human turn is now: "+ human_turn);
+                
+                    for(int i=0;i<buttonsx;i++) {//Go through the board checking if buttons have remaining moves
+			for(int j=0;j<buttonsy;j++) {
+				if(unit[i][j].gettype()==2 && unit[i][j].getMoves() == 1){//if unit is alien and has a move                                             
+                                    unit[i][j].AI_Find_Target(j, i);//Find target for alien at j,i
+                                }
+			}
+                    }
+                    human_turn = true;
+
+                }
+                
+                //Reset Aliens turn
+                if(unit[0][0].get_Alien_moves() <=0){
+                    for(int i=0;i<buttonsx;i++) {//Go through the board checking if buttons have remaining moves
+			for(int j=0;j<buttonsy;j++) {
+                            if(unit[i][j].gettype()==2){  
+                               unit[i][j].set_Moves(1); //Adds a new action point to aliens
+                               unit[i][j].set_usable(true); //Reenable the unit
+                               aliens_left++;  
+                            }
+                        }
+		    }
+                    unit[0][0].set_Alien_moves(aliens_left); //Reset team moves
+                    alien_count = aliens_left; //Any die?
+                    aliens_left = 0;    
+                }
+                
+                //Reset/Start Human turn
+                if(unit[0][0].get_Human_moves() <= 0 && human_turn == true){//If humans all out of moves
                     for(int i=0;i<buttonsx;i++) {//Go through the board 
 			for(int j=0;j<buttonsy;j++) {
 				if(unit[i][j].gettype()==1){ //Reenable and add moves to each human once their moves are over
                                     unit[i][j].set_Moves(2); 
                                     unit[i][j].set_usable(true); //Reenable the unit
-                                    humans_left++;
                                     unit[i][j].setIcon(human);//Show that all humans are "awake" again
+                                    humans_left++; 
                                 }
                                 
                              
 			}
                     }   
                    unit[0][0].set_Human_moves(humans_left * 2);  //Set team moves to amount of humans * movement points
+                   human_count = humans_left; //Any die?
                    humans_left = 0;//Reset humans left
+                  // System.out.println("alien team " + unit[0][0].get_Alien_moves());
+                }         
+                
+                //End of Game
+                if(human_count == 0 || alien_count ==0){
+                    System.out.println("Game Over!");
+                    if(alien_count == 0)
+                        System.out.println("You have managed to repel the invaders!");
+                    if(human_count == 0)
+                        System.out.println("You have succumbed to the invaders...");
+                    
+                    break;//Exit while loop
                 }
-            
-            }
+               
+            }//End of while loop
         }
+        
 }
 
