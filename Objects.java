@@ -315,7 +315,7 @@ class Unit extends JButton {
 					}else{  } //Stay in that column
 
 					if(debug == true)
-						System.out.println("ALien at X:" + start_x + " Y:" + start_y +" Target is at: X:" + j + " Y:" + i );
+						System.out.println("ALien at X:" + start_x + " Y:" + start_y +" Target is at: X:" + j + " Y:" + i ); //test
 
 
 					if(TestBoard.unit[target_y][target_x].gettype() == 2){ //Check for other aliens
