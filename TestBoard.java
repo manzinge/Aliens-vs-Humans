@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class TestBoard extends JComponent{
@@ -219,13 +220,12 @@ public class TestBoard extends JComponent{
 			}         
 
 			//End of Game
-			if(human_count == 0 || alien_count ==0){
+			if(human_count == 0 || alien_count == 0){
 				System.out.println("Game Over!");
 				if(alien_count == 0)
-					System.out.println("You have managed to repel the invaders!");
+				JOptionPane.showMessageDialog(board, "\"You have managed to repel the invaders!");
 				if(human_count == 0)
-					System.out.println("You have succumbed to the invaders...");
-
+				JOptionPane.showMessageDialog(board, "\"You were defeated by the Aliens!");
 				break;//Exit while loop
 			}
 

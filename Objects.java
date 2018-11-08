@@ -82,7 +82,7 @@ class Unit extends JButton {
 		this.setVisible(true);
 		this.health = 3;
 		this.strength=1;
-
+		this.setBackground(Color.GREEN);
 		this.setIcon(new ImageIcon(human));
 		this.addActionListener(sh);
 	}
@@ -95,8 +95,17 @@ class Unit extends JButton {
 		this.setVisible(true);
 		this.health=4;
 		this.strength=2;
-		this.setIcon(new ImageIcon(alien));              
+		this.setIcon(new ImageIcon(alien));
+		this.setBackground(Color.GREEN);
 		//Alien_AI mind = new Alien_AI();
+	}
+	public void healthcolor() {
+		switch(this.gethealth()) {
+		case 1:this.setBackground(Color.RED);break;
+		case 2:this.setBackground(Color.ORANGE);break;
+		case -100:this.setBackground(Color.BLACK);break;
+		default:this.setBackground(Color.GREEN);break;
+		}
 	}
 	public int get_Human_moves() { //Get human team moves
 		return Human_team_moves;
@@ -271,6 +280,7 @@ class Unit extends JButton {
 				}
 				else if(TestBoard.unit[i][j].type == 99){
 					TestBoard.unit[i][j].createButton();
+					TestBoard.unit[i][j].setBackground(Color.BLACK);
 				}
 				if(TestBoard.unit[i][j].type == 0) {				//Things to do if the unit is a button -> refreshing the button
 					TestBoard.unit[i][j].createButton();
@@ -279,11 +289,13 @@ class Unit extends JButton {
 					TestBoard.unit[i][j].setEnabled(true);			//Obviously make it visible to make it possible for the user to interact with it
 					TestBoard.unit[i][j].setVisible(true);
 					TestBoard.unit[i][j].setText(null);
+					TestBoard.unit[i][j].healthcolor();
 				}
 				else {												//Things to do if the unit is an alien -> removing any listeners and making it visible
 					TestBoard.unit[i][j].setVisible(true);
 					TestBoard.unit[i][j].removeActionListener(sh);
 					TestBoard.unit[i][j].removeActionListener(att);
+					TestBoard.unit[i][j].healthcolor();
 				}
 			}
 		}
