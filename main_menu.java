@@ -51,35 +51,31 @@ public class main_menu extends Application{
 		Rectangle gameTitleSplash = new Rectangle(width/4,height/14,width/2,height/4);
 		gameTitleSplash.setFill(gameTitlePattern);
 		//end of game title splash
+
 		//start button
 		Button start_btn = new Button();
-		start_btn.setPrefSize(width/6, height/14);
-		start_btn.setLayoutX(width/2.3); 
+		setbutton(start_btn);
 		start_btn.setLayoutY(height/2.5);
 		start_btn.setGraphic(new ImageView(startButtonImage));
-		start_btn.setPadding(Insets.EMPTY);
 		start_btn.setOnAction(e -> window.setScene(settingsScene));
 		//end of start button
+
 		//exit button
 		Button exit_btn = new Button();
-		exit_btn.setPrefSize(width/6, height/14);
-		exit_btn.setLayoutX(width/2.3); 
+		setbutton(exit_btn);
 		exit_btn.setLayoutY(height/1.8);
 		exit_btn.setGraphic(new ImageView(exitButtonImage));
-		exit_btn.setPadding(Insets.EMPTY);
 		exit_btn.setOnAction(e -> System.exit(0));
 		//end of exit button
+
 		//scoreboard button
 		Button score_btn = new Button();
-		score_btn.setPrefSize(width/6, height/14);
-		score_btn.setLayoutX(width/2.3);
+		setbutton(score_btn);
 		score_btn.setLayoutY(height/2.1);
 		score_btn.setGraphic(new ImageView(scoreButtonImage));
-		score_btn.setPadding(Insets.EMPTY);
 		score_btn.setOnAction(e -> 
-		window.setScene(scoreboardScene)
-		//Application.launch(ScoreBoard.class)
-				);
+		window.setScene(scoreboardScene));		//Application.launch(ScoreBoard.class)
+
 		//end of scoreboard button	
 		//scene background
 		ImageView mainMenuBG = new ImageView(backgroundImage);
@@ -103,39 +99,36 @@ public class main_menu extends Application{
 		mapLabel.setLayoutX(width/60);
 		mapLabel.setLayoutY(height/11.5);
 		mapLabel.setTextFill(Color.WHITE);
+
 		Rectangle gameMapPreview = new Rectangle(width/3,150,width/2,height/3);
 		gameMapPreview.setFill(Color.WHITE);
 		gameMapPreview.setStroke(Color.BLACK);
+
 		Label gameMapPreviewLabel = new Label("Map Preview");
 		gameMapPreviewLabel.setLayoutX(width/1.85);
 		gameMapPreviewLabel.setLayoutY(height/2.8);
 		gameMapPreviewLabel.setTextFill(Color.WHITE);
+
 		//map radio buttons
 		final ToggleGroup mapGroup = new ToggleGroup();
-		//map 1 button
-		RadioButton mapRadio1 = new RadioButton("Map 1");
-		mapRadio1.setToggleGroup(mapGroup);
-		mapRadio1.setUserData(1);
-		mapRadio1.setLayoutX(width/30);
-		mapRadio1.setLayoutY(height/8);
-		mapRadio1.setSelected(true);
-		mapRadio1.setTextFill(Color.WHITE);
-		//map 2 button
-		RadioButton mapRadio2 = new RadioButton("Map 2");
-		mapRadio2.setToggleGroup(mapGroup);
-		mapRadio2.setUserData(2);
-		mapRadio2.setLayoutX(width/30);
-		mapRadio2.setLayoutY(height/6);
-		mapRadio2.setTextFill(Color.WHITE);
-		//map 3 button
-		RadioButton mapRadio3 = new RadioButton("Map 3");
-		mapRadio3.setToggleGroup(mapGroup);
-		mapRadio3.setUserData(3);
-		mapRadio3.setLayoutX(width/30);
-		mapRadio3.setLayoutY(height/4.75);
-		mapRadio3.setTextFill(Color.WHITE);
+		RadioButton[] mapradios = new RadioButton[4];
+		for(int i = 1;i<=3;i++) {
+			RadioButton test = new RadioButton();
+			test.setToggleGroup(mapGroup);
+			test.setUserData(i);
+			test.setLayoutX(width/30);
+			test.setTextFill(Color.WHITE);
+			test.setText("Map : "+i);
+			mapradios[i] = test;
+		}
+		mapradios[1].setLayoutY(height/8);
+		mapradios[1].setSelected(true);
+		mapradios[2].setLayoutY(height/6);
+		mapradios[3].setLayoutY(height/4.75);
+
 		//set map preview image with radio buttons
 		//map preview images
+
 		Image map1Image = new Image("file:map1.png");
 		Image map2Image = new Image("file:map2.jpg");
 		Image map3Image = new Image("file:map3.jpg");
@@ -145,53 +138,54 @@ public class main_menu extends Application{
 		ImagePattern map3Pattern = new ImagePattern(map3Image);
 		//set preview with radio buttons
 		gameMapPreview.setFill(map1Pattern);
-		mapRadio1.setOnAction(e ->
+		mapradios[1].setOnAction(e ->
 		gameMapPreview.setFill(map1Pattern)
 				);
-		mapRadio2.setOnAction(e ->
+		mapradios[2].setOnAction(e ->
 		gameMapPreview.setFill(map2Pattern)
 				);
-		mapRadio3.setOnAction(e ->
+		mapradios[3].setOnAction(e ->
 		gameMapPreview.setFill(map3Pattern)
 				);
+
 		//end of map preview images
 		//end of map radio buttons
 		//end of game map
 		//game wave
-		Label gameWaveLabel = new Label("Number of Waves:");
-		gameWaveLabel.setLayoutX(width/60);
-		gameWaveLabel.setLayoutY(height/4);
-		gameWaveLabel.setTextFill(Color.WHITE);
+
+		Label[] choices = new Label[3];
+		for(int i = 0;i<3;i++) {
+			Label test = new Label();
+			test.setLayoutX(width/60);
+			test.setTextFill(Color.WHITE);
+			choices[i] = test;
+		}
+		choices[0].setText("Number of Waves:");
+		choices[0].setLayoutY(height/4);
+		choices[1].setText("Number of starting Humans");
+		choices[1].setLayoutY(height/3);
+		choices[2].setText("Number of Starting Aliens");
+		choices[2].setLayoutY(height/2.4);
+
 		ComboBox<String> gameWaveChoice = new ComboBox();
-		gameWaveChoice.getItems().addAll("1", "2", "3", "4", "5");
 		gameWaveChoice.setPromptText("Default: 2");
 		gameWaveChoice.setValue("Default: 2");
-		gameWaveChoice.setLayoutX(width/45);
 		gameWaveChoice.setLayoutY(height/3.6);
-		//end of game wave
-		//starting humans
-		Label startingHumansLabel = new Label("Number of starting Humans:");
-		startingHumansLabel.setLayoutX(width/60);
-		startingHumansLabel.setLayoutY(height/3);
-		startingHumansLabel.setTextFill(Color.WHITE);
+		combobox(gameWaveChoice);
+
 		ComboBox<String> startingHumansChoice = new ComboBox();
-		startingHumansChoice.getItems().addAll("1", "2", "3", "4", "5");
 		startingHumansChoice.setPromptText("Default: 4");
 		startingHumansChoice.setValue("Default: 4");
-		startingHumansChoice.setLayoutX(width/45);
 		startingHumansChoice.setLayoutY(height/2.75);
-		//end of starting humans
-		//starting aliens
-		Label startingAliensLabel = new Label("Number of starting Aliens:");
-		startingAliensLabel.setLayoutX(width/60);
-		startingAliensLabel.setLayoutY(height/2.4);
-		startingAliensLabel.setTextFill(Color.WHITE);
+		combobox(startingHumansChoice);
+
 		ComboBox<String> startingAliensChoice = new ComboBox();
-		startingAliensChoice.getItems().addAll("1", "2", "3", "4", "5");
 		startingAliensChoice.setPromptText("Default: 3");
 		startingAliensChoice.setValue("Default: 3");
-		startingAliensChoice.setLayoutX(width/45);
 		startingAliensChoice.setLayoutY(height/2.25);
+		combobox(startingAliensChoice);
+
+
 		//end of starting aliens
 		//save settings
 		//settings object to save settings
@@ -206,15 +200,15 @@ public class main_menu extends Application{
 		saveSettingsButton.setOnAction(e -> {
 			//save map
 			if(mapGroup.getSelectedToggle() != null){
-				if(mapGroup.getSelectedToggle() == mapRadio1){
+				if(mapGroup.getSelectedToggle() == mapradios[1]){
 					//set map to map 1
 					gameSettings.gameMapID = 1;
 					System.out.println("Game Map Selected: " + gameSettings.gameMapID);
-				}else if(mapGroup.getSelectedToggle() == mapRadio2){
+				}else if(mapGroup.getSelectedToggle() == mapradios[2]){
 					//set map to map 2
 					gameSettings.gameMapID = 2;
 					System.out.println("Game Map Selected: " + gameSettings.gameMapID);
-				}else if(mapGroup.getSelectedToggle() == mapRadio3){
+				}else if(mapGroup.getSelectedToggle() == mapradios[3]){
 					//set map to map 3
 					gameSettings.gameMapID = 3;
 					System.out.println("Game Map Selected: " + gameSettings.gameMapID);
@@ -262,11 +256,11 @@ public class main_menu extends Application{
 		//scene background
 		ImageView settingsBG = new ImageView(backgroundImage);
 		//end of scene background
-		settingsPane.getChildren().addAll(settingsBG, startingHumansLabel, startingHumansChoice,
-				mapRadio1, mapRadio2, mapRadio3,
+		settingsPane.getChildren().addAll(settingsBG, choices[1], startingHumansChoice,
+				mapradios[1], mapradios[2], mapradios[3],
 				mapLabel, gameMapPreview, gameMapPreviewLabel,
-				startingAliensLabel, startingAliensChoice, saveSettingsButton,
-				gameWaveLabel, gameWaveChoice, back_button);
+				choices[2], startingAliensChoice, saveSettingsButton,
+				choices[0], gameWaveChoice, back_button);
 		//end of save settings
 		settingsScene = new Scene(settingsPane, width, height); //create scene
 		//END OF SETTINGS SCENE
@@ -295,7 +289,15 @@ public class main_menu extends Application{
 		window.setResizable(false);
 		window.show();
 	}
-
+	public void combobox(ComboBox<String> cb) {
+		cb.getItems().addAll("1", "2", "3", "4", "5");
+		cb.setLayoutX(width/45);
+	}
+	public void setbutton(Button bt) {
+		bt.setPrefSize(width/6, height/14);
+		bt.setLayoutX(width/2.3);
+		bt.setPadding(Insets.EMPTY);
+	}
 	/**
 	 * @param args the command line arguments
 	 */
@@ -306,6 +308,4 @@ public class main_menu extends Application{
 	public static void showScoreboard() {
 		Application.launch(ScoreBoard.class);
 	}
-
-
 }
