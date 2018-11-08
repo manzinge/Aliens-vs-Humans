@@ -89,7 +89,7 @@ class Unit extends JButton {
 
 	private void createAlien() throws IOException{			//Method used to create an Alien (this is only called when spawning new Aliens)
 		this.moves = 1; //How many actions can be perfomed in a turn
-		this.usable = false;	//Aliens dont start
+		this.usable = false;	//Aliens don't start
 		this.type = 2;
 		this.setSizeb();
 		this.setVisible(true);
