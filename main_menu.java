@@ -75,9 +75,9 @@ public class main_menu extends Application{
 		score_btn.setGraphic(new ImageView(scoreButtonImage));
 		score_btn.setOnAction(e -> 
 		window.setScene(scoreboardScene));		//Application.launch(ScoreBoard.class)
-
 		//end of scoreboard button	
 		//scene background
+
 		ImageView mainMenuBG = new ImageView(backgroundImage);
 		//end of scene background
 		mainMenuPane.getChildren().addAll(mainMenuBG, start_btn, exit_btn, score_btn, gameTitleSplash);
@@ -132,21 +132,16 @@ public class main_menu extends Application{
 		Image map1Image = new Image("file:map1.png");
 		Image map2Image = new Image("file:map2.jpg");
 		Image map3Image = new Image("file:map3.jpg");
+
 		//image patterns to fill rectangle with
 		ImagePattern map1Pattern = new ImagePattern(map1Image);
 		ImagePattern map2Pattern = new ImagePattern(map2Image);
 		ImagePattern map3Pattern = new ImagePattern(map3Image);
 		//set preview with radio buttons
 		gameMapPreview.setFill(map1Pattern);
-		mapradios[1].setOnAction(e ->
-		gameMapPreview.setFill(map1Pattern)
-				);
-		mapradios[2].setOnAction(e ->
-		gameMapPreview.setFill(map2Pattern)
-				);
-		mapradios[3].setOnAction(e ->
-		gameMapPreview.setFill(map3Pattern)
-				);
+		mapradios[1].setOnAction(e ->	gameMapPreview.setFill(map1Pattern));
+		mapradios[2].setOnAction(e ->	gameMapPreview.setFill(map2Pattern));
+		mapradios[3].setOnAction(e ->	gameMapPreview.setFill(map3Pattern));
 
 		//end of map preview images
 		//end of map radio buttons
@@ -246,7 +241,7 @@ public class main_menu extends Application{
 
 			try{
 				window.close();
-				TestBoard game = new TestBoard(gameSettings.numStartingAliens, gameSettings.numStartingHumans, gameSettings.gameMapID);
+				TestBoard game = new TestBoard(gameSettings.numStartingAliens, gameSettings.numStartingHumans, gameSettings.gameMapID, gameSettings.numGameWaves);
 			}catch(IOException ex) {
 				ex.printStackTrace();
 			}
