@@ -13,11 +13,10 @@ import javax.swing.*;
 
 public class Map extends JPanel {
 	static ArrayList<Integer> map = new ArrayList<Integer>();
-	public static void main(String[] args) throws IOException {
 
-	}
 	@Override
 	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		BufferedImage water = null;
 		BufferedImage dirt = null;
 		try {
@@ -26,14 +25,17 @@ public class Map extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		super.paintComponent(g);
-		int x=0,y=0;
+		int x=0,y=0,xorigin,yorigin,xdesired,ydesired;
+		xorigin = (int)Math.round(TestBoard.width/TestBoard.buttonsx);
+		yorigin = (int)Math.round(TestBoard.height/TestBoard.buttonsy);
+		xdesired = xorigin + (int)Math.round(TestBoard.width/TestBoard.buttonsx);
+		ydesired = yorigin + (int)Math.round(TestBoard.height/TestBoard.buttonsy);
+		
 		for(int i=0;i<TestBoard.buttonsx;i++) {
 			for(int j=0;j<TestBoard.buttonsy;j++) {
 				switch(map.get(j+(i*8))){
-				case 0: g.drawImage(water, i*TestBoard.buttonsx*100, j*TestBoard.buttonsy*100, (int)Math.round(i*+TestBoard.width/TestBoard.buttonsx), (int)Math.round(j*TestBoard.height/TestBoard.buttonsy), 0, 0, 557, 555, this);break;
-				case 1: g.drawImage(dirt, i*TestBoard.buttonsx*100, j*TestBoard.buttonsy*100, (int)Math.round(i*+TestBoard.width/TestBoard.buttonsx), (int)Math.round(j*TestBoard.height/TestBoard.buttonsy), 0, 0, 390, 390, this);break;
+				case 0: g.drawImage(water, i*xorigin, j*yorigin, (i*xorigin)+xorigin, (j*yorigin)+yorigin, 0, 0, 557, 555, this); break;
+				case 1: g.drawImage(dirt, i*xorigin, j*yorigin, (i*xorigin)+xorigin, (j*yorigin)+yorigin, 0, 0, 390, 390, this); break;
 				default: System.out.println("Error occured while drawing a Tile!");break;
 				}
 				x=x+(int)Math.round(TestBoard.width/TestBoard.buttonsx);
@@ -65,12 +67,11 @@ public class Map extends JPanel {
 		JFrame frame = new JFrame("DrawRect");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(mainPanel);
-		frame.setSize(new Dimension((int)Math.round(TestBoard.width),(int)Math.round(TestBoard.height)+29));
+		frame.setSize(new Dimension((int)Math.round(TestBoard.width),(int)Math.round(TestBoard.height)+35));
 		frame.setLocationRelativeTo(null);
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
-		frame.revalidate();
-		frame.repaint();
+		frame.setResizable(false);
 		return frame;
 	}
 

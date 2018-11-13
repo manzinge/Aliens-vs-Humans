@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
@@ -44,20 +45,12 @@ public class TestBoard extends JComponent{
 		TestBoard.humancount = humancount;
 		TestBoard.map = map;
 		TestBoard.waves_left = waves;
-		setupwindow(map);
+		board = Map.createAndShowGui();
 		createbuttons(buttonsx,buttonsy);
 		createhumans(humancount);
 		createaliens(aliencount);
-		board.revalidate();
-		board.repaint();
-		gametime(humancount, aliencount);
-	}
-	//Setting up the play window
-	public static void setupwindow(int map) throws IOException {
-		board = Map.createAndShowGui();
-		board.revalidate();
-		board.repaint();
 		board.setLayout(null);
+		gametime(humancount, aliencount);
 	}
 	//Setting up the buttons -> this method is necessary until "Further steps"
 
@@ -196,7 +189,7 @@ public class TestBoard extends JComponent{
 					createaliens(aliencount);
 				}
 			}
-			
+
 		}//End of while loop
 	}
 }
