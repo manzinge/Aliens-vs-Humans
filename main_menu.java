@@ -241,7 +241,7 @@ public class main_menu extends Application{
 
 			try{
 				window.close();
-				TestBoard game = new TestBoard(gameSettings.numStartingAliens, gameSettings.numStartingHumans, gameSettings.gameMapID, gameSettings.numGameWaves);
+				Gamewindow game = new Gamewindow(gameSettings.numStartingAliens, gameSettings.numStartingHumans, gameSettings.gameMapID, gameSettings.numGameWaves);
 			}catch(IOException ex) {
 				ex.printStackTrace();
 			}

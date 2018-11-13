@@ -26,21 +26,21 @@ public class Map extends JPanel {
 			e.printStackTrace();
 		}
 		int x=0,y=0,xorigin,yorigin,xdesired,ydesired;
-		xorigin = (int)Math.round(TestBoard.width/TestBoard.buttonsx);
-		yorigin = (int)Math.round(TestBoard.height/TestBoard.buttonsy);
-		xdesired = xorigin + (int)Math.round(TestBoard.width/TestBoard.buttonsx);
-		ydesired = yorigin + (int)Math.round(TestBoard.height/TestBoard.buttonsy);
+		xorigin = (int)Math.round(Gamewindow.width/Gamewindow.buttonsx);
+		yorigin = (int)Math.round(Gamewindow.height/Gamewindow.buttonsy);
+		xdesired = xorigin + (int)Math.round(Gamewindow.width/Gamewindow.buttonsx);
+		ydesired = yorigin + (int)Math.round(Gamewindow.height/Gamewindow.buttonsy);
 		
-		for(int i=0;i<TestBoard.buttonsx;i++) {
-			for(int j=0;j<TestBoard.buttonsy;j++) {
+		for(int i=0;i<Gamewindow.buttonsx;i++) {
+			for(int j=0;j<Gamewindow.buttonsy;j++) {
 				switch(map.get(j+(i*8))){
 				case 0: g.drawImage(water, i*xorigin, j*yorigin, (i*xorigin)+xorigin, (j*yorigin)+yorigin, 0, 0, 557, 555, this); break;
 				case 1: g.drawImage(dirt, i*xorigin, j*yorigin, (i*xorigin)+xorigin, (j*yorigin)+yorigin, 0, 0, 390, 390, this); break;
 				default: System.out.println("Error occured while drawing a Tile!");break;
 				}
-				x=x+(int)Math.round(TestBoard.width/TestBoard.buttonsx);
+				x=x+(int)Math.round(Gamewindow.width/Gamewindow.buttonsx);
 			}
-			y=y+(int)Math.round(TestBoard.height/TestBoard.buttonsy);
+			y=y+(int)Math.round(Gamewindow.height/Gamewindow.buttonsy);
 			x=0;
 		}
 	}
@@ -67,7 +67,7 @@ public class Map extends JPanel {
 		JFrame frame = new JFrame("DrawRect");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(mainPanel);
-		frame.setSize(new Dimension((int)Math.round(TestBoard.width),(int)Math.round(TestBoard.height)+35));
+		frame.setSize(new Dimension((int)Math.round(Gamewindow.width),(int)Math.round(Gamewindow.height)+35));
 		frame.setLocationRelativeTo(null);
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);

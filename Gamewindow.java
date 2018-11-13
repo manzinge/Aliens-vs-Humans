@@ -20,7 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class TestBoard extends JComponent{
+public class Gamewindow extends JComponent{
 	public static Image backgroundImage;
 	ImageIcon  sleep_human = new ImageIcon(getClass().getResource("sleep_human.png")); //Probably want to change this to something that looks better
 	ImageIcon  human = new ImageIcon(getClass().getResource("human.png"));
@@ -39,12 +39,12 @@ public class TestBoard extends JComponent{
 	public static int humancount;
 	public static int map;
 	public static ArrayList<Integer> mapcode = new ArrayList<Integer>();
-	public TestBoard(int aliencount,int humancount,int map, int waves) throws IOException
+	public Gamewindow(int aliencount,int humancount,int map, int waves) throws IOException
 	{
-		TestBoard.aliencount = aliencount;
-		TestBoard.humancount = humancount;
-		TestBoard.map = map;
-		TestBoard.waves_left = waves;
+		Gamewindow.aliencount = aliencount;
+		Gamewindow.humancount = humancount;
+		Gamewindow.map = map;
+		Gamewindow.waves_left = waves;
 		board = Map.createAndShowGui();
 		createbuttons(buttonsx,buttonsy);
 		createhumans(humancount);
