@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 import javafx.application.Application;
 
@@ -36,6 +37,7 @@ public class TestBoard extends JComponent{
 	public static int waves_left;
 	public static int humancount;
 	public static int map;
+	public static ArrayList<Integer> mapcode = new ArrayList<Integer>();
 	public TestBoard(int aliencount,int humancount,int map, int waves) throws IOException
 	{
 		TestBoard.aliencount = aliencount;
@@ -52,40 +54,10 @@ public class TestBoard extends JComponent{
 	}
 	//Setting up the play window
 	public static void setupwindow(int map) throws IOException {
-		board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		board.setResizable(true);
-		board.setVisible(false);
-		board.setSize(new Dimension((int)Math.round(width),(int)Math.round(height)+29));
-		board.setLocationRelativeTo(null);		
-		board.setContentPane(new JPanel(new BorderLayout()) {
-			@Override public void paintComponent(Graphics g) {
-				switch(map) {
-				//The standard form is drawImage(image,startframelocationx,startframelocationy,endframelocationx,endframelocationy,startimagelocationx,startimagelocationy,endimagelocationx,endimagelocationy,observer(this)
-				//The only parameters that have to be adjusted are the last 2 numbers!! Because the indicate the size of the mapimage (390,474,390)! Only edit those values!
-				case 1:try {
-					backgroundImage = javax.imageio.ImageIO.read(new File("map1.png"));
-					g.drawImage(backgroundImage, 0, 0, (int)Math.round(width),(int)Math.round(height), 0, 0, 390, 390, this);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}break;
-				case 2:try {
-					backgroundImage = javax.imageio.ImageIO.read(new File("map2.jpg"));
-					g.drawImage(backgroundImage, 0, 0, (int)Math.round(width),(int)Math.round(height), 0, 0, 474, 474, this);
-				}catch(IOException e2) {
-					e2.printStackTrace();
-				}break;
-				case 3:try {
-					backgroundImage = javax.imageio.ImageIO.read(new File("map3.jpg"));
-					g.drawImage(backgroundImage, 0, 0, (int)Math.round(width),(int)Math.round(height), 0, 0, 390, 390, this);
-				}catch(IOException e3) {
-					e3.printStackTrace();
-				}break;
-				default:System.out.println("There was an error while creating the game background/Map!");break;
-				}
-			}
-		});
+		board = Map.createAndShowGui();
+		board.revalidate();
+		board.repaint();
 		board.setLayout(null);
-		board.show();
 	}
 	//Setting up the buttons -> this method is necessary until "Further steps"
 
