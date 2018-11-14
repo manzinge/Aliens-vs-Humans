@@ -16,6 +16,7 @@ public class Objects {
 class Unit extends JButton {
 	private boolean debug = false; //Turn off for less console stuff
 	private boolean hasResource = false;
+	public boolean moveable;
 	private int radius=1;
 	private int type; //0=Button, 1=Human, 2=Alien, 99=death
 	private int health;
@@ -63,6 +64,7 @@ class Unit extends JButton {
 		this.health = -100;
 		this.strength = -1;
 		this.moves = -1;
+		this.moveable = true;
 	}
 	private void createdeath() {
 		this.type = 99;
@@ -73,6 +75,7 @@ class Unit extends JButton {
 		this.strength = -1;
 		this.moves = -1;
 		this.setIcon(new ImageIcon(death));
+		this.moveable = true;
 	}
 	private void createHuman() throws IOException {		//Setting variables for a new Human (this is only called when spawning new Humans)
 		this.moves = 2; //How many actions can be perfomed in a turn
@@ -85,6 +88,7 @@ class Unit extends JButton {
 		this.setBackground(Color.GREEN);
 		this.setIcon(new ImageIcon(human));
 		this.addActionListener(sh);
+		this.moveable = true;
 	}
 
 	private void createAlien() throws IOException{			//Method used to create an Alien (this is only called when spawning new Aliens)
@@ -97,6 +101,7 @@ class Unit extends JButton {
 		this.strength=2;
 		this.setIcon(new ImageIcon(alien));
 		this.setBackground(Color.GREEN);
+		this.moveable = true;
 		//Alien_AI mind = new Alien_AI();
 	}
 	public void healthcolor() {
@@ -176,6 +181,10 @@ class Unit extends JButton {
 
 								}
 								else {
+									if(Gamewindow.unit[g][b].moveable == false) {
+										System.out.println("test");
+										Gamewindow.unit[g][b].setEnabled(false);
+									}
 									if(Gamewindow.unit[g][b].type == 1) {				//Action that will occur if there is another human around (make not clickable)
 										Gamewindow.unit[g][b].setEnabled(false);
 

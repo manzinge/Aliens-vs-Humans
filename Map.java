@@ -30,10 +30,10 @@ public class Map extends JPanel {
 		yorigin = (int)Math.round(Gamewindow.height/Gamewindow.buttonsy);
 		xdesired = xorigin + (int)Math.round(Gamewindow.width/Gamewindow.buttonsx);
 		ydesired = yorigin + (int)Math.round(Gamewindow.height/Gamewindow.buttonsy);
-		
+
 		for(int i=0;i<Gamewindow.buttonsx;i++) {
 			for(int j=0;j<Gamewindow.buttonsy;j++) {
-				switch(map.get(j+(i*8))){
+				switch(map.get(i+(j*8))){
 				case 0: g.drawImage(water, i*xorigin, j*yorigin, (i*xorigin)+xorigin, (j*yorigin)+yorigin, 0, 0, 557, 555, this); break;
 				case 1: g.drawImage(dirt, i*xorigin, j*yorigin, (i*xorigin)+xorigin, (j*yorigin)+yorigin, 0, 0, 390, 390, this); break;
 				default: System.out.println("Error occured while drawing a Tile!");break;
@@ -66,7 +66,7 @@ public class Map extends JPanel {
 		Map mainPanel = new Map();
 		JFrame frame = new JFrame("DrawRect");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(mainPanel);
+		frame.setContentPane(mainPanel);
 		frame.setSize(new Dimension((int)Math.round(Gamewindow.width),(int)Math.round(Gamewindow.height)+35));
 		frame.setLocationRelativeTo(null);
 		frame.setLocationByPlatform(true);
@@ -74,5 +74,4 @@ public class Map extends JPanel {
 		frame.setResizable(false);
 		return frame;
 	}
-
 }

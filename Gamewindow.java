@@ -49,11 +49,26 @@ public class Gamewindow extends JComponent{
 		createbuttons(buttonsx,buttonsy);
 		createhumans(humancount);
 		createaliens(aliencount);
+		addmapmoveable();
 		board.setLayout(null);
+		board.revalidate();
+		board.repaint();
 		gametime(humancount, aliencount);
 	}
+	public void addmapmoveable() {
+		for(int i=0;i<buttonsx;i++) {
+			for(int j=0;j<buttonsy;j++) {
+				if(Map.map.get(j+(i*8)) == 0) {
+					unit[i][j].moveable = false;
+				}
+				else {
+					unit[i][j].moveable = true;
+				}
+			}
+			
+		}
+	}
 	//Setting up the buttons -> this method is necessary until "Further steps"
-
 	public void createbuttons(int buttonsx, int buttonsy) throws IOException{
 		int x = 0,y=0;
 		for(int i=0;i<buttonsx;i++) {
