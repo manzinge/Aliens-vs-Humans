@@ -21,57 +21,64 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Gamewindow extends JComponent{
-	public static Image backgroundImage;
-	ImageIcon  sleep_human = new ImageIcon(getClass().getResource("sleep_human.png")); //Probably want to change this to something that looks better
+	//Images
+	ImageIcon  sleep_human = new ImageIcon(getClass().getResource("sleep_human.png"));
 	ImageIcon  human = new ImageIcon(getClass().getResource("human.png"));
-
-	public static Unit[][] unit = new Unit[8][8];
+	
+	//Attributes related to the Window, the Size of the window
 	public static JFrame board = new JFrame("Testwindow");
 	static int buttonsx = 8;
 	static int buttonsy = 8;
 	public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	public static double height = screenSize.height*0.7;
 	public static double width = screenSize.width*0.4;
-	private boolean game_on = true;
+	
 	//Game attributes
+	public static Unit[][] unit = new Unit[8][8];
 	public static int aliencount;
 	public static int waves_left;
 	public static int humancount;
 	public static int map;
-	public static ArrayList<Integer> mapcode = new ArrayList<Integer>();
+	private boolean game_on;
+
+	
+	//Constructor to create a new Gamewindow that creates the new Frame and the Units
 	public Gamewindow(int aliencount,int humancount,int map, int waves) throws IOException
 	{
+		//Assigning the values to the local variables
 		Gamewindow.aliencount = aliencount;
 		Gamewindow.humancount = humancount;
 		Gamewindow.map = map;
 		Gamewindow.waves_left = waves;
+		
+		//Creating the Units on the board and refreshing the Window to show all the Units
 		board = Map.createAndShowGui();
-		createbuttons(buttonsx,buttonsy);
-		createhumans(humancount);
-		createaliens(aliencount);
-		addmapmoveable();
+		setupunits(buttonsx,buttonsy,humancount);
+		createwave(aliencount);
+		checkmoveable();
 		board.setLayout(null);
 		board.revalidate();
 		board.repaint();
+		
+		//Starting the actual game control algorithm
 		gametime(humancount, aliencount);
 	}
-	public static void addmapmoveable() {
+	//Check if the tile is water or dirt to either make them moveable or not
+	public static void checkmoveable() {
 		for(int i=0;i<buttonsx;i++) {
 			for(int j=0;j<buttonsy;j++) {
 				if(Map.map.get(j+(i*8)) == 0) {
 					unit[i][j].moveable = false;
-					System.out.println("not moveable");
 				}
 				else {
 					unit[i][j].moveable = true;
-					System.out.println("moveable");
 				}
 			}
 			
 		}
 	}
-	//Setting up the buttons -> this method is necessary until "Further steps"
-	public void createbuttons(int buttonsx, int buttonsy) throws IOException{
+	//Creating the basic 8x8 grid
+	public void setupunits(int buttonsx, int buttonsy, int humancount) throws IOException{
 		int x = 0,y=0;
 		for(int i=0;i<buttonsx;i++) {
 			for(int j=0;j<buttonsy;j++) {
@@ -83,8 +90,6 @@ public class Gamewindow extends JComponent{
 			y=y+(int)Math.round(height/buttonsy);
 			x=0;
 		}
-	}
-	public void createhumans(int humancount) throws IOException {
 		for(int i=0;i<humancount;i++) {
 			Random rand = new Random();
 			int xr = rand.nextInt(8);
@@ -98,8 +103,17 @@ public class Gamewindow extends JComponent{
 				board.add(unit[yr][xr]);
 			}
 		}
+		for(int i=0;i<2;i++) {
+			Random rand = new Random();
+			int xr = rand.nextInt(8);
+			int yr = rand.nextInt(2)+3;
+			board.remove(unit[yr][xr]);
+			unit[yr][xr] = new Unit(3);
+			unit[yr][xr].setLocation((int)Math.round(xr*(width/buttonsx)),(int)Math.round(yr*(height/buttonsy)));
+			board.add(unit[yr][xr]);
+		}
 	}
-	public void createaliens(int aliencount) throws IOException {
+	public void createwave(int aliencount) throws IOException {
 		for(int i=0;i<aliencount;i++) {
 			Random rand = new Random();
 			int xr = rand.nextInt(8);
@@ -114,7 +128,6 @@ public class Gamewindow extends JComponent{
 		}
 		waves_left--;
 	}
-
 
 	public void gametime(int humans, int aliens) throws IOException{
 		int human_team_moves = humans * 2; //Human moves remaining (per turn)
@@ -203,7 +216,7 @@ public class Gamewindow extends JComponent{
 					break;
 				}
 				else {
-					createaliens(aliencount);
+					
 				}
 			}
 

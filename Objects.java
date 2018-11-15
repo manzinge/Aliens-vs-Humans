@@ -17,9 +17,9 @@ class Unit extends JButton {
 	private boolean debug = false; //Turn off for less console stuff
 	private boolean hasResource = false;
 	public boolean moveable = true;
-	
+
 	private int radius=1;
-	private int type; //0=Button, 1=Human, 2=Alien, 99=death
+	private int type; //0=Button, 1=Human, 2=Alien, 3=Resource, 99=death
 	private int health;
 	private int strength;
 	private int moves;
@@ -35,7 +35,9 @@ class Unit extends JButton {
 	private boolean tempusable;
 	//Icons
 	BufferedImage human = ImageIO.read(getClass().getResource("Human.png"));
+	BufferedImage humanresource = ImageIO.read(getClass().getResource("Humanresource.png"));
 	BufferedImage alien = ImageIO.read(getClass().getResource("Alien.png"));
+	BufferedImage resource = ImageIO.read(getClass().getResource("resource.png"));
 	BufferedImage death = ImageIO.read(getClass().getResource("death.png"));
 	//Listeners
 	show sh = new show();
@@ -48,7 +50,8 @@ class Unit extends JButton {
 		case 0:createButton();break;
 		case 1:createHuman();break;
 		case 2:createAlien();break;
-		default:System.out.println("There was an error while creating a new Button/Human/Alien! (The parameter is not reachable!)");
+		case 3:createResource();break;
+		default:System.out.println("There was an error while creating a new Button/Human/Alien! (The parameter is not reachable!)");break;
 		}	
 	}
 	private void basicsetup() {
@@ -85,7 +88,12 @@ class Unit extends JButton {
 		this.health = 3;
 		this.strength=1;
 		this.setBackground(Color.GREEN);
-		this.setIcon(new ImageIcon(human));
+		if(this.hasResource == true) {
+			this.setIcon(new ImageIcon(humanresource));
+		}
+		else {
+			this.setIcon(new ImageIcon(human));
+		}
 		this.addActionListener(sh);
 	}
 
@@ -100,6 +108,14 @@ class Unit extends JButton {
 		this.setIcon(new ImageIcon(alien));
 		this.setBackground(Color.GREEN);
 		//Alien_AI mind = new Alien_AI();
+	}
+	private void createResource() throws IOException {
+		this.basicsetup();
+		this.setVisible(true);
+		this.type = 3;
+		this.health = 999;
+		this.strength = 0;
+		this.setIcon(new ImageIcon(resource));
 	}
 	public void healthcolor() {
 		switch(this.gethealth()) {
@@ -179,7 +195,6 @@ class Unit extends JButton {
 								}
 								else {
 									if(Gamewindow.unit[g][b].moveable == false) {
-										System.out.println("test");
 										Gamewindow.unit[g][b].setEnabled(false);
 									}
 									if(Gamewindow.unit[g][b].type == 1) {				//Action that will occur if there is another human around (make not clickable)
@@ -246,6 +261,9 @@ class Unit extends JButton {
 				for(int j=0;j<Gamewindow.buttonsy;j++) {			
 					if(e.getSource() == Gamewindow.unit[i][j]) {						//Figuring out the clicked object/JButton
 						try {
+							if(Gamewindow.unit[i][j].gettype() == 3) {
+								Gamewindow.unit[i][j].hasResource = true;
+							}
 							Gamewindow.unit[i][j].createHuman();						//Creating a new human at that position
 							Gamewindow.unit[i][j].health = temphealth;				//Assigning the values of the "old" human to the "new" one
 							Gamewindow.unit[i][j].strength = tempstrength;
@@ -253,7 +271,7 @@ class Unit extends JButton {
 							Gamewindow.unit[tempx][tempy].usable = tempusable;
 							Gamewindow.unit[i][j].set_Human_moves(Human_team_moves-1); //Updates total team moves
 							clearBoard();											//Board gets cleared to fix any issues with wrong variable assignings
-							System.out.println("Human: Postion is : "+i +" and "+j + " Health = " +Gamewindow.unit[i][j].gethealth() +" Strenght is : " +Gamewindow.unit[i][j].getstrength() + " Moves remaining: " +Gamewindow.unit[i][j].moves 
+							System.out.println("Human: Postion is : "+i +" and "+j + " Health = " +Gamewindow.unit[i][j].gethealth() +" Strenght is : " +Gamewindow.unit[i][j].getstrength() + "Resource : "+Gamewindow.unit[i][j].hasResource + " Moves remaining: " +Gamewindow.unit[i][j].moves 
 									+ " Team moves left: " +Human_team_moves + " Alien team moves: " +Alien_team_moves); 
 						} catch(Exception ex) {
 							System.out.println(ex);
@@ -297,6 +315,11 @@ class Unit extends JButton {
 					Gamewindow.unit[i][j].setText(null);
 					Gamewindow.unit[i][j].healthcolor();
 				}
+				else if(Gamewindow.unit[i][j].type == 3) {
+					Gamewindow.unit[i][j].setEnabled(true);
+					Gamewindow.unit[i][j].setVisible(true);
+					Gamewindow.unit[i][j].setText(null);
+				}
 				else {												//Things to do if the unit is an alien -> removing any listeners and making it visible
 					Gamewindow.unit[i][j].setVisible(true);
 					Gamewindow.unit[i][j].removeActionListener(sh);
@@ -305,7 +328,7 @@ class Unit extends JButton {
 				}
 			}
 		}
-		Gamewindow.addmapmoveable();
+		Gamewindow.checkmoveable();
 	}
 
 	//Finds target AI
@@ -381,23 +404,23 @@ class Unit extends JButton {
 			tempusable = Gamewindow.unit[start_y][start_x].usable; 
 			//Y is first?
 
-					try {
-						Thread.sleep(400);
-						Gamewindow.unit[target_y][target_x].createAlien();			//Creating a new Alien at that position
-						Gamewindow.unit[target_y][target_x].health = temphealth;		//Assigning the values of the "old" Alien to the "new" one
-						Gamewindow.unit[target_y][target_x].strength = tempstrength;
-						Gamewindow.unit[target_y][target_x].moves = tempmove -1;                                                        
-						Gamewindow.unit[tempx][tempy].moves = tempmove;
-						Gamewindow.unit[tempx][tempy].usable = tempusable;
-						Gamewindow.unit[target_y][target_x].set_Alien_moves(Alien_team_moves-1); //Updates total team moves
-						clearBoard();								//Board gets cleared to fix any issues with wrong variable assignings
+			try {
+				Thread.sleep(400);
+				Gamewindow.unit[target_y][target_x].createAlien();			//Creating a new Alien at that position
+				Gamewindow.unit[target_y][target_x].health = temphealth;		//Assigning the values of the "old" Alien to the "new" one
+				Gamewindow.unit[target_y][target_x].strength = tempstrength;
+				Gamewindow.unit[target_y][target_x].moves = tempmove -1;                                                        
+				Gamewindow.unit[tempx][tempy].moves = tempmove;
+				Gamewindow.unit[tempx][tempy].usable = tempusable;
+				Gamewindow.unit[target_y][target_x].set_Alien_moves(Alien_team_moves-1); //Updates total team moves
+				clearBoard();								//Board gets cleared to fix any issues with wrong variable assignings
 
-						System.out.println("Alien: Health = " +Gamewindow.unit[target_y][target_x].gethealth() +" Strenght is : " +Gamewindow.unit[target_y][target_x].getstrength() + " Moves remaining: " +Gamewindow.unit[target_y][target_x].moves 
-								+ " Team moves left: " +Alien_team_moves + "Human moves left:" + Human_team_moves); 
-						Gamewindow.unit[start_y][start_x].createButton();						//The initiale button gets transformed into a button
-					} catch(Exception ex) {
-						System.out.println(ex);
-					}  
+				System.out.println("Alien: Health = " +Gamewindow.unit[target_y][target_x].gethealth() +" Strenght is : " +Gamewindow.unit[target_y][target_x].getstrength() + " Moves remaining: " +Gamewindow.unit[target_y][target_x].moves 
+						+ " Team moves left: " +Alien_team_moves + "Human moves left:" + Human_team_moves); 
+				Gamewindow.unit[start_y][start_x].createButton();						//The initiale button gets transformed into a button
+			} catch(Exception ex) {
+				System.out.println(ex);
+			}  
 
 		}
 	}//End of move
