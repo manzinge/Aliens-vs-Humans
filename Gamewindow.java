@@ -55,14 +55,16 @@ public class Gamewindow extends JComponent{
 		board.repaint();
 		gametime(humancount, aliencount);
 	}
-	public void addmapmoveable() {
+	public static void addmapmoveable() {
 		for(int i=0;i<buttonsx;i++) {
 			for(int j=0;j<buttonsy;j++) {
 				if(Map.map.get(j+(i*8)) == 0) {
 					unit[i][j].moveable = false;
+					System.out.println("not moveable");
 				}
 				else {
 					unit[i][j].moveable = true;
+					System.out.println("moveable");
 				}
 			}
 			

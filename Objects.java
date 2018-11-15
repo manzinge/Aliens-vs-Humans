@@ -16,7 +16,8 @@ public class Objects {
 class Unit extends JButton {
 	private boolean debug = false; //Turn off for less console stuff
 	private boolean hasResource = false;
-	public boolean moveable;
+	public boolean moveable = true;
+	
 	private int radius=1;
 	private int type; //0=Button, 1=Human, 2=Alien, 99=death
 	private int health;
@@ -50,11 +51,11 @@ class Unit extends JButton {
 		default:System.out.println("There was an error while creating a new Button/Human/Alien! (The parameter is not reachable!)");
 		}	
 	}
-	private void setSizeb() {
+	private void basicsetup() {
 		this.setSize((int)Math.round(Gamewindow.width/Gamewindow.buttonsx),(int)Math.round(Gamewindow.height/Gamewindow.buttonsy));
 	}
 	private void createButton() {						//Method used to create a normal Button
-		this.setSizeb();
+		this.basicsetup();
 		this.setVisible(false);
 		this.type = 0;
 		this.setIcon(null);
@@ -64,44 +65,40 @@ class Unit extends JButton {
 		this.health = -100;
 		this.strength = -1;
 		this.moves = -1;
-		this.moveable = true;
 	}
 	private void createdeath() {
 		this.type = 99;
 		this.usable = false;
 		this.setVisible(true);
-		this.setSizeb();
+		this.basicsetup();
 		this.health = -100;
 		this.strength = -1;
 		this.moves = -1;
 		this.setIcon(new ImageIcon(death));
-		this.moveable = true;
 	}
 	private void createHuman() throws IOException {		//Setting variables for a new Human (this is only called when spawning new Humans)
 		this.moves = 2; //How many actions can be perfomed in a turn
 		this.usable = true;
 		this.type = 1;
-		this.setSizeb();
+		this.basicsetup();
 		this.setVisible(true);
 		this.health = 3;
 		this.strength=1;
 		this.setBackground(Color.GREEN);
 		this.setIcon(new ImageIcon(human));
 		this.addActionListener(sh);
-		this.moveable = true;
 	}
 
 	private void createAlien() throws IOException{			//Method used to create an Alien (this is only called when spawning new Aliens)
 		this.moves = 1; //How many actions can be perfomed in a turn
 		this.usable = false;	//Aliens don't start
 		this.type = 2;
-		this.setSizeb();
+		this.basicsetup();
 		this.setVisible(true);
 		this.health=4;
 		this.strength=2;
 		this.setIcon(new ImageIcon(alien));
 		this.setBackground(Color.GREEN);
-		this.moveable = true;
 		//Alien_AI mind = new Alien_AI();
 	}
 	public void healthcolor() {
@@ -308,7 +305,7 @@ class Unit extends JButton {
 				}
 			}
 		}
-		//System.out.println("Board was cleared!");
+		Gamewindow.addmapmoveable();
 	}
 
 	//Finds target AI
