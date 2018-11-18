@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -121,7 +122,6 @@ public class Gamewindow extends JComponent{
 				board.add(unit[yr][xr]);
 			}
 		}
-		waves_left--;
 	}
 
 	public void gametime(int humans, int aliens) throws IOException{
@@ -139,15 +139,25 @@ public class Gamewindow extends JComponent{
 
 		while(game_on = true){//Game loop
 			//Check for unit actions left
+			int aliens_remaining = 0;
 			for(int i=0;i<buttonsx;i++) {//Go through the board checking if buttons have remaining moves
 				for(int j=0;j<buttonsy;j++) {
+					
 					if(unit[i][j].getMoves() == 0){
 						unit[i][j].set_usable(false); //Unit can no longer perform actions
 						if(unit[i][j].gettype()==1){
 							unit[i][j].setIcon(sleep_human); //Show that the human is "sleeping"
 						}
-					}     
+					}    
+					
+					if(unit[i][j].gettype() == 2 && unit[i][j].gethealth() > 0) {
+						aliens_remaining++;
+					}
 				}
+			}
+			if(aliens_remaining == 0) {
+				System.out.println("NO REMAINING ALIENS");
+				game_on = false;
 			}
 
 			//Aliens turn
@@ -202,19 +212,37 @@ public class Gamewindow extends JComponent{
 			//End of Game
 			if(human_count == 0) {
 				JOptionPane.showMessageDialog(board, "\"You were defeated by the Aliens!");
+				game_on = false;
 				break;
 			}
 			if(alien_count == 0) {
-				if(waves_left == 0) {
-					JOptionPane.showMessageDialog(board, "\"You have managed to repel the invaders!");
-					break;
-				}
-				else {
-
-				}
+				JOptionPane.showMessageDialog(board, "\"You have managed to repel the invaders!");
+				game_on = false;
+				break;
 			}
 
 		}//End of while loop
+		Gamewindow.waves_left--;
+		
+		//After game ends
+		
+		if(Gamewindow.waves_left > 0) {
+			System.out.println("End of wave");
+			
+			for(int i=0;i<buttonsx;i++) {//Go through the board 
+				for(int j=0;j<buttonsy;j++) {
+					if(unit[i][j].gettype() != 0) {
+						//reset human/alien/resource
+						if(unit[i][j].gettype() == 1) {
+							unit[i][j].createButton();
+							unit[i][j].setBackground(Color.BLACK);
+						}
+					}
+				}
+			}
+		}else {
+			System.out.println("End of game");
+		}
 	}
 }
 

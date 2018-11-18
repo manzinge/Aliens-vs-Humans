@@ -51,7 +51,7 @@ class Unit extends JButton {
 		this.setSize((int)Math.round(Gamewindow.width/Gamewindow.buttonsx),(int)Math.round(Gamewindow.height/Gamewindow.buttonsy));
 		this.hasResource = false;
 	}
-	private void createButton() {						//Method used to create a normal Button
+	public void createButton() {						//Method used to create a normal Button
 		this.basicsetup();
 		this.setVisible(false);
 		this.type = 0;
@@ -139,7 +139,7 @@ class Unit extends JButton {
 	private void takeDamage(int dmg){	//If the unit should take damage(fight) call this function with the strength of the opponent
 		this.health = health-dmg;
 	}
-	private int gethealth() {
+	public int gethealth() {
 		return this.health;
 	}
 	private int getstrength() {
