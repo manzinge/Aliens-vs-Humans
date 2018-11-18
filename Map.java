@@ -25,11 +25,9 @@ public class Map extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		int x=0,y=0,xorigin,yorigin,xdesired,ydesired;
+		int x=0,y=0,xorigin,yorigin;
 		xorigin = (int)Math.round(Gamewindow.width/Gamewindow.buttonsx);
 		yorigin = (int)Math.round(Gamewindow.height/Gamewindow.buttonsy);
-		xdesired = xorigin + (int)Math.round(Gamewindow.width/Gamewindow.buttonsx);
-		ydesired = yorigin + (int)Math.round(Gamewindow.height/Gamewindow.buttonsy);
 
 		for(int i=0;i<Gamewindow.buttonsx;i++) {
 			for(int j=0;j<Gamewindow.buttonsy;j++) {
