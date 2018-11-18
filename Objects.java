@@ -27,6 +27,7 @@ class Unit extends JButton {
 	private static int Alien_team_moves;
 	private boolean usable; //Can this unit do actions
 	//Temporary attributes
+	private boolean tempres;
 	private int temphealth;
 	private int tempstrength;
 	private int tempx;
@@ -56,6 +57,7 @@ class Unit extends JButton {
 	}
 	private void basicsetup() {
 		this.setSize((int)Math.round(Gamewindow.width/Gamewindow.buttonsx),(int)Math.round(Gamewindow.height/Gamewindow.buttonsy));
+		this.hasResource = false;
 	}
 	private void createButton() {						//Method used to create a normal Button
 		this.basicsetup();
@@ -194,6 +196,8 @@ class Unit extends JButton {
 
 								}
 								else {
+									tempres = Gamewindow.unit[i][j].hasResource;
+									System.out.println(tempres);
 									if(Gamewindow.unit[g][b].moveable == false) {
 										Gamewindow.unit[g][b].setEnabled(false);
 									}
@@ -214,6 +218,7 @@ class Unit extends JButton {
 									else {												//Action that will occur if there is just a button with nothing on it
 										Gamewindow.unit[g][b].setVisible(true);			//Actions include: Making it visibile -> clickable, storing temp values, and adding a listener
 										Gamewindow.unit[g][b].setText("MOVE");
+										tempres = Gamewindow.unit[i][j].hasResource;
 										temphealth = Gamewindow.unit[i][j].health;
 										tempstrength = Gamewindow.unit[i][j].strength;
 										Gamewindow.unit[g][b].addActionListener(mv);
@@ -242,6 +247,7 @@ class Unit extends JButton {
 							Gamewindow.unit[tempx][tempy].strength = tempstrength;
 							Gamewindow.unit[tempx][tempy].moves = tempmove -1;
 							Gamewindow.unit[tempx][tempy].usable = tempusable;
+							Gamewindow.unit[tempx][tempy].hasResource = tempres;
 							Gamewindow.unit[i][j].takeDamage(Gamewindow.unit[tempx][tempy].getstrength());	//Clicked object receives damage (Human strength)
 							Gamewindow.unit[i][j].set_Human_moves(Human_team_moves-1); //Updates total team moves							
 							clearBoard();											//Board gets cleared to fix any issues with wrong variable assignings
@@ -262,16 +268,18 @@ class Unit extends JButton {
 					if(e.getSource() == Gamewindow.unit[i][j]) {						//Figuring out the clicked object/JButton
 						try {
 							if(Gamewindow.unit[i][j].gettype() == 3) {
-								Gamewindow.unit[i][j].hasResource = true;
+								tempres = true;
 							}
 							Gamewindow.unit[i][j].createHuman();						//Creating a new human at that position
+							Gamewindow.unit[i][j].hasResource = tempres;
 							Gamewindow.unit[i][j].health = temphealth;				//Assigning the values of the "old" human to the "new" one
 							Gamewindow.unit[i][j].strength = tempstrength;
-							Gamewindow.unit[i][j].moves = tempmove -1;                                                        Gamewindow.unit[tempx][tempy].moves = tempmove;
+							Gamewindow.unit[i][j].moves = tempmove -1;     
+							Gamewindow.unit[tempx][tempy].moves = tempmove;
 							Gamewindow.unit[tempx][tempy].usable = tempusable;
 							Gamewindow.unit[i][j].set_Human_moves(Human_team_moves-1); //Updates total team moves
 							clearBoard();											//Board gets cleared to fix any issues with wrong variable assignings
-							System.out.println("Human: Postion is : "+i +" and "+j + " Health = " +Gamewindow.unit[i][j].gethealth() +" Strenght is : " +Gamewindow.unit[i][j].getstrength() + "Resource : "+Gamewindow.unit[i][j].hasResource + " Moves remaining: " +Gamewindow.unit[i][j].moves 
+							System.out.println("Human: Postion is : "+i +" and "+j + " Health = " +Gamewindow.unit[i][j].gethealth() +" Strenght is : " +Gamewindow.unit[i][j].getstrength() + " Resource : "+Gamewindow.unit[i][j].hasResource + " Moves remaining: " +Gamewindow.unit[i][j].moves 
 									+ " Team moves left: " +Human_team_moves + " Alien team moves: " +Alien_team_moves); 
 						} catch(Exception ex) {
 							System.out.println(ex);

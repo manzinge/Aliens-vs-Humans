@@ -55,9 +55,6 @@ public class Map extends JPanel {
 				scanner.next();
 			}
 		}
-
-		System.out.println(map);
-		System.out.println(map.size());
 	}
 
 	// create the GUI explicitly on the Swing event thread

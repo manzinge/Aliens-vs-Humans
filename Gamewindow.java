@@ -74,7 +74,6 @@ public class Gamewindow extends JComponent{
 					unit[i][j].moveable = true;
 				}
 			}
-			
 		}
 	}
 	//Creating the basic 8x8 grid
