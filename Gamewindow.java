@@ -1,30 +1,18 @@
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
-import javafx.application.Application;
 
-import javax.imageio.ImageIO;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.io.IOException;
+import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 public class Gamewindow extends JComponent{
 	//Images
 	ImageIcon  sleep_human = new ImageIcon(getClass().getResource("sleep_human.png"));
 	ImageIcon  human = new ImageIcon(getClass().getResource("human.png"));
-	
+
 	//Attributes related to the Window, the Size of the window
 	public static JFrame board = new JFrame("Testwindow");
 	static int buttonsx = 8;
@@ -32,7 +20,7 @@ public class Gamewindow extends JComponent{
 	public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	public static double height = screenSize.height*0.7;
 	public static double width = screenSize.width*0.4;
-	
+
 	//Game attributes
 	public static Unit[][] unit = new Unit[8][8];
 	public static int aliencount;
@@ -41,7 +29,7 @@ public class Gamewindow extends JComponent{
 	public static int map;
 	private boolean game_on;
 
-	
+
 	//Constructor to create a new Gamewindow that creates the new Frame and the Units
 	public Gamewindow(int aliencount,int humancount,int map, int waves) throws IOException
 	{
@@ -50,16 +38,15 @@ public class Gamewindow extends JComponent{
 		Gamewindow.humancount = humancount;
 		Gamewindow.map = map;
 		Gamewindow.waves_left = waves;
-		
+
 		//Creating the Units on the board and refreshing the Window to show all the Units
 		board = Map.createAndShowGui();
 		setupunits(buttonsx,buttonsy,humancount);
 		createwave(aliencount);
-		checkmoveable();
 		board.setLayout(null);
 		board.revalidate();
 		board.repaint();
-		
+
 		//Starting the actual game control algorithm
 		gametime(humancount, aliencount);
 	}
@@ -102,14 +89,23 @@ public class Gamewindow extends JComponent{
 				board.add(unit[yr][xr]);
 			}
 		}
-		for(int i=0;i<2;i++) {
+		checkmoveable();
+		spawnresource(2);
+	}
+	public static void spawnresource(int amount) throws IOException {
+		for(int i=0;i<amount;i++) {
 			Random rand = new Random();
 			int xr = rand.nextInt(8);
 			int yr = rand.nextInt(2)+3;
-			board.remove(unit[yr][xr]);
-			unit[yr][xr] = new Unit(3);
-			unit[yr][xr].setLocation((int)Math.round(xr*(width/buttonsx)),(int)Math.round(yr*(height/buttonsy)));
-			board.add(unit[yr][xr]);
+			if(unit[yr][xr].moveable == false || unit[yr][xr].gettype() == 3) {
+				i--;
+			}
+			else {
+				board.remove(unit[yr][xr]);
+				unit[yr][xr] = new Unit(3);
+				unit[yr][xr].setLocation((int)Math.round(xr*(width/buttonsx)),(int)Math.round(yr*(height/buttonsy)));
+				board.add(unit[yr][xr]);
+			}
 		}
 	}
 	public void createwave(int aliencount) throws IOException {
@@ -157,7 +153,6 @@ public class Gamewindow extends JComponent{
 			//Aliens turn
 			if(unit[0][0].get_Human_moves() == 0 && unit[0][0].get_Alien_moves() != 0){
 				human_turn = false;
-				System.out.println("test");
 				for(int i=0;i<buttonsx;i++) {//Go through the board checking if buttons have remaining moves
 					for(int j=0;j<buttonsy;j++) {
 						if(unit[i][j].gettype()==2 && unit[i][j].getMoves() == 1){//if unit is alien and has a move                                             
@@ -215,7 +210,7 @@ public class Gamewindow extends JComponent{
 					break;
 				}
 				else {
-					
+
 				}
 			}
 

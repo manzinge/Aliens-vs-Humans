@@ -1,18 +1,11 @@
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-public class Objects {
-
-}
 class Unit extends JButton {
 	private boolean debug = false; //Turn off for less console stuff
 	private boolean hasResource = false;
@@ -36,7 +29,6 @@ class Unit extends JButton {
 	private boolean tempusable;
 	//Icons
 	BufferedImage human = ImageIO.read(getClass().getResource("Human.png"));
-	BufferedImage humanresource = ImageIO.read(getClass().getResource("Humanresource.png"));
 	BufferedImage alien = ImageIO.read(getClass().getResource("Alien.png"));
 	BufferedImage resource = ImageIO.read(getClass().getResource("resource.png"));
 	BufferedImage death = ImageIO.read(getClass().getResource("death.png"));
@@ -90,12 +82,7 @@ class Unit extends JButton {
 		this.health = 3;
 		this.strength=1;
 		this.setBackground(Color.GREEN);
-		if(this.hasResource == true) {
-			this.setIcon(new ImageIcon(humanresource));
-		}
-		else {
-			this.setIcon(new ImageIcon(human));
-		}
+		this.setIcon(new ImageIcon(human));
 		this.addActionListener(sh);
 	}
 
@@ -114,6 +101,7 @@ class Unit extends JButton {
 	private void createResource() throws IOException {
 		this.basicsetup();
 		this.setVisible(true);
+		this.hasResource = true;
 		this.type = 3;
 		this.health = 999;
 		this.strength = 0;
@@ -148,9 +136,6 @@ class Unit extends JButton {
 	public int gettype() {
 		return this.type;
 	}
-	private void heal() {						//Only humans can heal in the zone in the back?
-		this.health++;
-	}
 	private void takeDamage(int dmg){	//If the unit should take damage(fight) call this function with the strength of the opponent
 		this.health = health-dmg;
 	}
@@ -166,19 +151,6 @@ class Unit extends JButton {
 	public void set_Moves(int new_moves) {    //Returns the moves
 		moves = new_moves;
 	}        
-	private void gatherResource() {				//Method to pick up resource, makes unit slower -> less range
-		this.hasResource = true;
-		this.radius--;
-	}
-	private void dropResource() {				//Method to drop Resource (secure it)
-		this.hasResource = false;
-		this.radius++;
-	}
-	private void consumeResource() {			//Method to consume the Resource, makes the alien stronger by one point and increases radius?
-		hasResource = false;
-		strength++;
-		radius++;
-	}
 
 	class show implements ActionListener {											//Action Listener class to show options where the player can go
 		public void actionPerformed(ActionEvent e){
@@ -191,22 +163,16 @@ class Unit extends JButton {
 								/*if(TestBoard.unit[i][j].moves == 0){ //Disable if out of moves //This just causes it to disappear
                                                                     TestBoard.unit[i][j].setEnabled(false);   
                                                                 }else *///Else would go to below line
-
-								if(g<0 || g>Gamewindow.buttonsx-1 || b<0 || b>Gamewindow.buttonsx-1) {						//Takes action on all Buttons within the radius except if they are out of the border
-
-								}
+								if(g<0 || g>Gamewindow.buttonsx-1 || b<0 || b>Gamewindow.buttonsx-1) { }					//Takes action on all Buttons within the radius except if they are out of the border
 								else {
-									tempres = Gamewindow.unit[i][j].hasResource;
-									if(Gamewindow.unit[g][b].moveable == false) {
-										Gamewindow.unit[g][b].setEnabled(false);
-									}
-									if(Gamewindow.unit[g][b].type == 1) {				//Action that will occur if there is another human around (make not clickable)
+									if(Gamewindow.unit[g][b].type == 1 || Gamewindow.unit[g][b].moveable == false) {				//Action that will occur if there is another human around / Tile is not moveable (make not clickable)
 										Gamewindow.unit[g][b].setEnabled(false);
 
 									}
 									else if(Gamewindow.unit[g][b].type == 2) {			//Action that will occur if there is an Alien around (Add attack listener and temporarily store values)
 										Gamewindow.unit[g][b].addActionListener(att);
 										Gamewindow.unit[g][b].setBackground(Color.RED);	//Setting background color of enemy to red, to signalize a potential danger
+										//Setting temporary variables
 										temphealth = Gamewindow.unit[i][j].health;
 										tempstrength = Gamewindow.unit[i][j].strength;
 										tempx = i;
@@ -215,22 +181,25 @@ class Unit extends JButton {
 										tempusable = Gamewindow.unit[i][j].usable;                                                                                
 									}
 									else {												//Action that will occur if there is just a button with nothing on it
+										if(Gamewindow.unit[g][b].hasResource == true && Gamewindow.unit[i][j].hasResource == true) {
+											Gamewindow.unit[g][b].setEnabled(false);
+										}
+										Gamewindow.unit[g][b].addActionListener(mv);
 										Gamewindow.unit[g][b].setVisible(true);			//Actions include: Making it visibile -> clickable, storing temp values, and adding a listener
 										Gamewindow.unit[g][b].setText("MOVE");
+										//Setting temporary variables
 										tempres = Gamewindow.unit[i][j].hasResource;
 										temphealth = Gamewindow.unit[i][j].health;
 										tempstrength = Gamewindow.unit[i][j].strength;
-										Gamewindow.unit[g][b].addActionListener(mv);
 										tempmove = Gamewindow.unit[i][j].moves;
 										tempusable = Gamewindow.unit[i][j].usable;
 									}
 								}
 							}
 						}
-						Gamewindow.unit[i][j].createButton();						//The initiale human button gets transformed into a button
+						Gamewindow.unit[i][j].createButton();						//The initial human button gets transformed into a button
 						break;
 					}
-
 				}
 			}
 		}
@@ -242,13 +211,16 @@ class Unit extends JButton {
 					if(e.getSource() == Gamewindow.unit[i][j]) {						//Figuring out the clicked object/Jbutton
 						try {
 							Gamewindow.unit[tempx][tempy].createHuman();				//Creating a human where the old one was -> Human does not move when attacking
-							Gamewindow.unit[tempx][tempy].health = temphealth;		//Adding the necessary values to it like health and strenght
+							//Assigning the values from the Human before
+							Gamewindow.unit[tempx][tempy].health = temphealth;
 							Gamewindow.unit[tempx][tempy].strength = tempstrength;
 							Gamewindow.unit[tempx][tempy].moves = tempmove -1;
 							Gamewindow.unit[tempx][tempy].usable = tempusable;
 							Gamewindow.unit[tempx][tempy].hasResource = tempres;
+
 							Gamewindow.unit[i][j].takeDamage(Gamewindow.unit[tempx][tempy].getstrength());	//Clicked object receives damage (Human strength)
-							Gamewindow.unit[i][j].set_Human_moves(Human_team_moves-1); //Updates total team moves							
+							Gamewindow.unit[i][j].set_Human_moves(Human_team_moves-1); //Updates total team moves
+
 							clearBoard();											//Board gets cleared to fix any issues with wrong variable assignings
 							System.out.println("Alien Attacked by Human! Alien has " +Gamewindow.unit[i][j].gethealth() +" health left!");
 						} catch(Exception ex) {
@@ -270,6 +242,7 @@ class Unit extends JButton {
 								tempres = true;
 							}
 							Gamewindow.unit[i][j].createHuman();						//Creating a new human at that position
+							//Assign the temp variables from the Human before
 							Gamewindow.unit[i][j].hasResource = tempres;
 							Gamewindow.unit[i][j].health = temphealth;				//Assigning the values of the "old" human to the "new" one
 							Gamewindow.unit[i][j].strength = tempstrength;
@@ -290,13 +263,11 @@ class Unit extends JButton {
 		}
 	}
 
-	protected void clearBoard() throws InterruptedException {										//Method to clear the board and remove existing action listeners
+	protected void clearBoard() throws InterruptedException, IOException {										//Method to clear the board and remove existing action listeners
 		for(int i=0;i<Gamewindow.buttonsx;i++) {
 			for(int j=0;j<Gamewindow.buttonsy;j++) {
 				Gamewindow.unit[i][j].setBackground(null);			//To reset the red color of enemies
 				Gamewindow.unit[i][j].removeActionListener(mv);		//Removing moving listeners (The other buttons that weren't clicked)
-
-
 
 				if(Gamewindow.unit[i][j].health <= 0 && Gamewindow.unit[i][j].health > -99 ) {				//Things to do if there is an unit with no health left -> replace it with buttons and remove listeners
 					if(Gamewindow.unit[i][j].type == 1){//Fixes loop waiting for a human to move that has just been killed
@@ -308,6 +279,9 @@ class Unit extends JButton {
 					Gamewindow.unit[i][j].removeActionListener(att);
 					Gamewindow.unit[i][j].removeActionListener(sh);
 					Gamewindow.unit[i][j].createdeath();
+					if(Gamewindow.unit[i][j].hasResource == true) {
+						Gamewindow.spawnresource(1);
+					}
 				}
 				else if(Gamewindow.unit[i][j].type == 99){
 					Gamewindow.unit[i][j].createButton();
@@ -335,9 +309,8 @@ class Unit extends JButton {
 				}
 			}
 		}
-		Gamewindow.checkmoveable();
+		//Gamewindow.checkmoveable();
 	}
-
 	//Finds target AI
 	public void AI_Find_Target(int start_x, int start_y){
 		int target_x = start_x;
@@ -402,15 +375,12 @@ class Unit extends JButton {
 		if(debug == true)
 			System.out.println("Moving from X:" + start_x +" Y:" + start_y +" to Y:" +target_y + " X:" +target_x);
 		if(Gamewindow.unit[start_y][start_x].moves > 0){
-
 			temphealth = Gamewindow.unit[start_y][start_x].health;
 			tempstrength = Gamewindow.unit[start_y][start_x].strength;
 			tempx = start_x;
 			tempy = start_y;
 			tempmove = Gamewindow.unit[start_y][start_x].moves;
 			tempusable = Gamewindow.unit[start_y][start_x].usable; 
-			//Y is first?
-
 			try {
 				Thread.sleep(400);
 				Gamewindow.unit[target_y][target_x].createAlien();			//Creating a new Alien at that position
@@ -428,7 +398,6 @@ class Unit extends JButton {
 			} catch(Exception ex) {
 				System.out.println(ex);
 			}  
-
 		}
 	}//End of move
 }
