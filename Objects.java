@@ -197,7 +197,6 @@ class Unit extends JButton {
 								}
 								else {
 									tempres = Gamewindow.unit[i][j].hasResource;
-									System.out.println(tempres);
 									if(Gamewindow.unit[g][b].moveable == false) {
 										Gamewindow.unit[g][b].setEnabled(false);
 									}
