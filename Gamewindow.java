@@ -228,18 +228,8 @@ public class Gamewindow extends JComponent{
 		
 		if(Gamewindow.waves_left > 0) {
 			System.out.println("End of wave");
-			
-			for(int i=0;i<buttonsx;i++) {//Go through the board 
-				for(int j=0;j<buttonsy;j++) {
-					if(unit[i][j].gettype() != 0) {
-						//reset human/alien/resource
-						if(unit[i][j].gettype() == 1) {
-							unit[i][j].createButton();
-							unit[i][j].setBackground(Color.BLACK);
-						}
-					}
-				}
-			}
+			createwave(aliencount);
+			game_on = true;
 		}else {
 			System.out.println("End of game");
 		}
