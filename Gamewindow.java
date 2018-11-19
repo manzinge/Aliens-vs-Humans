@@ -65,7 +65,7 @@ public class Gamewindow extends JComponent{
 		}
 	}
 	//Creating the basic 8x8 grid
-	public void setupunits(int buttonsx, int buttonsy, int humancount) throws IOException{
+	private void setupunits(int buttonsx, int buttonsy, int humancount) throws IOException{
 		int x = 0,y=0;
 		for(int i=0;i<buttonsx;i++) {
 			for(int j=0;j<buttonsy;j++) {
@@ -124,7 +124,7 @@ public class Gamewindow extends JComponent{
 		}
 	}
 
-	public void gametime(int humans, int aliens) throws IOException{
+	private void gametime(int humans, int aliens) throws IOException{
 		int human_team_moves = humans * 2; //Human moves remaining (per turn)
 		int alien_team_moves = aliens;  //Alien moves remaining (per turn)
 		int humans_left=0; //Humans left at turn end

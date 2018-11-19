@@ -59,7 +59,7 @@ public class Map extends JPanel {
 	public static JFrame createAndShowGui() throws IOException {
 		readMap();
 		Map mainPanel = new Map();
-		JFrame frame = new JFrame("DrawRect");
+		JFrame frame = new JFrame("Aliens-vs-Humans");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(mainPanel);
 		frame.setSize(new Dimension((int)Math.round(Gamewindow.width),(int)Math.round(Gamewindow.height)+35));

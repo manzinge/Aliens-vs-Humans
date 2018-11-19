@@ -48,10 +48,11 @@ class Unit extends JButton {
 		}	
 	}
 	private void basicsetup() {
-		this.setSize((int)Math.round(Gamewindow.width/Gamewindow.buttonsx),(int)Math.round(Gamewindow.height/Gamewindow.buttonsy));
+		this.setSize((int)Math.round(Gamewindow.width/(Gamewindow.buttonsx*1.05)),(int)Math.round(Gamewindow.height/(Gamewindow.buttonsy*1.05)));
+		this.setBorderPainted(false);
 		this.hasResource = false;
 	}
-	public void createButton() {						//Method used to create a normal Button
+	private void createButton() {						//Method used to create a normal Button
 		this.basicsetup();
 		this.setVisible(false);
 		this.type = 0;
@@ -107,7 +108,7 @@ class Unit extends JButton {
 		this.strength = 0;
 		this.setIcon(new ImageIcon(resource));
 	}
-	public void healthcolor() {
+	private void healthcolor() {
 		switch(this.gethealth()) {
 		case 1:this.setBackground(Color.RED);break;
 		case 2:this.setBackground(Color.ORANGE);break;
