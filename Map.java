@@ -20,8 +20,8 @@ public class Map extends JPanel {
 		BufferedImage water = null;
 		BufferedImage dirt = null;
 		try {
-			water = ImageIO.read(new File("waterright.jpg"));
-			dirt = ImageIO.read(new File("dirt.png"));
+			water = ImageIO.read(new File("GameIcons\\\\waterright.jpg"));
+			dirt = ImageIO.read(new File("GameIcons\\dirt.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -46,9 +46,9 @@ public class Map extends JPanel {
 	public static void readMap(int mapchoice) throws IOException {
 		Path filePath = Paths.get("generateMap1");
 		switch(mapchoice) {
-		case 1: filePath = Paths.get("generateMap1");break;
-		case 2: filePath = Paths.get("generateMap2");break;
-		case 3: filePath = Paths.get("generateMap3");break;
+		case 1: filePath = Paths.get("Maps\\generateMap1");break;
+		case 2: filePath = Paths.get("Maps\\generateMap2");break;
+		case 3: filePath = Paths.get("Maps\\generateMap3");break;
 		default: System.out.println("There was an error while creating the map!");break;
 		}
 		Scanner scanner = new Scanner(filePath);
