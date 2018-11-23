@@ -299,8 +299,4 @@ public class main_menu extends Application{
 	public static void main(String[] args) {
 		launch(args);
 	}
-
-	public static void showScoreboard() {
-		Application.launch(ScoreBoard.class);
-	}
 }
