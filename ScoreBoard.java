@@ -55,6 +55,8 @@ public class ScoreBoard {
     
    // @Override
     public void start(Stage primaryStage){
+    	main_menu menu = new main_menu(); //Create scoreboard (scene from another class)
+    	
         ImageView scores_background = new ImageView(back_ground);
         //final int scene_height = 600;
         //final int scene_width = 600;
@@ -74,13 +76,14 @@ public class ScoreBoard {
             enter_btn.setLayoutX(scene_width -120); //X Position
             enter_btn.setLayoutY(scene_height -75); //Y Position
             
-        //exit button
+        //exit button   
         Button exit_btn = new Button();
-            exit_btn.setText("Exit");
+            exit_btn.setText("Back to Menu");
             exit_btn.setPrefSize(100, 20); //Size of button (X,Y)
             exit_btn.setLayoutX(scene_width -120); //X Position
             exit_btn.setLayoutY(scene_height -50); //Y Position
-            exit_btn.setOnAction(e -> window.setScene(main_menu.mainMenuScene)); //Exit program when clicked
+            //exit_btn.setOnAction(e -> System.exit(0)); //Exit program when clicked
+            exit_btn.setOnAction(e -> menu.start(primaryStage));
         //Input 
         TextField input_field = new TextField();
             input_field.setLayoutX(left_margin);
