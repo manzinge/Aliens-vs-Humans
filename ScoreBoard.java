@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  *
  * @author mekaal
  */
-public class ScoreBoard extends Application{
+public class ScoreBoard {
     Stage window; //primary window
     Scene Scoreboard_scene; //scenes
     int score = 0;//Players current score (Have to figure out how to pass the score from another class while starting this one)
@@ -35,7 +35,7 @@ public class ScoreBoard extends Application{
    
     }
     
-    @Override
+   // @Override
     public void start(Stage primaryStage){
         
         final int scene_height = 360;
@@ -198,9 +198,9 @@ public class ScoreBoard extends Application{
          /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         launch(args);
     }
-    
+    */
 
 }
