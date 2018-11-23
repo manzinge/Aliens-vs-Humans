@@ -1,5 +1,4 @@
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
@@ -41,7 +40,7 @@ public class Gamewindow extends JComponent{
 		Gamewindow.waves_left = waves;
 
 		//Creating the Units on the board and refreshing the Window to show all the Units
-		board = Map.createAndShowGui();
+		board = Map.createAndShowGui(map);
 		setupunits(buttonsx,buttonsy,humancount);
 		createwave(aliencount);
 		board.setLayout(null);

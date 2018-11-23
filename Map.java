@@ -43,8 +43,14 @@ public class Map extends JPanel {
 		}
 	}
 
-	public static void readMap() throws IOException {
-		Path filePath = Paths.get("generateMap2");
+	public static void readMap(int mapchoice) throws IOException {
+		Path filePath = Paths.get("generateMap1");
+		switch(mapchoice) {
+		case 1: filePath = Paths.get("generateMap1");break;
+		case 2: filePath = Paths.get("generateMap2");break;
+		case 3: filePath = Paths.get("generateMap3");break;
+		default: System.out.println("There was an error while creating the map!");break;
+		}
 		Scanner scanner = new Scanner(filePath);
 		while (scanner.hasNext()) {
 			if (scanner.hasNextInt()) {
@@ -56,8 +62,8 @@ public class Map extends JPanel {
 	}
 
 	// create the GUI explicitly on the Swing event thread
-	public static JFrame createAndShowGui() throws IOException {
-		readMap();
+	public static JFrame createAndShowGui(int map) throws IOException {
+		readMap(map);
 		Map mainPanel = new Map();
 		JFrame frame = new JFrame("Aliens-vs-Humans");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
