@@ -80,7 +80,7 @@ public class ScoreBoard {
             exit_btn.setPrefSize(100, 20); //Size of button (X,Y)
             exit_btn.setLayoutX(scene_width -120); //X Position
             exit_btn.setLayoutY(scene_height -50); //Y Position
-            exit_btn.setOnAction(e -> System.exit(0)); //Exit program when clicked
+            exit_btn.setOnAction(e -> window.setScene(main_menu.mainMenuScene)); //Exit program when clicked
         //Input 
         TextField input_field = new TextField();
             input_field.setLayoutX(left_margin);

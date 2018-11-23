@@ -24,7 +24,7 @@ import java.io.IOException;
  */
 public class main_menu extends Application{
 	Stage window; //primary window
-	Scene mainMenuScene, settingsScene, scoreboardScene; //scenes
+	static Scene mainMenuScene, settingsScene, scoreboardScene; //scenes
 	ScoreBoard score = new ScoreBoard(); //Create scoreboard (scene from another class)
 	//scene sizes
 	int sceneWidth = 600;
