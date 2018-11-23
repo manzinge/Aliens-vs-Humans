@@ -37,7 +37,7 @@ public class ScoreBoard {
     //Size of window
     final double scene_height = main_menu.screenSize.height*0.7;
     final double scene_width = main_menu.screenSize.width*0.4;
-    Image back_ground = new Image("file:starry_background.png");
+    Image back_ground = new Image("MenuIcons\\starry_background.png");
     
     
     Button enter_btn;

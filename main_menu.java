@@ -34,11 +34,11 @@ public class main_menu extends Application{
 	public static double height = screenSize.height*0.7;
 	public static double width = screenSize.width*0.4;
 
-	Image backgroundImage = new Image("starry_background.png");
-	Image startButtonImage = new Image("startButtonImage.png");
-	Image scoreButtonImage = new Image("scoreButtonImage.png");
-	Image exitButtonImage = new Image("exitButtonImage.png");
-	Image backButtonImage = new Image("backButtonImage.png");
+	Image backgroundImage = new Image("MenuIcons\\starry_background.png");
+	Image startButtonImage = new Image("MenuIcons\\startButtonImage.png");
+	Image scoreButtonImage = new Image("MenuIcons\\scoreButtonImage.png");
+	Image exitButtonImage = new Image("MenuIcons\\exitButtonImage.png");
+	Image backButtonImage = new Image("MenuIcons\\backButtonImage.png");
 
 	@Override
 	public void start(Stage primaryStage){
@@ -46,7 +46,7 @@ public class main_menu extends Application{
 		//MAIN MENU SCENE
 		Pane mainMenuPane = new Pane();
 		//game title splash here
-		Image gameTitleImage = new Image("aliens_title.png");
+		Image gameTitleImage = new Image("MenuIcons\\\\aliens_title.png");
 		ImagePattern gameTitlePattern = new ImagePattern(gameTitleImage);
 		Rectangle gameTitleSplash = new Rectangle(width/4,height/14,width/2,height/4);
 		gameTitleSplash.setFill(gameTitlePattern);
