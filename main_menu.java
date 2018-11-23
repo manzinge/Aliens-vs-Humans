@@ -25,7 +25,7 @@ import java.io.IOException;
 public class main_menu extends Application{
 	Stage window; //primary window
 	Scene mainMenuScene, settingsScene, scoreboardScene; //scenes
-
+	ScoreBoard score = new ScoreBoard(); //Create scoreboard (scene from another class)
 	//scene sizes
 	int sceneWidth = 600;
 	int sceneHeight = 600;
@@ -74,7 +74,7 @@ public class main_menu extends Application{
 		score_btn.setLayoutY(height/2.1);
 		score_btn.setGraphic(new ImageView(scoreButtonImage));
 		score_btn.setOnAction(e -> 
-		window.setScene(scoreboardScene));		//Application.launch(ScoreBoard.class)
+			score.start(primaryStage));	//Load the scoreboard	
 		//end of scoreboard button	
 		//scene background
 
