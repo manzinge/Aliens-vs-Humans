@@ -34,11 +34,11 @@ public class main_menu extends Application{
 	public static double height = screenSize.height*0.7;
 	public static double width = screenSize.width*0.4;
 
-	Image backgroundImage = new Image("file:starry_background.png");
-	Image startButtonImage = new Image("file:startButtonImage.png");
-	Image scoreButtonImage = new Image("file:scoreButtonImage.png");
-	Image exitButtonImage = new Image("file:exitButtonImage.png");
-	Image backButtonImage = new Image("file:backButtonImage.png");
+	Image backgroundImage = new Image("starry_background.png");
+	Image startButtonImage = new Image("startButtonImage.png");
+	Image scoreButtonImage = new Image("scoreButtonImage.png");
+	Image exitButtonImage = new Image("exitButtonImage.png");
+	Image backButtonImage = new Image("backButtonImage.png");
 
 	@Override
 	public void start(Stage primaryStage){
@@ -129,9 +129,9 @@ public class main_menu extends Application{
 		//set map preview image with radio buttons
 		//map preview images
 
-		Image map1Image = new Image("file:Map1.jpg");
-		Image map2Image = new Image("file:Map2.jpg");
-		Image map3Image = new Image("file:Map3.jpg");
+		Image map1Image = new Image("Maps\\Map1.jpg");
+		Image map2Image = new Image("Maps\\Map2.jpg");
+		Image map3Image = new Image("Maps\\Map3.jpg");
 
 		//image patterns to fill rectangle with
 		ImagePattern map1Pattern = new ImagePattern(map1Image);

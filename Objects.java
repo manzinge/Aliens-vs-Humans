@@ -28,10 +28,10 @@ class Unit extends JButton {
 	private int tempmove;
 	private boolean tempusable;
 	//Icons
-	BufferedImage human = ImageIO.read(getClass().getResource("Human.png"));
-	BufferedImage alien = ImageIO.read(getClass().getResource("Alien.png"));
-	BufferedImage resource = ImageIO.read(getClass().getResource("resource.png"));
-	BufferedImage death = ImageIO.read(getClass().getResource("death.png"));
+	BufferedImage human = ImageIO.read(getClass().getResource("GameIcons\\\\Human.png"));
+	BufferedImage alien = ImageIO.read(getClass().getResource("GameIcons\\\\Alien.png"));
+	BufferedImage resource = ImageIO.read(getClass().getResource("GameIcons\\\\resource.png"));
+	BufferedImage death = ImageIO.read(getClass().getResource("GameIcons\\\\death.png"));
 	//Listeners
 	show sh = new show();
 	move mv = new move();

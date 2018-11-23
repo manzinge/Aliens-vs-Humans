@@ -10,8 +10,8 @@ import javax.swing.JOptionPane;
 
 public class Gamewindow extends JComponent{
 	//Images
-	ImageIcon  sleep_human = new ImageIcon(getClass().getResource("sleep_human.png"));
-	ImageIcon  human = new ImageIcon(getClass().getResource("human.png"));
+	ImageIcon  sleep_human = new ImageIcon(getClass().getResource("GameIcons\\\\sleep_human.png"));
+	ImageIcon  human = new ImageIcon(getClass().getResource("GameIcons\\\\human.png"));
 
 	//Attributes related to the Window, the Size of the window
 	public static JFrame board = new JFrame("Testwindow");
