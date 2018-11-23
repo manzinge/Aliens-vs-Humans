@@ -46,7 +46,7 @@ public class main_menu extends Application{
 		//MAIN MENU SCENE
 		Pane mainMenuPane = new Pane();
 		//game title splash here
-		Image gameTitleImage = new Image("file:aliens_title.png");
+		Image gameTitleImage = new Image("aliens_title.png");
 		ImagePattern gameTitlePattern = new ImagePattern(gameTitleImage);
 		Rectangle gameTitleSplash = new Rectangle(width/4,height/14,width/2,height/4);
 		gameTitleSplash.setFill(gameTitlePattern);
@@ -129,15 +129,11 @@ public class main_menu extends Application{
 		//set map preview image with radio buttons
 		//map preview images
 
-<<<<<<< HEAD
-		Image map1Image = new Image("file:Map1.jpg");
-		Image map2Image = new Image("file:map2.jpg");
-		Image map3Image = new Image("file:map3.jpg");
-=======
+
 		Image map1Image = new Image("Maps\\Map1.jpg");
 		Image map2Image = new Image("Maps\\Map2.jpg");
 		Image map3Image = new Image("Maps\\Map3.jpg");
->>>>>>> b22cf8ea3c22655139e04a41fa7490c0c967c6ed
+
 
 		//image patterns to fill rectangle with
 		ImagePattern map1Pattern = new ImagePattern(map1Image);
