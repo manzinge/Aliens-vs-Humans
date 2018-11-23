@@ -129,9 +129,9 @@ public class main_menu extends Application{
 		//set map preview image with radio buttons
 		//map preview images
 
-		Image map1Image = new Image("file:map1.png");
-		Image map2Image = new Image("file:map2.jpg");
-		Image map3Image = new Image("file:map3.jpg");
+		Image map1Image = new Image("file:Map1.jpg");
+		Image map2Image = new Image("file:Map2.jpg");
+		Image map3Image = new Image("file:Map3.jpg");
 
 		//image patterns to fill rectangle with
 		ImagePattern map1Pattern = new ImagePattern(map1Image);
