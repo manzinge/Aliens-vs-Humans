@@ -4,15 +4,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-
-import javax.imageio.ImageIO;
+import java.awt.Font;
 import javax.swing.*;
+import javax.imageio.ImageIO;
+
 
 public class Map extends JPanel {
 	static ArrayList<Integer> map = new ArrayList<Integer>();
+	static JLabel zonelabel = new JLabel("Try to gather some resources");
 
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -73,6 +76,10 @@ public class Map extends JPanel {
 		frame.setLocationByPlatform(true);
 		frame.setVisible(true);
 		frame.setResizable(false);
+		zonelabel.setFont(new Font("SansSerif", Font.BOLD, 22));
+		zonelabel.setForeground(Color.BLACK);
+		zonelabel.setVisible(true);
+		frame.add(zonelabel);
 		return frame;
 	}
 }
