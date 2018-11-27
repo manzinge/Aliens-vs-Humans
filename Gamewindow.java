@@ -141,14 +141,14 @@ public class Gamewindow extends JComponent{
 			int aliens_remaining = 0;
 			for(int i=0;i<buttonsx;i++) {//Go through the board checking if buttons have remaining moves
 				for(int j=0;j<buttonsy;j++) {
-					
+
 					if(unit[i][j].getMoves() == 0){
 						unit[i][j].set_usable(false); //Unit can no longer perform actions
 						if(unit[i][j].gettype()==1){
 							unit[i][j].setIcon(sleep_human); //Show that the human is "sleeping"
 						}
 					}    
-					
+
 					if(unit[i][j].gettype() == 2 && unit[i][j].gethealth() > 0) {
 						aliens_remaining++;
 					}
@@ -210,21 +210,33 @@ public class Gamewindow extends JComponent{
 
 			//End of Game
 			if(human_count == 0) {
-				JOptionPane.showMessageDialog(board, "\"You were defeated by the Aliens!");
-				game_on = false;
-				break;
+				try {
+					JOptionPane.showMessageDialog(board, "\"You were defeated by the Aliens!");
+					game_on = false;
+					Thread.sleep(1000);
+					System.exit(0);
+					break;
+				}catch(Exception ex) {
+					ex.getStackTrace();
+				}
 			}
 			if(alien_count == 0) {
-				JOptionPane.showMessageDialog(board, "\"You have managed to repel the invaders!");
-				game_on = false;
-				break;
+				try {
+					JOptionPane.showMessageDialog(board, "\"You have managed to repel the invaders!");
+					game_on = false;
+					Thread.sleep(1000);
+					System.exit(0);
+					break;
+				}catch(Exception ex) {
+					ex.getStackTrace();
+				}
 			}
 
 		}//End of while loop
 		Gamewindow.waves_left--;
-		
+
 		//After game ends
-		
+
 		if(Gamewindow.waves_left > 0) {
 			System.out.println("End of wave");
 			createwave(aliencount);
