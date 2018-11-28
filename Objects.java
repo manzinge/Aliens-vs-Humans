@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -19,6 +20,7 @@ class Unit extends JButton {
 	private int moves;
 	private static int Human_team_moves;
 	private static int Alien_team_moves;
+	private boolean factories;
 	private boolean usable; //Can this unit do actions
 	//Temporary attributes
 	private boolean tempres;
@@ -29,6 +31,7 @@ class Unit extends JButton {
 	private int tempmove;
 	private boolean tempusable;
 	//Icons
+	BufferedImage factory = ImageIO.read(getClass().getResource("GameIcons\\\\factories.png"));
 	BufferedImage human = ImageIO.read(getClass().getResource("GameIcons\\\\Human.png"));
 	BufferedImage alien = ImageIO.read(getClass().getResource("GameIcons\\\\Alien.png"));
 	BufferedImage resource = ImageIO.read(getClass().getResource("GameIcons\\\\resource.png"));
@@ -326,6 +329,7 @@ class Unit extends JButton {
 			Map.zonelabel.setText("Try to gather some resources");
 		}
 	}
+	
 	//Finds target AI
 	public void AI_Find_Target(int start_x, int start_y){
 		int target_x = start_x;
