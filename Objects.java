@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 class Unit extends JButton {
 	private boolean debug = false; //Turn off for less console stuff
 	private boolean hasResource = false;
+	private boolean isTargeted;
 	public boolean moveable = true;
 
 	private int radius=1;
@@ -86,6 +87,7 @@ class Unit extends JButton {
 		this.setVisible(true);
 		this.health = 3;
 		this.strength=1;
+		this.isTargeted = false;
 		this.setBackground(Color.GREEN);
 		this.setIcon(new ImageIcon(human));
 		this.addActionListener(sh);
@@ -341,11 +343,13 @@ class Unit extends JButton {
 		int[] targetsY = new int[5];
 		int[] targetsWeight = new int[5];
 		
+		
+		
 		//find all possible targets
 		for(int i=0;i<Gamewindow.buttonsx;i++) { //Go through board
 			for(int j=0;j<Gamewindow.buttonsy;j++) {	 
-				if(Gamewindow.unit[i][j].gettype() == 1){ //If its a human
-					
+				if(Gamewindow.unit[i][j].gettype() == 1  && Gamewindow.unit[i][j].isTargeted == false ){ //If its a human and not targeted already
+
 					//human x and y values added to arrays
 					targetsX[humanIndex] = i;
 					targetsY[humanIndex] = j;
@@ -353,7 +357,7 @@ class Unit extends JButton {
 					//calculate weight of possible target found
 					int targetWeight = 0;
 					if(Gamewindow.unit[i][j].hasResource == true) {
-						targetWeight += 2; //add 2 units of weight to the human if they hold a resource
+						targetWeight += 3; //add 3 units of weight to the human if they hold a resource
 					}
 					if(Gamewindow.unit[i][j].health > 2) {
 						targetWeight++; //add 1 unit of weight to human if they have medium-high health
@@ -372,9 +376,10 @@ class Unit extends JButton {
 		}
 		
 		int bestTarget = 0;
+		int highestWeight = 0;
 		//find best target (highest weight)
 		for(int i = 0; i < humansFound; i++) {
-			int highestWeight = 0;
+			
 			if(targetsWeight[i] > highestWeight) {
 				highestWeight = targetsWeight[i];
 				bestTarget = i;
@@ -395,6 +400,8 @@ class Unit extends JButton {
 			target_y++; //move column to the right
 		}else{  } //Stay in that column
 
+		//set unit to targeted - other aliens will not target this human
+		Gamewindow.unit[targetsX[bestTarget]][targetsY[bestTarget]].isTargeted = true;
 		
 		System.out.println("ALien at X:" + start_x + " Y:" + start_y +" Target is at: X:" + targetsY[bestTarget] + " Y:" + targetsX[bestTarget] ); //test
 
