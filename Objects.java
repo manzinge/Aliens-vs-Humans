@@ -334,58 +334,85 @@ class Unit extends JButton {
 	public void AI_Find_Target(int start_x, int start_y){
 		int target_x = start_x;
 		int target_y = start_y;
-
-
+		
+		int humansFound = 0;
+		int humanIndex = 0;
+		int[] targetsX = new int[5];
+		int[] targetsY = new int[5];
+		int[] targetsWeight = new int[5];
+		
+		//find all possible targets
 		for(int i=0;i<Gamewindow.buttonsx;i++) { //Go through board
 			for(int j=0;j<Gamewindow.buttonsy;j++) {	 
 				if(Gamewindow.unit[i][j].gettype() == 1){ //If its a human
-					//System.out.println("i " + i + " j" + j );
-					//Calculate Row
-					if(start_x > j){
-						target_x--;
-					}else if(start_x < j){
-						target_x++;
-					}else{ }//Stay in that row
-
-					//Calculate column
-					if(start_y > i){
-						target_y--;
-					}else if(start_y < i){
-						target_y++;
-					}else{  } //Stay in that column
-
-					if(debug == true)
-						System.out.println("ALien at X:" + start_x + " Y:" + start_y +" Target is at: X:" + j + " Y:" + i ); //test
-
-
-					if(Gamewindow.unit[target_y][target_x].gettype() == 2){ //Check for other aliens
-						System.out.println("Staying still, friendly in the way");
-						Gamewindow.unit[target_y][target_x].set_Alien_moves(Alien_team_moves-1); //Updates total team moves
-
-					}else if(target_y == start_y && target_x == start_x){//If AI decides it shouldnt move 
-						System.out.println("Staying still");
-						Gamewindow.unit[target_y][target_x].set_Alien_moves(Alien_team_moves-1); //Updates total team moves
-
-						/* }else if(target_y == i && target_x == j){//Attack
-                             TestBoard.unit[i][j].health -= TestBoard.unit[start_y][start_x].strength;
-                             System.out.println("Human Attacked!");
-                             TestBoard.unit[target_y][target_x].set_Alien_moves(Alien_team_moves-1); //Updates total team moves
-						 */
-					}else if(Gamewindow.unit[target_y][target_x].gettype()==1){//Attack
-						Gamewindow.unit[target_y][target_x].health -= Gamewindow.unit[start_y][start_x].strength;
-						System.out.println("Human Attacked by Alien! Human has " +Gamewindow.unit[target_y][target_x].gethealth() +" health left!");
-						Gamewindow.unit[target_y][target_x].set_Alien_moves(Alien_team_moves-1); //Updates total team moves     (doesn' matter what tile does it)                  
-					}else{//Moving
-						Gamewindow.unit[i][j].AI_move(start_x, start_y, target_y, target_x);
+					
+					//human x and y values added to arrays
+					targetsX[humanIndex] = i;
+					targetsY[humanIndex] = j;
+					
+					//calculate weight of possible target found
+					int targetWeight = 0;
+					if(Gamewindow.unit[i][j].hasResource == true) {
+						targetWeight += 2; //add 2 units of weight to the human if they hold a resource
 					}
-					break;//Get out of the loop target is found
-
-				} 
+					if(Gamewindow.unit[i][j].health > 2) {
+						targetWeight++; //add 1 unit of weight to human if they have medium-high health
+					}else {
+						targetWeight += 2; //add 2 units of weight to human if they have low health
+					}
+					targetsWeight[humanIndex] = targetWeight;
+					
+					System.out.println("Human found at:" + targetsX[humanIndex] + "," + targetsY[humanIndex]);
+					System.out.println("Weight of this human: " + targetsWeight[humanIndex]);
+					
+					humansFound++;
+					humanIndex++;
+				}
 			}
-			if(start_x != target_x || start_y != target_y)//Break out of outer loop
-				break;
 		}
+		
+		int bestTarget = 0;
+		//find best target (highest weight)
+		for(int i = 0; i < humansFound; i++) {
+			int highestWeight = 0;
+			if(targetsWeight[i] > highestWeight) {
+				highestWeight = targetsWeight[i];
+				bestTarget = i;
+			}
+		}
+		
+		//Calculate Row of best target
+		if(start_x > targetsY[bestTarget]){ //target in row left of alien
+			target_x--; //move to row to the left
+		}else if(start_x < targetsY[bestTarget]){ //target in row right of alien
+			target_x++; //move to row to the right
+		}else{ } //Stay in that row
 
+		//Calculate column
+		if(start_y > targetsX[bestTarget]){ //target in column left of alien
+			target_y--; //move to column to the left
+		}else if(start_y < targetsX[bestTarget]){ //target in column right of alien
+			target_y++; //move column to the right
+		}else{  } //Stay in that column
+
+		
+		System.out.println("ALien at X:" + start_x + " Y:" + start_y +" Target is at: X:" + targetsY[bestTarget] + " Y:" + targetsX[bestTarget] ); //test
+
+
+		if(Gamewindow.unit[target_y][target_x].gettype() == 2){ //Check for other aliens
+			System.out.println("Staying still, friendly in the way");
+			Gamewindow.unit[target_y][target_x].set_Alien_moves(Alien_team_moves-1); //Updates total team moves
+
+		}else if(target_y == start_y && target_x == start_x){//If AI decides it shouldnt move 
+			System.out.println("Staying still");
+			Gamewindow.unit[target_y][target_x].set_Alien_moves(Alien_team_moves-1); //Updates total team moves
+		}else if(Gamewindow.unit[target_y][target_x].gettype()==1){//Attack
+			Gamewindow.unit[target_y][target_x].health -= Gamewindow.unit[start_y][start_x].strength;
+			System.out.println("Human Attacked by Alien! Human has " +Gamewindow.unit[target_y][target_x].gethealth() +" health left!");
+			Gamewindow.unit[target_y][target_x].set_Alien_moves(Alien_team_moves-1); //Updates total team moves (doesn't matter what tile does it)                  
+		}else{//Moving
+			Gamewindow.unit[targetsX[bestTarget]][targetsY[bestTarget]].AI_move(start_x, start_y, target_y, target_x);
+		}
 	}
 
 
