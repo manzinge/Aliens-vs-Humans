@@ -27,7 +27,7 @@ public class Gamewindow extends JComponent{
 	public static int waves_left;
 	public static int humancount;
 	public static int map;
-	private boolean game_on;
+	private boolean game_on = true;
 
 
 	//Constructor to create a new Gamewindow that creates the new Frame and the Units
