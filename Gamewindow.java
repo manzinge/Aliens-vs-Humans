@@ -27,6 +27,7 @@ public class Gamewindow extends JComponent{
 	public static int waves_left;
 	public static int humancount;
 	public static int map;
+	public static int score = 0;
 	private boolean game_on = true;
 
 
