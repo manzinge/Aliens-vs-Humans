@@ -3,6 +3,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -27,10 +29,11 @@ public class Gamewindow extends JComponent{
 	public static int waves_left;
 	public static int humancount;
 	public static int map;
-	public static int score = 0;
 	private boolean game_on = true;
-
-
+        public static int score = 0;
+        
+        private String player_name;
+        private String score_file = "Scores_List.txt";//File containing score data
 	//Constructor to create a new Gamewindow that creates the new Frame and the Units
 	public Gamewindow(int aliencount,int humancount,int map, int waves) throws IOException
 	{
@@ -149,6 +152,8 @@ public class Gamewindow extends JComponent{
                 System.out.println("Starting Game " + aliens);
 		while(game_on == true){//Game loop
 			//Check for unit actions left
+                        //Calculate_Score(aliens, );
+                        
 			int aliens_remaining = 0;
 			for(int i=0;i<buttonsx;i++) {//Go through the board checking if buttons have remaining moves
 				for(int j=0;j<buttonsy;j++) {
@@ -192,9 +197,21 @@ public class Gamewindow extends JComponent{
 			human_count = Reset_Human(human_count, human_turn);
 
 			//End of Game
-			if(human_count == 0) {
-				JOptionPane.showMessageDialog(board, "\"You were defeated by the Aliens!");
+			if(human_count == 0) {	
+                            
 				game_on = false;
+
+                                //Cleanup Board 
+                                try {
+                                    unit[0][0].clearBoard();
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(Gamewindow.class.getName()).log(Level.SEVERE, null, ex);
+                                }                                 
+                                player_name = JOptionPane.showInputDialog(board, "\"You were defeated by the Aliens!\nYour score is: " +score + "\nWhat shall we call you?\"");
+                                //Write score and name to board
+                                Write_file writer= new Write_file(score_file);
+                                writer.Enter(player_name, score); 
+                                
                                 try {
                                     Thread.sleep(1000);
                                     System.exit(0);
@@ -217,16 +234,36 @@ public class Gamewindow extends JComponent{
         Gamewindow.waves_left--;
         if(Gamewindow.waves_left > 0) {
             System.out.println("End of wave");
-            JOptionPane.showMessageDialog(board, "\"You have managed to repel a wave of invaders!");
+            //Cleanup Board 
+            try {
+                unit[0][0].clearBoard();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Gamewindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            score += 100;//Score for beating a wave
             System.out.println("Creating new wave");
             //createwave(++Alien_count); //Ran into some interesting issues with this
             createwave(Alien_count);
+            JOptionPane.showMessageDialog(board, "\"You have managed to repel a wave of invaders!\nYour score is: " +score + "\"");
             System.out.println("Restarting game");
             game_on = true;
             gametime(Human_Remaining, Alien_count);
             //gametime(Human_Remaining, Alien_count++);//Ran into some interesting issues with this
 	}else {
-            JOptionPane.showMessageDialog(board, "\"You defeated the Aliens!");
+            //Cleanup Board 
+            try {
+                unit[0][0].clearBoard();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Gamewindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            score += 100;//Score for beating the invasion
+            
+            player_name = JOptionPane.showInputDialog(board, "\"You defeated the Aliens!\nYour score is: " +score + "\nWhat shall we call you?\"");
+            
+            //Write score and name to board
+            Write_file writer= new Write_file(score_file);
+            writer.Enter(player_name, score);
+            
             System.out.println("End of game");
             try {
                 Thread.sleep(1000);
@@ -286,6 +323,7 @@ public class Gamewindow extends JComponent{
     
     return alien_count;
     }
+    
     
 }
 

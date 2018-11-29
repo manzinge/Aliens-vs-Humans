@@ -22,7 +22,7 @@ import java.io.IOException;
  *
  * @author Ryan
  */
-public class main_menu extends Application{
+public class main_menu{
 	Stage window; //primary window
 	Scene mainMenuScene, settingsScene, scoreboardScene; //scenes
 	ScoreBoard score = new ScoreBoard(); //Create scoreboard (scene from another class)
@@ -40,7 +40,7 @@ public class main_menu extends Application{
 	Image exitButtonImage = new Image("MenuIcons\\exitButtonImage.png");
 	Image backButtonImage = new Image("MenuIcons\\backButtonImage.png");
 
-	@Override
+
 	public void start(Stage primaryStage){
 		window = primaryStage;
 		//MAIN MENU SCENE
@@ -298,7 +298,5 @@ public class main_menu extends Application{
 	/**
 	 * @param args the command line arguments
 	 */
-	public static void main(String[] args) {
-		launch(args);
-	}
+
 }

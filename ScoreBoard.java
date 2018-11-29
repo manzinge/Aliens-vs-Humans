@@ -3,12 +3,9 @@
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Random;
 import javafx.application.Application;
@@ -40,14 +37,14 @@ public class ScoreBoard {
     Image back_ground = new Image("MenuIcons\\starry_background.png");
     
     
-    Button enter_btn;
-    Label[] lbl_score_list = new Label[10]; //How many score labels
-    Label lbl_info = new Label();
+    private Button enter_btn;
+    private Label[] lbl_score_list = new Label[10]; //How many score labels
+    private Label lbl_info = new Label();
     
-    int new_score = 0;//Players current score (Have to figure out how to pass the score from another class while starting this one)
-    String score_file = "Scores_List.txt";//File containing score data
-    boolean Testing = true;
-
+    private int new_score = 0;//Players current score (Have to figure out how to pass the score from another class while starting this one)
+    private String score_file = "Scores_List.txt";//File containing score data
+    private boolean Testing = false;
+    private boolean input_to_board = false; //Set to true if the scoreboard is accepting input
     
     public void set_score(int new_score){
         this.new_score = new_score;
@@ -69,21 +66,7 @@ public class ScoreBoard {
             Random score_test = new Random();    
             new_score = score_test.nextInt(100)+1;
         }
-        //Buttons
-        enter_btn = new Button();
-            enter_btn.setText("Enter");
-            enter_btn.setPrefSize(100, 20); //Size of button (X,Y)
-            enter_btn.setLayoutX(scene_width -120); //X Position
-            enter_btn.setLayoutY(scene_height -75); //Y Position
-            
-        //exit button   
-        Button exit_btn = new Button();
-            exit_btn.setText("Back to Menu");
-            exit_btn.setPrefSize(100, 20); //Size of button (X,Y)
-            exit_btn.setLayoutX(scene_width -120); //X Position
-            exit_btn.setLayoutY(scene_height -50); //Y Position
-            //exit_btn.setOnAction(e -> System.exit(0)); //Exit program when clicked
-            exit_btn.setOnAction(e -> menu.start(primaryStage));
+
         //Input 
         TextField input_field = new TextField();
             input_field.setLayoutX(left_margin);
@@ -105,6 +88,23 @@ public class ScoreBoard {
             lbl_score_list[i] = lbl_score;
         }
         
+        //Buttons
+        if(input_to_board == true){
+        enter_btn = new Button();
+            enter_btn.setText("Enter");
+            enter_btn.setPrefSize(100, 20); //Size of button (X,Y)
+            enter_btn.setLayoutX(scene_width -120); //X Position
+            enter_btn.setLayoutY(scene_height -75); //Y Position
+            //enter_btn.setOnAction(e -> Enter(input_field.getText(), new_score));
+        }    
+        //exit button   
+        Button exit_btn = new Button();
+            exit_btn.setText("Back to Menu");
+            exit_btn.setPrefSize(100, 20); //Size of button (X,Y)           
+            exit_btn.setLayoutY(scene_height -50); //Y Position
+            //exit_btn.setOnAction(e -> System.exit(0)); //Exit program when clicked
+            exit_btn.setOnAction(e -> menu.start(primaryStage));
+            
         //Display the scores
         Display();
         
@@ -129,16 +129,19 @@ public class ScoreBoard {
             lbl_info.setAlignment(Pos.CENTER);
             lbl_info.setTextFill(Color.WHITE);
             lbl_info.setFont(Font.font("Arial", FontWeight.BOLD, scene_height/60));//Change Font to desired one 
-            lbl_info.setText("Please enter your name below if you're registering a high score.");
-            
-        //Button Actions
-        //Enter Button
-        enter_btn.setOnAction(e -> Enter(input_field.getText(), new_score));
-         
-        
+            lbl_info.setText("Here is a list of the 10 highest scored players.");
+
         //Add all components to pane
-        Scoreboard_Pane.getChildren().addAll(scores_background, enter_btn, exit_btn, input_field, lbl_title, 
+        if(input_to_board == true){
+            exit_btn.setLayoutX(scene_width -120); //X Position
+            Scoreboard_Pane.getChildren().addAll(scores_background, enter_btn, exit_btn, input_field, lbl_title, 
                                                 lbl_score_label,lbl_info);
+        }else{
+            exit_btn.setMinWidth(scene_width);
+            exit_btn.setPrefSize(200, 40); //Size of button (X,Y)
+            exit_btn.setAlignment(Pos.CENTER);
+            Scoreboard_Pane.getChildren().addAll(scores_background, exit_btn, lbl_title ,lbl_info);            
+        }
         for(int i = 0; i <lbl_score_list.length; i++) //Add scores
             Scoreboard_Pane.getChildren().add(lbl_score_list[i]);
         
@@ -193,16 +196,16 @@ public class ScoreBoard {
         //Display data on labels
         for(int i = 0; i<lbl_score_list.length; i++){
             if(name_order[i] == null){
-                lbl_score_list[i].setText(i+". No score at this position!");
+                lbl_score_list[i].setText(i+1+". No score at this position!");
             }else{
-                lbl_score_list[i].setText(i+". " + name_order[i] + " has " + score_order[i]);
+                lbl_score_list[i].setText(i+1+". " + name_order[i] + " has " + score_order[i]);
             }
         }        
         
         
     }
     
-    
+    /*
     //Appends to the file
     public void Enter(String name, int new_score){
         if(name.isEmpty()==false){ //Makes sure a name was inputted
@@ -226,6 +229,7 @@ public class ScoreBoard {
         }
         
     }
+    */
     
 
 }

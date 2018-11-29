@@ -285,13 +285,14 @@ class Unit extends JButton {
 					safezone++;
 				}
 				if(Gamewindow.unit[i][j].health <= 0 && Gamewindow.unit[i][j].health > -99 ) {				//Things to do if there is an unit with no health left -> replace it with buttons and remove listeners
-					if(Gamewindow.unit[i][j].type == 1){//Fixes loop waiting for a human to move that has just been killed
+	
+                                        if(Gamewindow.unit[i][j].type == 1){//Fixes loop waiting for a human to move that has just been killed
 						Human_team_moves -= 2;
-						Gamewindow.score -= 50; //Lose score for human dieing
+                                                 Gamewindow.score -= 50; //Lose score for human dieing
 					}
 					if(Gamewindow.unit[i][j].type == 2){//Fixes loop waiting for a alien to move that has just been killed
-						Gamewindow.score += 50; //Score for killing alien
 						Alien_team_moves -= 1;
+                                                Gamewindow.score += 50;
 					}                                        
 					Gamewindow.unit[i][j].removeActionListener(att);
 					Gamewindow.unit[i][j].removeActionListener(sh);
@@ -369,8 +370,8 @@ class Unit extends JButton {
 					}
 					targetsWeight[humanIndex] = targetWeight;
 					
-					System.out.println("Human found at:" + targetsX[humanIndex] + "," + targetsY[humanIndex]);
-					System.out.println("Weight of this human: " + targetsWeight[humanIndex]);
+					//System.out.println("Human found at:" + targetsX[humanIndex] + "," + targetsY[humanIndex]);
+					//System.out.println("Weight of this human: " + targetsWeight[humanIndex]);
 					
 					humansFound++;
 					humanIndex++;
@@ -406,7 +407,7 @@ class Unit extends JButton {
 		//set unit to targeted
 		Gamewindow.unit[targetsX[bestTarget]][targetsY[bestTarget]].isTargeted = true;
 		
-		System.out.println("ALien at X:" + start_x + " Y:" + start_y +" Target is at: X:" + targetsY[bestTarget] + " Y:" + targetsX[bestTarget] ); //test
+		System.out.println("ALien at X:" + start_x + " Y:" + start_y +" Target is at: X:" + targetsY[bestTarget] + " Y:" + targetsX[bestTarget] + " weight: " + highestWeight); //test
 
 
 		if(Gamewindow.unit[target_y][target_x].gettype() == 2){ //Check for other aliens
