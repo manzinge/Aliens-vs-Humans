@@ -14,7 +14,9 @@ public class Gamewindow extends JComponent{
 	//Images
 	ImageIcon  sleep_human = new ImageIcon(getClass().getResource("GameIcons\\\\sleep_human.png"));
 	ImageIcon  human = new ImageIcon(getClass().getResource("GameIcons\\\\human.png"));
-
+        ImageIcon  human_res = new ImageIcon(getClass().getResource("GameIcons\\\\human_res.png"));
+         ImageIcon  sleep_human_res = new ImageIcon(getClass().getResource("GameIcons\\\\sleep_human_res.png"));
+        
 	//Attributes related to the Window, the Size of the window
 	public static JFrame board = new JFrame("Testwindow");
 	static int buttonsx = 8;
@@ -145,7 +147,11 @@ public class Gamewindow extends JComponent{
                         if(unit[i][j].gettype()==1){   
                             unit[i][j].set_Moves(2);
                             unit[i][j].set_usable(true);
-                            unit[i][j].setIcon(human); 
+                            if(unit[i][j].get_Resource()==true){
+                                unit[i][j].setIcon(human_res); 
+                            }else{
+                                unit[i][j].setIcon(human);
+                            }
                         }   
                     }
                 }
@@ -161,7 +167,11 @@ public class Gamewindow extends JComponent{
 					if(unit[i][j].getMoves() == 0){
 						unit[i][j].set_usable(false); //Unit can no longer perform actions
 						if(unit[i][j].gettype()==1){
-							unit[i][j].setIcon(sleep_human); //Show that the human is "sleeping"
+							if(unit[i][j].get_Resource()==true){
+                                                            unit[i][j].setIcon(sleep_human_res); //Show that the human is "sleeping"
+                                                        }else{
+                                                            unit[i][j].setIcon(sleep_human); //Show that the human is "sleeping"
+                                                        }
 						}
 					}    
 					
@@ -288,7 +298,11 @@ public class Gamewindow extends JComponent{
 		if(unit[i][j].gettype()==1){ //Reenable and add moves to each human once their moves are over
                     unit[i][j].set_Moves(2); 
                     unit[i][j].set_usable(true); //Reenable the unit
-                    unit[i][j].setIcon(human);//Show that all humans are "awake" again
+                    if(unit[i][j].get_Resource() ==true){
+                        unit[i][j].setIcon(human_res);//Show that all humans are "awake" again
+                    }else{
+                        unit[i][j].setIcon(human);//Show that all humans are "awake" again
+                    }
                     humans_left++; 
 		}
             }

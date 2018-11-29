@@ -37,6 +37,8 @@ class Unit extends JButton {
 	BufferedImage alien = ImageIO.read(getClass().getResource("GameIcons\\\\Alien.png"));
 	BufferedImage resource = ImageIO.read(getClass().getResource("GameIcons\\\\resource.png"));
 	BufferedImage death = ImageIO.read(getClass().getResource("GameIcons\\\\death.png"));
+        BufferedImage death_alien = ImageIO.read(getClass().getResource("GameIcons\\\\aliendeath.png"));
+        BufferedImage human_res = ImageIO.read(getClass().getResource("GameIcons\\\\human_res.png"));
 	//Listeners
 	show sh = new show();
 	move mv = new move();
@@ -69,7 +71,7 @@ class Unit extends JButton {
 		this.strength = -1;
 		this.moves = -1;
 	}
-	private void createdeath() {
+	private void createdeath(boolean human_death) {
 		this.type = 99;
 		this.usable = false;
 		this.setVisible(true);
@@ -77,7 +79,11 @@ class Unit extends JButton {
 		this.health = -100;
 		this.strength = -1;
 		this.moves = -1;
-		this.setIcon(new ImageIcon(death));
+                if(human_death == true){
+                    this.setIcon(new ImageIcon(death));
+                }else{
+                    this.setIcon(new ImageIcon(death_alien));
+                }
 	}
 	private void createHuman() throws IOException {		//Setting variables for a new Human (this is only called when spawning new Humans)
 		this.moves = 2; //How many actions can be perfomed in a turn
@@ -89,8 +95,13 @@ class Unit extends JButton {
 		this.strength=1;
 		this.isTargeted = false;
 		this.setBackground(Color.GREEN);
-		this.setIcon(new ImageIcon(human));
-		this.addActionListener(sh);
+                
+                if(this.hasResource == true){
+                    this.setIcon(new ImageIcon(human_res));
+                }else{
+                    this.setIcon(new ImageIcon(human));
+                }
+                this.addActionListener(sh);
 	}
 
 	private void createAlien() throws IOException{			//Method used to create an Alien (this is only called when spawning new Aliens)
@@ -157,6 +168,9 @@ class Unit extends JButton {
 	}
 	public void set_Moves(int new_moves) {    //Returns the moves
 		moves = new_moves;
+	}   
+	public boolean get_Resource() {    //Returns if it has a resource
+		return this.hasResource;
 	}        
 
 	class show implements ActionListener {											//Action Listener class to show options where the player can go
@@ -288,15 +302,17 @@ class Unit extends JButton {
 	
                                         if(Gamewindow.unit[i][j].type == 1){//Fixes loop waiting for a human to move that has just been killed
 						Human_team_moves -= 2;
-                                                 Gamewindow.score -= 50; //Lose score for human dieing
+                                                Gamewindow.score -= 50; //Lose score for human dieing
+                                                Gamewindow.unit[i][j].createdeath(true);//Creat death with human image;
 					}
 					if(Gamewindow.unit[i][j].type == 2){//Fixes loop waiting for a alien to move that has just been killed
 						Alien_team_moves -= 1;
                                                 Gamewindow.score += 50;
+                                                Gamewindow.unit[i][j].createdeath(false);//Creat death with alien image;
 					}                                        
 					Gamewindow.unit[i][j].removeActionListener(att);
 					Gamewindow.unit[i][j].removeActionListener(sh);
-					Gamewindow.unit[i][j].createdeath();
+					;
 					if(Gamewindow.unit[i][j].hasResource == true) {
 						Gamewindow.spawnresource(1);
 					}
