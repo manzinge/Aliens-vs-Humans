@@ -289,6 +289,7 @@ class Unit extends JButton {
 						Human_team_moves -= 2;
 					}
 					if(Gamewindow.unit[i][j].type == 2){//Fixes loop waiting for a alien to move that has just been killed
+						Gamewindow.score += 50; //Score for killing alien
 						Alien_team_moves -= 1;
 					}                                        
 					Gamewindow.unit[i][j].removeActionListener(att);
