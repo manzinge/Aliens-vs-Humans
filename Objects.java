@@ -348,7 +348,7 @@ class Unit extends JButton {
 		//find all possible targets
 		for(int i=0;i<Gamewindow.buttonsx;i++) { //Go through board
 			for(int j=0;j<Gamewindow.buttonsy;j++) {	 
-				if(Gamewindow.unit[i][j].gettype() == 1  && Gamewindow.unit[i][j].isTargeted == false ){ //If its a human and not targeted already
+				if(Gamewindow.unit[i][j].gettype() == 1){ //If it's a human
 
 					//human x and y values added to arrays
 					targetsX[humanIndex] = i;
@@ -357,12 +357,13 @@ class Unit extends JButton {
 					//calculate weight of possible target found
 					int targetWeight = 0;
 					if(Gamewindow.unit[i][j].hasResource == true) {
-						targetWeight += 3; //add 3 units of weight to the human if they hold a resource
+						targetWeight += 2; //add 2 unit of weight to the human if they hold a resource
 					}
-					if(Gamewindow.unit[i][j].health > 2) {
-						targetWeight++; //add 1 unit of weight to human if they have medium-high health
-					}else {
-						targetWeight += 2; //add 2 units of weight to human if they have low health
+					if(Gamewindow.unit[i][j].health < 2) {
+						targetWeight++; //add 1 unit of weight to human if they have low health
+					}
+					if(Gamewindow.unit[i][j].isTargeted == true) {
+						targetWeight -= 4; //subtract 1 unit of weight from human if already targeted
 					}
 					targetsWeight[humanIndex] = targetWeight;
 					
@@ -387,20 +388,20 @@ class Unit extends JButton {
 		}
 		
 		//Calculate Row of best target
-		if(start_x > targetsY[bestTarget]){ //target in row left of alien
-			target_x--; //move to row to the left
-		}else if(start_x < targetsY[bestTarget]){ //target in row right of alien
-			target_x++; //move to row to the right
+		if(start_x > targetsY[bestTarget]){ 
+			target_x--; 
+		}else if(start_x < targetsY[bestTarget]){ 
+			target_x++;
 		}else{ } //Stay in that row
 
 		//Calculate column
-		if(start_y > targetsX[bestTarget]){ //target in column left of alien
-			target_y--; //move to column to the left
-		}else if(start_y < targetsX[bestTarget]){ //target in column right of alien
-			target_y++; //move column to the right
+		if(start_y > targetsX[bestTarget]){ 
+			target_y--; 
+		}else if(start_y < targetsX[bestTarget]){ 
+			target_y++;
 		}else{  } //Stay in that column
 
-		//set unit to targeted - other aliens will not target this human
+		//set unit to targeted
 		Gamewindow.unit[targetsX[bestTarget]][targetsY[bestTarget]].isTargeted = true;
 		
 		System.out.println("ALien at X:" + start_x + " Y:" + start_y +" Target is at: X:" + targetsY[bestTarget] + " Y:" + targetsX[bestTarget] ); //test
