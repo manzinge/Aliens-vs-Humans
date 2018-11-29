@@ -123,6 +123,7 @@ class Unit extends JButton {
 		this.type = 3;
 		this.health = 999;
 		this.strength = 0;
+                this.isTargeted = false;
 		this.setIcon(new ImageIcon(resource));
 	}
 	private void healthcolor() {
@@ -172,7 +173,9 @@ class Unit extends JButton {
 	public boolean get_Resource() {    //Returns if it has a resource
 		return this.hasResource;
 	}        
-
+        public void set_targeted(boolean target){
+            isTargeted = false;
+        }
 	class show implements ActionListener {											//Action Listener class to show options where the player can go
 		public void actionPerformed(ActionEvent e){
 			for(int i=0;i<Gamewindow.buttonsx;i++) {
@@ -334,6 +337,7 @@ class Unit extends JButton {
 					Gamewindow.unit[i][j].setEnabled(true);
 					Gamewindow.unit[i][j].setVisible(true);
 					Gamewindow.unit[i][j].setText(null);
+                                        //this.isTargeted = false; //Reset is targeted to false for resources
 				}
 				else {												//Things to do if the unit is an alien -> removing any listeners and making it visible
 					Gamewindow.unit[i][j].setVisible(true);
@@ -356,11 +360,11 @@ class Unit extends JButton {
 		int target_x = start_x;
 		int target_y = start_y;
 		
-		int humansFound = 0;
-		int humanIndex = 0;
-		int[] targetsX = new int[5];
-		int[] targetsY = new int[5];
-		int[] targetsWeight = new int[5];
+		int targetsFound = 0;
+		int targetIndex = 0;
+		int[] targetsX = new int[5+2]; //Max Humans + Resources (Should really not hard code this, but for anouther time...)
+		int[] targetsY = new int[5+2];
+		int[] targetsWeight = new int[5+2];
 		
 		
 		
@@ -370,8 +374,8 @@ class Unit extends JButton {
 				if(Gamewindow.unit[i][j].gettype() == 1){ //If it's a human
 
 					//human x and y values added to arrays
-					targetsX[humanIndex] = i;
-					targetsY[humanIndex] = j;
+					targetsX[targetIndex] = i;
+					targetsY[targetIndex] = j;
 					
 					//calculate weight of possible target found
 					int targetWeight = 0;
@@ -384,21 +388,31 @@ class Unit extends JButton {
 					if(Gamewindow.unit[i][j].isTargeted == true) {
 						targetWeight -= 4; //subtract 1 unit of weight from human if already targeted
 					}
-					targetsWeight[humanIndex] = targetWeight;
-					
+					targetsWeight[targetIndex] = targetWeight;			
 					//System.out.println("Human found at:" + targetsX[humanIndex] + "," + targetsY[humanIndex]);
 					//System.out.println("Weight of this human: " + targetsWeight[humanIndex]);
-					
-					humansFound++;
-					humanIndex++;
-				}
+					targetsFound++;
+					targetIndex++;
+				}else if(Gamewindow.unit[i][j].gettype() == 3){
+					//resource x and y values added to arrays
+					targetsX[targetIndex] = i;
+					targetsY[targetIndex] = j;  
+
+					int targetWeight = 10;    //Should focus on getting to resources before others 
+                                        if(Gamewindow.unit[i][j].isTargeted ==true){
+                                            targetWeight -= 5;
+                                        }
+                                        targetsWeight[targetIndex] = targetWeight;
+                                        targetsFound++;
+					targetIndex++;
+                                }
 			}
 		}
 		
 		int bestTarget = 0;
 		int highestWeight = -99;
 		//find best target (highest weight)
-		for(int i = 0; i < humansFound; i++) {
+		for(int i = 0; i < targetsFound; i++) {
 			
 			if(targetsWeight[i] > highestWeight) {
 				highestWeight = targetsWeight[i];
@@ -437,14 +451,21 @@ class Unit extends JButton {
 			Gamewindow.unit[target_y][target_x].health -= Gamewindow.unit[start_y][start_x].strength;
 			System.out.println("Human Attacked by Alien! Human has " +Gamewindow.unit[target_y][target_x].gethealth() +" health left!");
 			Gamewindow.unit[target_y][target_x].set_Alien_moves(Alien_team_moves-1); //Updates total team moves (doesn't matter what tile does it)                  
-		}else{//Moving
+		}else if(Gamewindow.unit[target_y][target_x].gettype()==3){//Consume Resource
+                    System.out.println("Alien has consumed a resource!");
+                    //buff(start_x,start_y);
+                    Gamewindow.unit[start_y][start_x].strength++;
+                    Gamewindow.unit[start_y][start_x].health++;
+                    System.out.println("Alien moving to (" +target_x +", " + target_y+") has been buffed!");
+                    Gamewindow.unit[targetsX[bestTarget]][targetsY[bestTarget]].AI_move(start_x, start_y, target_y, target_x); //Move onto resource
+                }else{//Moving
 			Gamewindow.unit[targetsX[bestTarget]][targetsY[bestTarget]].AI_move(start_x, start_y, target_y, target_x);
 		}
 	}
 
 
 	//Updates the tile Map somewhat buggy currently
-	public void AI_move(int start_x, int start_y, int target_y, int target_x){
+	private void AI_move(int start_x, int start_y, int target_y, int target_x){
 		if(debug == true)
 			System.out.println("Moving from X:" + start_x +" Y:" + start_y +" to Y:" +target_y + " X:" +target_x);
 		if(Gamewindow.unit[start_y][start_x].moves > 0){
@@ -475,4 +496,11 @@ class Unit extends JButton {
 			}  
 		}
 	}//End of move
+        
+        
+        private void buff(int X, int Y){
+            Gamewindow.unit[X][Y].strength++;
+            Gamewindow.unit[X][Y].health++;
+            //System.out.println("Unit of type: " + Gamewindow.unit[X][Y].type + " has health of " +Gamewindow.unit[X][Y].health + " and attack of " + Gamewindow.unit[X][Y].strength);
+        }
 }

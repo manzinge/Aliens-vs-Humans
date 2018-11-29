@@ -178,7 +178,7 @@ public class Gamewindow extends JComponent{
 					if(unit[i][j].gettype() == 2 && unit[i][j].gethealth() > 0) {
 						aliens_remaining++;
 					}
-				}
+				}                                
 			}
 			if(aliens_remaining == 0) {
 				System.out.println("NO REMAINING ALIENS");
@@ -327,6 +327,8 @@ public class Gamewindow extends JComponent{
 			unit[i][j].set_Moves(1); //Adds a new action point to aliens
 			unit[i][j].set_usable(true); //Reenable the unit
 			aliens_left++;  
+                    }else if(unit[i][j].gettype()==3){
+                        unit[i][j].set_targeted(false);//Unset the resource as targeted when the new alien turn is set
                     }
 		}
             }

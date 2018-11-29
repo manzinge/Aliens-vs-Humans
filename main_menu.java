@@ -295,4 +295,8 @@ public class main_menu{
 		bt.setLayoutX(width/2.3);
 		bt.setPadding(Insets.EMPTY);
 	}
+	/**
+	 * @param args the command line arguments
+	 */
+
 }
