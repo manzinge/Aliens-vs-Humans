@@ -377,7 +377,7 @@ class Unit extends JButton {
 		}
 		
 		int bestTarget = 0;
-		int highestWeight = 0;
+		int highestWeight = -99;
 		//find best target (highest weight)
 		for(int i = 0; i < humansFound; i++) {
 			
