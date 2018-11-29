@@ -270,7 +270,7 @@ class Unit extends JButton {
 		}
 	}
 
-	protected void clearBoard() throws InterruptedException, IOException {										//Method to clear the board and remove existing action listeners
+	public void clearBoard() throws InterruptedException, IOException {										//Method to clear the board and remove existing action listeners
 		int safezone = 0;
 		for(int i=0;i<Gamewindow.buttonsx;i++) {
 			for(int j=0;j<Gamewindow.buttonsy;j++) {
@@ -287,6 +287,7 @@ class Unit extends JButton {
 				if(Gamewindow.unit[i][j].health <= 0 && Gamewindow.unit[i][j].health > -99 ) {				//Things to do if there is an unit with no health left -> replace it with buttons and remove listeners
 					if(Gamewindow.unit[i][j].type == 1){//Fixes loop waiting for a human to move that has just been killed
 						Human_team_moves -= 2;
+						Gamewindow.score -= 50; //Lose score for human dieing
 					}
 					if(Gamewindow.unit[i][j].type == 2){//Fixes loop waiting for a alien to move that has just been killed
 						Gamewindow.score += 50; //Score for killing alien
