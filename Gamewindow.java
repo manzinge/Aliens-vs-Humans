@@ -207,7 +207,7 @@ public class Gamewindow extends JComponent{
                                 } catch (InterruptedException ex) {
                                     Logger.getLogger(Gamewindow.class.getName()).log(Level.SEVERE, null, ex);
                                 }                                 
-                                player_name = JOptionPane.showInputDialog(board, "\"You were defeated by the Aliens!\nYour score is: " +score + "\nWhat shall we call you?\"");
+                                player_name = JOptionPane.showInputDialog(board, "\"You were defeated by the Aliens!\nYour score is: " +score + "\nWhat shall we call you? (Max 26 chars)\"");
                                 //Write score and name to board
                                 Write_file writer= new Write_file(score_file);
                                 writer.Enter(player_name, score); 
@@ -258,7 +258,7 @@ public class Gamewindow extends JComponent{
             }
             score += 100;//Score for beating the invasion
             
-            player_name = JOptionPane.showInputDialog(board, "\"You defeated the Aliens!\nYour score is: " +score + "\nWhat shall we call you?\"");
+            player_name = JOptionPane.showInputDialog(board, "\"You defeated the Aliens!\nYour score is: " +score + "\nWhat shall we call you? (Max 26 chars)\"");
             
             //Write score and name to board
             Write_file writer= new Write_file(score_file);
