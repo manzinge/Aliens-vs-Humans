@@ -22,5 +22,4 @@ public class load_main extends Application{
 	public static void main(String[] args) {
 		launch(args);
 	}
-
 }
